@@ -3,13 +3,13 @@ apply plugin: 'com.android.application'
 
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "23.0.2"
+    compileSdkVersion 28
+    buildToolsVersion '28.0.3'
 
     defaultConfig {
         applicationId "com.kstechnologies.NanoScan"
         minSdkVersion 21
-        targetSdkVersion 22
+        targetSdkVersion 28
         versionCode 13
         versionName "1.0"
     }
@@ -25,12 +25,13 @@ repositories {
     flatDir {
         dirs 'libs'
     }
+    maven { url 'https://jitpack.io' }
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.android.support:support-v4:23.1.1'
-    compile project(':MPChartLib')
-    compile 'com.opencsv:opencsv:3.6'
-    compile (name: 'nirscannanolibrary', ext:'aar')
+    api fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+    api 'com.opencsv:opencsv:3.6'
+    api(name: 'nirscannanolibrary', ext: 'aar')
 }

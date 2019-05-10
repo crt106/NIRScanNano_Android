@@ -22,10 +22,11 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.content.LocalBroadcastManager;
-import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
+import androidx.core.content.ContextCompat;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+import androidx.viewpager.widget.PagerAdapter;
+import androidx.viewpager.widget.ViewPager;
+
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -43,6 +44,7 @@ import android.widget.ToggleButton;
 
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.LimitLine;
 import com.github.mikephil.charting.components.XAxis;
@@ -57,6 +59,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import com.opencsv.CSVWriter;
 import com.kstechnologies.nirscannanolibrary.KSTNanoSDK;
@@ -362,7 +365,8 @@ public class NewScanActivity extends Activity {
     /**
      * Custom pager adapter to handle changing chart data when pager tabs are changed
      */
-    public class CustomPagerAdapter extends PagerAdapter {
+    public class CustomPagerAdapter extends PagerAdapter
+    {
 
         private final Context mContext;
 
@@ -382,7 +386,7 @@ public class NewScanActivity extends Activity {
                 mChart.setDrawGridBackground(false);
 
                 // no description text
-                mChart.setDescription("");
+                mChart.setDescription(new Description());
 
                 // enable touch gestures
                 mChart.setTouchEnabled(true);
@@ -419,7 +423,7 @@ public class NewScanActivity extends Activity {
                 // add data
                 setData(mChart, mXValues, mIntensityFloat, ChartType.INTENSITY);
 
-                mChart.animateX(2500, Easing.EasingOption.EaseInOutQuart);
+                mChart.animateX(2500, Easing.EaseInOutQuart);
 
                 // get the legend (only possible after setting data)
                 Legend l = mChart.getLegend();
@@ -434,7 +438,7 @@ public class NewScanActivity extends Activity {
                 mChart.setDrawGridBackground(false);
 
                 // no description text
-                mChart.setDescription("");
+                mChart.setDescription(new Description());
 
                 // enable touch gestures
                 mChart.setTouchEnabled(true);
@@ -473,7 +477,7 @@ public class NewScanActivity extends Activity {
                 // add data
                 setData(mChart, mXValues, mAbsorbanceFloat, ChartType.ABSORBANCE);
 
-                mChart.animateX(2500, Easing.EasingOption.EaseInOutQuart);
+                mChart.animateX(2500, Easing.EaseInOutQuart);
 
                 // get the legend (only possible after setting data)
                 Legend l = mChart.getLegend();
@@ -489,7 +493,7 @@ public class NewScanActivity extends Activity {
                 mChart.setDrawGridBackground(false);
 
                 // no description text
-                mChart.setDescription("");
+                mChart.setDescription(new Description());
 
                 // enable touch gestures
                 mChart.setTouchEnabled(true);
@@ -528,7 +532,7 @@ public class NewScanActivity extends Activity {
                 // add data
                 setData(mChart, mXValues, mReflectanceFloat, ChartType.REFLECTANCE);
 
-                mChart.animateX(2500, Easing.EasingOption.EaseInOutQuart);
+                mChart.animateX(2500, Easing.EaseInOutQuart);
 
                 // get the legend (only possible after setting data)
                 Legend l = mChart.getLegend();
@@ -595,7 +599,7 @@ public class NewScanActivity extends Activity {
             dataSets.add(set1); // add the datasets
 
             // create a data object with the datasets
-            LineData data = new LineData(xValues, dataSets);
+            LineData data = new LineData(set1);
 
             // set data
             mChart.setData(data);
@@ -622,7 +626,7 @@ public class NewScanActivity extends Activity {
             dataSets.add(set1); // add the datasets
 
             // create a data object with the datasets
-            LineData data = new LineData(xValues, dataSets);
+            LineData data = new LineData(set1);
 
             // set data
             mChart.setData(data);
@@ -649,7 +653,7 @@ public class NewScanActivity extends Activity {
             dataSets.add(set1); // add the datasets
 
             // create a data object with the datasets
-            LineData data = new LineData(xValues, dataSets);
+            LineData data = new LineData(set1);
 
             // set data
             mChart.setData(data);
@@ -676,7 +680,7 @@ public class NewScanActivity extends Activity {
             dataSets.add(set1); // add the datasets
 
             // create a data object with the datasets
-            LineData data = new LineData(xValues, dataSets);
+            LineData data = new LineData(set1);
 
             // set data
             mChart.setData(data);
@@ -743,28 +747,28 @@ public class NewScanActivity extends Activity {
                 if (f > maxWavelength) maxWavelength = f;
             }
 
-            float minAbsorbance = mAbsorbanceFloat.get(0).getVal();
-            float maxAbsorbance = mAbsorbanceFloat.get(0).getVal();
+            float minAbsorbance = mAbsorbanceFloat.get(0).getY();
+            float maxAbsorbance = mAbsorbanceFloat.get(0).getY();
 
             for (Entry e : mAbsorbanceFloat) {
-                if (e.getVal() < minAbsorbance) minAbsorbance = e.getVal();
-                if (e.getVal() > maxAbsorbance) maxAbsorbance = e.getVal();
+                if (e.getY() < minAbsorbance) minAbsorbance = e.getY();
+                if (e.getY() > maxAbsorbance) maxAbsorbance = e.getY();
             }
 
-            float minReflectance = mReflectanceFloat.get(0).getVal();
-            float maxReflectance = mReflectanceFloat.get(0).getVal();
+            float minReflectance = mReflectanceFloat.get(0).getY();
+            float maxReflectance = mReflectanceFloat.get(0).getY();
 
             for (Entry e : mReflectanceFloat) {
-                if (e.getVal() < minReflectance) minReflectance = e.getVal();
-                if (e.getVal() > maxReflectance) maxReflectance = e.getVal();
+                if (e.getY() < minReflectance) minReflectance = e.getY();
+                if (e.getY() > maxReflectance) maxReflectance = e.getY();
             }
 
-            float minIntensity = mIntensityFloat.get(0).getVal();
-            float maxIntensity = mIntensityFloat.get(0).getVal();
+            float minIntensity = mIntensityFloat.get(0).getY();
+            float maxIntensity = mIntensityFloat.get(0).getY();
 
             for (Entry e : mIntensityFloat) {
-                if (e.getVal() < minIntensity) minIntensity = e.getVal();
-                if (e.getVal() > maxIntensity) maxIntensity = e.getVal();
+                if (e.getY() < minIntensity) minIntensity = e.getY();
+                if (e.getY() > maxIntensity) maxIntensity = e.getY();
             }
 
             mViewPager.setAdapter(mViewPager.getAdapter());
@@ -776,7 +780,7 @@ public class NewScanActivity extends Activity {
                 scanType = "Hadamard";
             }
 
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("ddMMyyhhmmss", java.util.Locale.getDefault());
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("ddMMyyhhmmss", Locale.getDefault());
             String ts = simpleDateFormat.format(new Date());
 
             ActionBar ab = getActionBar();

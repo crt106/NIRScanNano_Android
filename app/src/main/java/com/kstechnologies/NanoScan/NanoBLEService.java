@@ -15,16 +15,18 @@ import android.content.IntentFilter;
 import android.os.Binder;
 import android.os.Build;
 import android.os.IBinder;
-import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
+
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+
+import com.kstechnologies.nirscannanolibrary.KSTNanoSDK;
+import com.kstechnologies.nirscannanolibrary.SettingsManager;
+
 import java.io.ByteArrayOutputStream;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.UUID;
-
-import com.kstechnologies.nirscannanolibrary.KSTNanoSDK;
-import com.kstechnologies.nirscannanolibrary.SettingsManager;
 
 /**
  * BLE service for interacting with a NIRScan Nano. This service is intended to be used as a

@@ -9,8 +9,7 @@ import android.content.res.Resources;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
+import android.os.Environment;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -21,8 +20,12 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.viewpager.widget.PagerAdapter;
+import androidx.viewpager.widget.ViewPager;
+
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.LimitLine;
 import com.github.mikephil.charting.components.XAxis;
@@ -30,8 +33,10 @@ import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.kstechnologies.nirscannanolibrary.KSTNanoSDK;
 import com.kstechnologies.nirscannanolibrary.ScanListDictionary;
+import com.kstechnologies.nirscannanolibrary.SettingsManager;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -43,8 +48,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.util.ArrayList;
-
-import com.kstechnologies.nirscannanolibrary.SettingsManager;
 
 /**
  * Activity controlling the graphing of stored scan files.
@@ -170,8 +173,8 @@ public class GraphActivity extends Activity {
             reader = new BufferedReader(new InputStreamReader(is));
         } catch (Resources.NotFoundException e) {
             try {
-                reader = new BufferedReader(new FileReader(android.os.Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + fileName));
-                dictReader = new BufferedReader(new FileReader(android.os.Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + fileName.replace(".csv", ".dict")));
+                reader = new BufferedReader(new FileReader(Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + fileName));
+                dictReader = new BufferedReader(new FileReader(Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + fileName.replace(".csv", ".dict")));
             } catch (FileNotFoundException e1) {
                 e1.printStackTrace();
                 Toast.makeText(mContext, getString(R.string.file_not_found), Toast.LENGTH_SHORT).show();
@@ -276,28 +279,28 @@ public class GraphActivity extends Activity {
             if (f > maxWavelength) maxWavelength = f;
         }
 
-        float minAbsorbance = mAbsorbanceFloat.get(0).getVal();
-        float maxAbsorbance = mAbsorbanceFloat.get(0).getVal();
+        float minAbsorbance = mAbsorbanceFloat.get(0).getY();
+        float maxAbsorbance = mAbsorbanceFloat.get(0).getY();
 
         for (Entry e : mAbsorbanceFloat) {
-            if (e.getVal() < minAbsorbance) minAbsorbance = e.getVal();
-            if (e.getVal() > maxAbsorbance) maxAbsorbance = e.getVal();
+            if (e.getY() < minAbsorbance) minAbsorbance = e.getY();
+            if (e.getY() > maxAbsorbance) maxAbsorbance = e.getY();
         }
 
-        float minReflectance = mReflectanceFloat.get(0).getVal();
-        float maxReflectance = mReflectanceFloat.get(0).getVal();
+        float minReflectance = mReflectanceFloat.get(0).getY();
+        float maxReflectance = mReflectanceFloat.get(0).getY();
 
         for (Entry e : mReflectanceFloat) {
-            if (e.getVal() < minReflectance) minReflectance = e.getVal();
-            if (e.getVal() > maxReflectance) maxReflectance = e.getVal();
+            if (e.getY() < minReflectance) minReflectance = e.getY();
+            if (e.getY() > maxReflectance) maxReflectance = e.getY();
         }
 
-        float minIntensity = mIntensityFloat.get(0).getVal();
-        float maxIntensity = mIntensityFloat.get(0).getVal();
+        float minIntensity = mIntensityFloat.get(0).getY();
+        float maxIntensity = mIntensityFloat.get(0).getY();
 
         for (Entry e : mIntensityFloat) {
-            if (e.getVal() < minIntensity) minIntensity = e.getVal();
-            if (e.getVal() > maxIntensity) maxIntensity = e.getVal();
+            if (e.getY() < minIntensity) minIntensity = e.getY();
+            if (e.getY() > maxIntensity) maxIntensity = e.getY();
         }
 
         ArrayList<KSTNanoSDK.ScanListManager> graphList = new ScanListDictionary(this).getScanList(fileName);
@@ -475,7 +478,8 @@ public class GraphActivity extends Activity {
     /**
      * Custom pager adapter to handle changing chart data when pager tabs are changed
      */
-    public class CustomPagerAdapter extends PagerAdapter {
+    public class CustomPagerAdapter extends PagerAdapter
+    {
 
         private Context mContext;
 
@@ -495,7 +499,7 @@ public class GraphActivity extends Activity {
                 mChart.setDrawGridBackground(false);
 
                 // no description text
-                mChart.setDescription("");
+                mChart.setDescription(new Description());
                 //mChart.setNoDataTextDescription("You need to provide data for the chart.");
 
                 // enable touch gestures
@@ -536,7 +540,7 @@ public class GraphActivity extends Activity {
                 // add data
                 setData(mChart, mXValues, mIntensityFloat, ChartType.INTENSITY);
 
-                mChart.animateX(2500, Easing.EasingOption.EaseInOutQuart);
+                mChart.animateX(2500, Easing.EaseInOutQuart);
 
                 // get the legend (only possible after setting data)
                 Legend l = mChart.getLegend();
@@ -550,7 +554,7 @@ public class GraphActivity extends Activity {
                 mChart.setDrawGridBackground(false);
 
                 // no description text
-                mChart.setDescription("");
+                mChart.setDescription(new Description());
                 //mChart.setNoDataTextDescription("You need to provide data for the chart.");
 
                 // enable touch gestures
@@ -590,7 +594,7 @@ public class GraphActivity extends Activity {
                 // add data
                 setData(mChart, mXValues, mAbsorbanceFloat, ChartType.ABSORBANCE);
 
-                mChart.animateX(2500, Easing.EasingOption.EaseInOutQuart);
+                mChart.animateX(2500, Easing.EaseInOutQuart);
 
                 // get the legend (only possible after setting data)
                 Legend l = mChart.getLegend();
@@ -604,7 +608,7 @@ public class GraphActivity extends Activity {
                 mChart.setDrawGridBackground(false);
 
                 // no description text
-                mChart.setDescription("");
+                mChart.setDescription(new Description());
                 //mChart.setNoDataTextDescription("You need to provide data for the chart.");
 
                 // enable touch gestures
@@ -644,7 +648,7 @@ public class GraphActivity extends Activity {
                 // add data
                 setData(mChart, mXValues, mReflectanceFloat, ChartType.REFLECTANCE);
 
-                mChart.animateX(2500, Easing.EasingOption.EaseInOutQuart);
+                mChart.animateX(2500, Easing.EaseInOutQuart);
 
                 // get the legend (only possible after setting data)
                 Legend l = mChart.getLegend();
@@ -716,7 +720,7 @@ public class GraphActivity extends Activity {
             dataSets.add(set1); // add the datasets
 
             // create a data object with the datasets
-            LineData data = new LineData(xValues, dataSets);
+            LineData data = new LineData(set1);
 
             // set data
             mChart.setData(data);
@@ -743,7 +747,8 @@ public class GraphActivity extends Activity {
             dataSets.add(set1); // add the datasets
 
             // create a data object with the datasets
-            LineData data = new LineData(xValues, dataSets);
+
+            LineData data = new LineData(set1);
 
             // set data
             mChart.setData(data);
@@ -770,7 +775,7 @@ public class GraphActivity extends Activity {
             dataSets.add(set1); // add the datasets
 
             // create a data object with the datasets
-            LineData data = new LineData(xValues, dataSets);
+            LineData data = new LineData(set1);
 
             // set data
             mChart.setData(data);
@@ -797,7 +802,7 @@ public class GraphActivity extends Activity {
             dataSets.add(set1); // add the datasets
 
             // create a data object with the datasets
-            LineData data = new LineData(xValues, dataSets);
+            LineData data = new LineData(set1);
 
             // set data
             mChart.setData(data);
