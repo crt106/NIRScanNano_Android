@@ -1,3 +1,8 @@
-.idea/*
 .gradle/*
 .idea/.name
+/.idea/
+/projectFilesBackup/
+/.idea/misc.xml
+/.idea/gradle.xml
+/.idea/modules.xml
+/.idea/workspace.xml

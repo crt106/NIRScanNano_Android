@@ -242,6 +242,11 @@ public class ScanListActivity extends Activity {
 
         String nanoExtPath = android.os.Environment.getExternalStorageDirectory().getAbsolutePath();
         File yourDir = new File(nanoExtPath, "/");
+        File[] listFiles=yourDir.listFiles();
+        if(listFiles==null||listFiles.length==0)
+        {
+            return;
+        }
         for (File f : yourDir.listFiles()) {
             if (f.isFile()) {
                 String fileName = f.getName();
