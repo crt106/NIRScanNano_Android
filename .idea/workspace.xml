@@ -17,44 +17,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f1f74da1-a86d-4134-a18f-e3eb80aa437b" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/kstechnologies/nanoscan/CApplication.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/kstechnologies/nanoscan/activity/BaseActivity.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/kstechnologies/nanoscan/model/MeasurePoint.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/kstechnologies/nanoscan/utils/CSVUtil.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/kstechnologies/nanoscan/utils/MPAndroidChartUtil.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Documentation/constant-values.html" beforeDir="false" afterPath="$PROJECT_DIR$/Documentation/constant-values.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/androidTest/java/com/kstechnologies/NanoScan/ApplicationTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/androidTest/java/com/kstechnologies/nanoscan/ApplicationTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/kstechnologies/NanoScan/ActiveScanActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/kstechnologies/nanoscan/activity/ActiveScanActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/kstechnologies/NanoScan/ConfigureActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/kstechnologies/nanoscan/activity/ConfigureActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/kstechnologies/NanoScan/DeviceInfoActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/kstechnologies/nanoscan/activity/DeviceInfoActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/kstechnologies/NanoScan/DeviceStatusActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/kstechnologies/nanoscan/activity/DeviceStatusActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/kstechnologies/NanoScan/GraphActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/kstechnologies/nanoscan/activity/GraphActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/kstechnologies/NanoScan/InfoActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/kstechnologies/nanoscan/activity/InfoActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/kstechnologies/NanoScan/NanoBLEService.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/kstechnologies/nanoscan/service/NanoBLEService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/kstechnologies/NanoScan/NewScanActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/kstechnologies/nanoscan/activity/NewScanActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/kstechnologies/NanoScan/ScanActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/kstechnologies/nanoscan/activity/ScanActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/kstechnologies/NanoScan/ScanConfActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/kstechnologies/nanoscan/activity/ScanConfActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/kstechnologies/NanoScan/ScanListActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/kstechnologies/nanoscan/activity/ScanListActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/kstechnologies/NanoScan/SettingsActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/kstechnologies/nanoscan/activity/SettingsActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/kstechnologies/NanoScan/StoredScanDataActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/kstechnologies/nanoscan/activity/StoredScanDataActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_active_scan.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_active_scan.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_configure.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_configure.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_device_info.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_device_info.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_device_status.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_device_status.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_graph.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_graph.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_info.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_info.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_new_scan.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_new_scan.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_scan.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_scan.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_scan_conf.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_scan_conf.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_scan_list.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_scan_list.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_settings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_settings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_stored_scan_data.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_stored_scan_data.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/menu/menu_graph.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/menu/menu_graph.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/menu/menu_info.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/menu/menu_info.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/menu/menu_scan_list.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/menu/menu_scan_list.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/menu/menu_settings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/menu/menu_settings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/app.iml" beforeDir="false" afterPath="$PROJECT_DIR$/app/app.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/kstechnologies/nanoscan/activity/NewScanActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/kstechnologies/nanoscan/activity/NewScanActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/kstechnologies/nanoscan/model/MeasurePoint.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/kstechnologies/nanoscan/model/MeasurePoint.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/kstechnologies/nanoscan/utils/CSVUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/kstechnologies/nanoscan/utils/CSVUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/local.properties" beforeDir="false" afterPath="$PROJECT_DIR$/local.properties" afterDir="false" />
     </list>
     <ignored path="NIRScanNano_Android.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -80,12 +49,48 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kstechnologies/nanoscan/activity/ScanListActivity.java">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kstechnologies/nanoscan/model/MeasurePoint.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="308">
-              <caret line="43" column="50" selection-start-line="43" selection-start-column="50" selection-end-line="43" selection-end-column="50" />
+            <state relative-caret-position="1176">
+              <caret line="56" selection-start-line="56" selection-end-line="56" />
               <folding>
-                <element signature="imports" expanded="true" />
+                <element signature="e#1013#1014#0" expanded="true" />
+                <element signature="e#1046#1047#0" expanded="true" />
+                <element signature="e#1097#1098#0" expanded="true" />
+                <element signature="e#1141#1142#0" expanded="true" />
+                <element signature="e#1176#1177#0" expanded="true" />
+                <element signature="e#1208#1209#0" expanded="true" />
+                <element signature="e#1257#1258#0" expanded="true" />
+                <element signature="e#1299#1300#0" expanded="true" />
+                <element signature="e#1335#1336#0" expanded="true" />
+                <element signature="e#1368#1369#0" expanded="true" />
+                <element signature="e#1419#1420#0" expanded="true" />
+                <element signature="e#1463#1464#0" expanded="true" />
+                <element signature="e#1500#1501#0" expanded="true" />
+                <element signature="e#1534#1535#0" expanded="true" />
+                <element signature="e#1587#1588#0" expanded="true" />
+                <element signature="e#1633#1634#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/build.gradle">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="546">
+              <caret line="26" lean-forward="true" selection-start-line="26" selection-end-line="26" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kstechnologies/nanoscan/activity/NewScanActivity.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="375">
+              <caret line="872" column="82" selection-start-line="872" selection-start-column="71" selection-end-line="872" selection-end-column="82" />
+              <folding>
+                <element signature="e#23452#27667#0" />
               </folding>
             </state>
           </provider>
@@ -94,26 +99,35 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kstechnologies/nanoscan/activity/GraphActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="10186">
-              <caret line="507" column="86" selection-start-line="507" selection-start-column="86" selection-end-line="507" selection-end-column="86" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kstechnologies/nanoscan/model/MeasurePoint.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="776">
-              <caret line="65" lean-forward="true" selection-start-line="65" selection-end-line="65" />
+            <state relative-caret-position="504">
+              <caret line="62" column="29" selection-start-line="62" selection-start-column="29" selection-end-line="62" selection-end-column="29" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kstechnologies/nanoscan/utils/MPAndroidChartUtil.java">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kstechnologies/nanoscan/activity/ScanActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2706">
-              <caret line="137" column="43" selection-start-line="137" selection-start-column="43" selection-end-line="137" selection-end-column="43" />
+            <state relative-caret-position="483">
+              <caret line="51" column="45" selection-start-line="51" selection-start-column="32" selection-end-line="51" selection-end-column="45" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kstechnologies/nanoscan/activity/ScanConfActivity.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="273">
+              <caret line="40" column="50" selection-start-line="40" selection-start-column="50" selection-end-line="40" selection-end-column="50" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kstechnologies/nanoscan/utils/CSVUtil.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="225">
+              <caret line="33" column="7" selection-start-line="33" selection-start-column="7" selection-end-line="33" selection-end-column="7" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -122,56 +136,9 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/page_graph_reflectance.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="110">
-              <caret line="5" column="46" selection-start-line="5" selection-start-column="46" selection-end-line="5" selection-end-column="46" />
-            </state>
-          </provider>
-          <provider editor-type-id="android-designer2" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_graph.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="352">
-              <caret line="16" column="39" selection-start-line="16" selection-start-column="39" selection-end-line="16" selection-end-column="39" />
-            </state>
-          </provider>
-          <provider editor-type-id="android-designer2" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kstechnologies/nanoscan/activity/NewScanActivity.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="11154">
-              <caret line="580" column="68" selection-start-line="580" selection-start-column="61" selection-end-line="580" selection-end-column="68" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kstechnologies/nanoscan/activity/ScanActivity.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3146">
-              <caret line="173" column="46" selection-start-line="173" selection-start-column="46" selection-end-line="173" selection-end-column="46" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kstechnologies/nanoscan/utils/CSVUtil.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="66">
-              <caret line="3" column="10" selection-start-line="3" selection-start-column="10" selection-end-line="3" selection-end-column="10" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kstechnologies/nanoscan/activity/BaseActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="110">
+            <state relative-caret-position="105">
               <caret line="5" column="13" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
             </state>
           </provider>
@@ -195,7 +162,6 @@
         <option value="$PROJECT_DIR$/build.gradle" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/kstechnologies/NanoScan/NanoBLEService.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/kstechnologies/NanoScan/NewScanActivity.java" />
-        <option value="$PROJECT_DIR$/app/build.gradle" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/kstechnologies/NanoScan/ScanListActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_graph.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_new_scan.xml" />
@@ -212,22 +178,23 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/kstechnologies/nanoscan/activity/DeviceInfoActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/kstechnologies/nanoscan/activity/DeviceStatusActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/kstechnologies/nanoscan/activity/InfoActivity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/kstechnologies/nanoscan/activity/NewScanActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/kstechnologies/nanoscan/activity/ScanConfActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/kstechnologies/nanoscan/activity/ScanListActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/kstechnologies/nanoscan/activity/SettingsActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/kstechnologies/nanoscan/activity/StoredScanDataActivity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/kstechnologies/nanoscan/utils/CSVUtil.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/kstechnologies/nanoscan/activity/ScanActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/kstechnologies/nanoscan/utils/MPAndroidChartUtil.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/kstechnologies/nanoscan/activity/GraphActivity.java" />
+        <option value="$PROJECT_DIR$/app/build.gradle" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/kstechnologies/nanoscan/activity/NewScanActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/kstechnologies/nanoscan/model/MeasurePoint.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/kstechnologies/nanoscan/utils/CSVUtil.java" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="y" value="23" />
-    <option name="width" value="1280" />
+    <option name="y" value="22" />
+    <option name="width" value="1281" />
     <option name="height" value="777" />
   </component>
   <component name="ProjectLevelVcsManager">
@@ -238,8 +205,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
-      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -256,6 +221,8 @@
           <select />
         </subPane>
       </pane>
+      <pane id="PackagesPane" />
+      <pane id="Scope" />
       <pane id="AndroidView">
         <subPane>
           <expand>
@@ -279,14 +246,6 @@
               <item name="app" type="feadf853:AndroidModuleNode" />
               <item name="java" type="edd41e36:AndroidSourceTypeNode" />
               <item name="com" type="cbb59c9e:AndroidPsiDirectoryNode" />
-              <item name="kstechnologies" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="NIRScanNano_Android" type="1abcf292:AndroidViewProjectNode" />
-              <item name="app" type="feadf853:AndroidModuleNode" />
-              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
-              <item name="com" type="cbb59c9e:AndroidPsiDirectoryNode" />
-              <item name="kstechnologies" type="462c0819:PsiDirectoryNode" />
               <item name="nanoscan" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -294,18 +253,28 @@
               <item name="app" type="feadf853:AndroidModuleNode" />
               <item name="java" type="edd41e36:AndroidSourceTypeNode" />
               <item name="com" type="cbb59c9e:AndroidPsiDirectoryNode" />
-              <item name="kstechnologies" type="462c0819:PsiDirectoryNode" />
               <item name="nanoscan" type="462c0819:PsiDirectoryNode" />
-              <item name="service" type="462c0819:PsiDirectoryNode" />
+              <item name="activity" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="NIRScanNano_Android" type="1abcf292:AndroidViewProjectNode" />
               <item name="app" type="feadf853:AndroidModuleNode" />
               <item name="java" type="edd41e36:AndroidSourceTypeNode" />
               <item name="com" type="cbb59c9e:AndroidPsiDirectoryNode" />
-              <item name="kstechnologies" type="462c0819:PsiDirectoryNode" />
+              <item name="nanoscan" type="462c0819:PsiDirectoryNode" />
+              <item name="model" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="NIRScanNano_Android" type="1abcf292:AndroidViewProjectNode" />
+              <item name="app" type="feadf853:AndroidModuleNode" />
+              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
+              <item name="com" type="cbb59c9e:AndroidPsiDirectoryNode" />
               <item name="nanoscan" type="462c0819:PsiDirectoryNode" />
               <item name="utils" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="NIRScanNano_Android" type="1abcf292:AndroidViewProjectNode" />
+              <item name="Gradle Scripts" type="ae0cef3a:AndroidBuildScriptsGroupNode" />
             </path>
           </expand>
           <select />
@@ -533,9 +502,10 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <frame x="-7" y="-7" width="1519" height="977" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info active="true" id="Project" order="0" visible="true" weight="0.20469083" />
+      <window_info active="true" id="Project" order="0" visible="true" weight="0.22450377" />
       <window_info id="Structure" order="1" weight="0.25" />
       <window_info id="Captures" order="2" side_tool="true" weight="0.25" />
       <window_info id="Build Variants" order="3" side_tool="true" />
@@ -557,7 +527,7 @@
       <window_info anchor="bottom" id="Version Control" order="10" />
       <window_info anchor="bottom" id="Gradle Console" order="11" side_tool="true" />
       <window_info anchor="bottom" id="Messages" order="12" weight="0.32980332" />
-      <window_info anchor="bottom" id="Build" order="13" visible="true" weight="0.2271715" />
+      <window_info anchor="bottom" id="Build" order="13" weight="0.2271715" />
       <window_info anchor="bottom" id="Android Profiler" order="14" show_stripe_button="false" />
       <window_info anchor="bottom" id="Statistic" order="15" />
       <window_info anchor="bottom" id="Logcat" order="16" weight="0.32962137" />
@@ -578,27 +548,8 @@
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/MPChartLib/build.gradle" />
-    <entry file="file://D:/Android_SDK/android-sdk-windows/android-sdk-windows/sources/android-28/android/app/ActivityThread.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="77880">
-          <caret line="3781" selection-start-line="3781" selection-end-line="3781" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://D:/Android_SDK/android-sdk-windows/android-sdk-windows/sources/android-28/android/os/Environment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="9482">
-          <caret line="480" selection-start-line="480" selection-end-line="480" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/build.gradle">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="462">
-          <caret line="21" column="20" selection-start-line="21" selection-start-column="20" selection-end-line="21" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://D:/Android_SDK/android-sdk-windows/android-sdk-windows/sources/android-28/android/app/ActivityThread.java" />
+    <entry file="file://D:/Android_SDK/android-sdk-windows/android-sdk-windows/sources/android-28/android/os/Environment.java" />
     <entry file="file://$PROJECT_DIR$/build.gradle">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="176">
@@ -645,35 +596,30 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_active_scan.xml">
-      <provider selected="true" editor-type-id="android-designer2" />
       <provider editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_scan.xml">
       <provider selected="true" editor-type-id="android-designer2" />
-      <provider editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_stored_scan_data.xml">
-      <provider selected="true" editor-type-id="android-designer2" />
       <provider editor-type-id="text-editor" />
+      <provider selected="true" editor-type-id="android-designer2" />
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/page_graph_absorbance.xml">
-      <provider selected="true" editor-type-id="android-designer2" />
       <provider editor-type-id="text-editor" />
+      <provider selected="true" editor-type-id="android-designer2" />
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/page_graph_intensity.xml">
-      <provider selected="true" editor-type-id="android-designer2" />
       <provider editor-type-id="text-editor" />
+      <provider selected="true" editor-type-id="android-designer2" />
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_device_status.xml">
-      <provider selected="true" editor-type-id="android-designer2" />
       <provider editor-type-id="text-editor" />
+      <provider selected="true" editor-type-id="android-designer2" />
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_device_info.xml">
-      <provider selected="true" editor-type-id="android-designer2" />
       <provider editor-type-id="text-editor" />
+      <provider selected="true" editor-type-id="android-designer2" />
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_new_scan.xml">
-      <provider editor-type-id="android-designer2" />
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-1584">
           <caret line="18" column="41" selection-start-line="18" selection-start-column="41" selection-end-line="18" selection-end-column="41" />
@@ -682,6 +628,7 @@
           </folding>
         </state>
       </provider>
+      <provider editor-type-id="android-designer2" />
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/baoyz/swipemenulistview/SwipeMenuListView.java">
       <provider selected="true" editor-type-id="text-editor">
@@ -705,24 +652,17 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
-      <provider editor-type-id="android-manifest" />
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1298">
           <caret line="63" column="51" lean-forward="true" selection-start-line="63" selection-start-column="51" selection-end-line="63" selection-end-column="51" />
         </state>
       </provider>
+      <provider editor-type-id="android-manifest" />
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kstechnologies/nanoscan/CApplication.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="198">
           <caret line="9" selection-start-line="9" selection-end-line="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kstechnologies/nanoscan/activity/ActiveScanActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="88">
-          <caret line="28" column="52" selection-start-line="28" selection-start-column="40" selection-end-line="28" selection-end-column="52" />
         </state>
       </provider>
     </entry>
@@ -754,24 +694,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kstechnologies/nanoscan/activity/ScanConfActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="22">
-          <caret line="40" column="50" selection-start-line="40" selection-start-column="50" selection-end-line="40" selection-end-column="50" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kstechnologies/nanoscan/activity/StoredScanDataActivity.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-484">
           <caret line="50" column="58" lean-forward="true" selection-start-line="50" selection-start-column="58" selection-end-line="50" selection-end-column="58" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kstechnologies/nanoscan/activity/SettingsActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="286">
-          <caret line="31" column="50" selection-start-line="31" selection-start-column="50" selection-end-line="31" selection-end-column="50" />
         </state>
       </provider>
     </entry>
@@ -784,7 +710,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kstechnologies/nanoscan/activity/ScanListActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="308">
+        <state relative-caret-position="294">
           <caret line="43" column="50" selection-start-line="43" selection-start-column="50" selection-end-line="43" selection-end-column="50" />
           <folding>
             <element signature="imports" expanded="true" />
@@ -792,16 +718,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kstechnologies/nanoscan/activity/GraphActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="10186">
-          <caret line="507" column="86" selection-start-line="507" selection-start-column="86" selection-end-line="507" selection-end-column="86" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kstechnologies/nanoscan/utils/MPAndroidChartUtil.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2706">
+        <state relative-caret-position="2583">
           <caret line="137" column="43" selection-start-line="137" selection-start-column="43" selection-end-line="137" selection-end-column="43" />
           <folding>
             <element signature="imports" expanded="true" />
@@ -810,53 +729,116 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/page_graph_reflectance.xml">
-      <provider editor-type-id="android-designer2" />
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="110">
+        <state relative-caret-position="105">
           <caret line="5" column="46" selection-start-line="5" selection-start-column="46" selection-end-line="5" selection-end-column="46" />
         </state>
       </provider>
+      <provider editor-type-id="android-designer2" />
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_graph.xml">
-      <provider editor-type-id="android-designer2" />
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="352">
+        <state relative-caret-position="336">
           <caret line="16" column="39" selection-start-line="16" selection-start-column="39" selection-end-line="16" selection-end-column="39" />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer2" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kstechnologies/nanoscan/activity/BaseActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="5" column="13" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kstechnologies/nanoscan/activity/ActiveScanActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="84">
+          <caret line="28" column="52" selection-start-line="28" selection-start-column="40" selection-end-line="28" selection-end-column="52" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_scan.xml">
+      <provider editor-type-id="text-editor" />
+      <provider selected="true" editor-type-id="android-designer2" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kstechnologies/nanoscan/activity/ScanActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="483">
+          <caret line="51" column="45" selection-start-line="51" selection-start-column="32" selection-end-line="51" selection-end-column="45" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/build.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="546">
+          <caret line="26" lean-forward="true" selection-start-line="26" selection-end-line="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kstechnologies/nanoscan/activity/SettingsActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="861">
+          <caret line="189" column="42" selection-start-line="189" selection-start-column="42" selection-end-line="189" selection-end-column="42" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kstechnologies/nanoscan/activity/GraphActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="504">
+          <caret line="62" column="29" selection-start-line="62" selection-start-column="29" selection-end-line="62" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kstechnologies/nanoscan/activity/ScanConfActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="273">
+          <caret line="40" column="50" selection-start-line="40" selection-start-column="50" selection-end-line="40" selection-end-column="50" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kstechnologies/nanoscan/activity/NewScanActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="11154">
-          <caret line="580" column="68" selection-start-line="580" selection-start-column="61" selection-end-line="580" selection-end-column="68" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kstechnologies/nanoscan/activity/ScanActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3146">
-          <caret line="173" column="46" selection-start-line="173" selection-start-column="46" selection-end-line="173" selection-end-column="46" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kstechnologies/nanoscan/utils/CSVUtil.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="66">
-          <caret line="3" column="10" selection-start-line="3" selection-start-column="10" selection-end-line="3" selection-end-column="10" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kstechnologies/nanoscan/activity/BaseActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="110">
-          <caret line="5" column="13" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
+        <state relative-caret-position="375">
+          <caret line="872" column="82" selection-start-line="872" selection-start-column="71" selection-end-line="872" selection-end-column="82" />
+          <folding>
+            <element signature="e#23452#27667#0" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kstechnologies/nanoscan/model/MeasurePoint.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="776">
-          <caret line="65" lean-forward="true" selection-start-line="65" selection-end-line="65" />
+        <state relative-caret-position="1176">
+          <caret line="56" selection-start-line="56" selection-end-line="56" />
+          <folding>
+            <element signature="e#1013#1014#0" expanded="true" />
+            <element signature="e#1046#1047#0" expanded="true" />
+            <element signature="e#1097#1098#0" expanded="true" />
+            <element signature="e#1141#1142#0" expanded="true" />
+            <element signature="e#1176#1177#0" expanded="true" />
+            <element signature="e#1208#1209#0" expanded="true" />
+            <element signature="e#1257#1258#0" expanded="true" />
+            <element signature="e#1299#1300#0" expanded="true" />
+            <element signature="e#1335#1336#0" expanded="true" />
+            <element signature="e#1368#1369#0" expanded="true" />
+            <element signature="e#1419#1420#0" expanded="true" />
+            <element signature="e#1463#1464#0" expanded="true" />
+            <element signature="e#1500#1501#0" expanded="true" />
+            <element signature="e#1534#1535#0" expanded="true" />
+            <element signature="e#1587#1588#0" expanded="true" />
+            <element signature="e#1633#1634#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kstechnologies/nanoscan/utils/CSVUtil.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="33" column="7" selection-start-line="33" selection-start-column="7" selection-end-line="33" selection-end-column="7" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
