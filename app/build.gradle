@@ -36,6 +36,6 @@ dependencies {
     api fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
-    api 'com.opencsv:opencsv:3.6'
+    api 'com.opencsv:opencsv:4.6'
     api(name: 'nirscannanolibrary', ext: 'aar')
 }

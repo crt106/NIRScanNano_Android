@@ -701,6 +701,7 @@ public class NewScanActivity extends BaseActivity {
     }
 
     /**
+     * 接收到蓝牙回传信息广播时候的广播接收器
      * Custom receiver for handling scan data and setting up the graphs properly
      */
     public class scanDataReadyReceiver extends BroadcastReceiver {
@@ -888,6 +889,7 @@ public class NewScanActivity extends BaseActivity {
     }
 
     /**
+     * 给csv文件写出配套的文件信息
      * Write the dictionary for a CSV files
      * @param currentTime the current time to be saved
      * @param scanType the scan type to be saved

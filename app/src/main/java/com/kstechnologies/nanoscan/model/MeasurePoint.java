@@ -1,5 +1,7 @@
 package com.kstechnologies.nanoscan.model;
 
+import com.opencsv.bean.CsvBindByName;
+
 /**
  * 单个测量点数据 每个单独的测量点包含
  * 波长(WaveLength) nm
@@ -13,22 +15,46 @@ public class MeasurePoint {
     /**
      * 波长
      */
+    @CsvBindByName(column = "WaveLength")
     private float waveLength;
 
     /**
      * 强度
      */
+    @CsvBindByName(column = "Intensity")
     private float intensity;
 
     /**
      * 吸收率
      */
+    @CsvBindByName(column = "Absorbance")
     private float absorbance;
 
     /**
      * 反射率
      */
+    @CsvBindByName(column = "Reflectance")
     private float reflectance;
+
+    public MeasurePoint(){
+
+    }
+
+    /**
+     * 全参数构造方法
+     * @param waveLength
+     * @param intensity
+     * @param absorbance
+     * @param reflectance
+     */
+    public MeasurePoint(float waveLength, float intensity, float absorbance, float reflectance)
+    {
+        this.waveLength = waveLength;
+        this.intensity = intensity;
+        this.absorbance = absorbance;
+        this.reflectance = reflectance;
+    }
+
 
     public float getWaveLength() {
         return waveLength;
