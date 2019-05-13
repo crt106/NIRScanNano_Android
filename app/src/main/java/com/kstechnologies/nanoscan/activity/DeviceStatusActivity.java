@@ -1,4 +1,4 @@
-package com.kstechnologies.NanoScan;
+package com.kstechnologies.nanoscan.activity;
 
 import android.app.ActionBar;
 import android.app.Activity;
@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
+import com.kstechnologies.nanoscan.R;
 import com.kstechnologies.nirscannanolibrary.KSTNanoSDK;
 import com.kstechnologies.nirscannanolibrary.SettingsManager;
 
@@ -27,7 +28,7 @@ import com.kstechnologies.nirscannanolibrary.SettingsManager;
  *
  * @author collinmast
  */
-public class DeviceStatusActivity extends Activity {
+public class DeviceStatusActivity extends BaseActivity {
 
     private static Context mContext;
 

@@ -1,4 +1,4 @@
-package com.kstechnologies.NanoScan;
+package com.kstechnologies.nanoscan.activity;
 
 import android.app.ActionBar;
 import android.app.Activity;
@@ -34,6 +34,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
+import com.kstechnologies.nanoscan.R;
+import com.kstechnologies.nanoscan.service.NanoBLEService;
 import com.kstechnologies.nirscannanolibrary.KSTNanoSDK;
 
 
@@ -46,7 +48,7 @@ import com.kstechnologies.nirscannanolibrary.KSTNanoSDK;
  * @author collinmast
  */
 
-public class StoredScanDataActivity extends Activity {
+public class StoredScanDataActivity extends BaseActivity {
 
     private static Context mContext;
     private ArrayList<StoredScan> storedScanList = new ArrayList<>();
@@ -225,7 +227,7 @@ public class StoredScanDataActivity extends Activity {
 
     /**
      * Custom adapter for the stored scan list. This adapter holds
-     * {@link com.kstechnologies.NanoScan.StoredScanDataActivity.StoredScan} objects and initializes
+     * {@link StoredScanDataActivity.StoredScan} objects and initializes
      * the view holder
      */
     public class StoredScanAdapter extends ArrayAdapter<StoredScan> {
@@ -271,7 +273,7 @@ public class StoredScanDataActivity extends Activity {
 
     /**
      * View holder for the labels consisting of a
-     * {@link com.kstechnologies.NanoScan.StoredScanDataActivity.StoredScan} object
+     * {@link StoredScanDataActivity.StoredScan} object
      */
     private class ViewHolder {
         private TextView scanName;

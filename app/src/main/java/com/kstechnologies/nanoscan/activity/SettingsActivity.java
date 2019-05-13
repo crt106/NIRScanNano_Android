@@ -1,4 +1,4 @@
-package com.kstechnologies.NanoScan;
+package com.kstechnologies.nanoscan.activity;
 
 import android.app.ActionBar;
 import android.app.Activity;
@@ -17,6 +17,7 @@ import android.widget.CompoundButton;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
+import com.kstechnologies.nanoscan.R;
 import com.kstechnologies.nirscannanolibrary.SettingsManager;
 
 /**
@@ -28,7 +29,7 @@ import com.kstechnologies.nirscannanolibrary.SettingsManager;
  *
  * @author collinmast
  */
-public class SettingsActivity extends Activity {
+public class SettingsActivity extends BaseActivity {
 
     private TextView tv_version;
     private ToggleButton tb_temp;

@@ -1,4 +1,4 @@
-package com.kstechnologies.NanoScan;
+package com.kstechnologies.nanoscan.activity;
 
 import android.app.ActionBar;
 import android.app.Activity;
@@ -61,6 +61,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import com.kstechnologies.nanoscan.R;
+import com.kstechnologies.nanoscan.service.NanoBLEService;
 import com.opencsv.CSVWriter;
 import com.kstechnologies.nirscannanolibrary.KSTNanoSDK;
 import com.kstechnologies.nirscannanolibrary.SettingsManager;
@@ -82,7 +84,7 @@ import com.kstechnologies.nirscannanolibrary.SettingsManager;
  *
  * @author collinmast
  */
-public class NewScanActivity extends Activity {
+public class NewScanActivity extends BaseActivity {
 
     private static Context mContext;
 
@@ -930,7 +932,9 @@ public class NewScanActivity extends Activity {
         }
     }
 
-    // Code to manage Service lifecycle.
+    /**
+     * 与服务{@link NanoBLEService }的连接管理
+     */
     private final ServiceConnection mServiceConnection = new ServiceConnection() {
 
         @Override

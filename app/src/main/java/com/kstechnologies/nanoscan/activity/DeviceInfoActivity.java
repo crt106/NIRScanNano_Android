@@ -1,4 +1,4 @@
-package com.kstechnologies.NanoScan;
+package com.kstechnologies.nanoscan.activity;
 
 import android.app.ActionBar;
 import android.app.Activity;
@@ -16,6 +16,8 @@ import android.widget.Toast;
 
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
+import com.kstechnologies.nanoscan.R;
+import com.kstechnologies.nanoscan.service.NanoBLEService;
 import com.kstechnologies.nirscannanolibrary.KSTNanoSDK;
 
 /**
@@ -26,7 +28,7 @@ import com.kstechnologies.nirscannanolibrary.KSTNanoSDK;
  * @author collinmast
  */
 
-public class DeviceInfoActivity extends Activity {
+public class DeviceInfoActivity extends BaseActivity {
 
     private static Context mContext;
 

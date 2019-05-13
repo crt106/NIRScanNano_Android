@@ -1,4 +1,4 @@
-package com.kstechnologies.NanoScan;
+package com.kstechnologies.nanoscan.service;
 
 import android.app.Service;
 import android.bluetooth.BluetoothDevice;

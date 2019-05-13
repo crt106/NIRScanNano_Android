@@ -1,4 +1,4 @@
-package com.kstechnologies.NanoScan;
+package com.kstechnologies.nanoscan.activity;
 
 import android.app.ActionBar;
 import android.app.Activity;
@@ -16,7 +16,7 @@ import android.widget.AdapterView;
 
 import android.widget.ListView;
 
-import com.kstechnologies.nirscannanolibrary.*;
+import com.kstechnologies.nanoscan.R;
 import com.kstechnologies.nirscannanolibrary.KSTNanoSDK;
 
 /**
@@ -26,7 +26,7 @@ import com.kstechnologies.nirscannanolibrary.KSTNanoSDK;
  *
  * @author collinmast
  */
-public class ConfigureActivity extends Activity {
+public class ConfigureActivity extends BaseActivity {
 
     private static Context mContext;
 

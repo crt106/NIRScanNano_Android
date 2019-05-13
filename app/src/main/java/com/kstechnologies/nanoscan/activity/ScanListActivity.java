@@ -1,4 +1,4 @@
-package com.kstechnologies.NanoScan;
+package com.kstechnologies.nanoscan.activity;
 
 import android.app.ActionBar;
 import android.app.Activity;
@@ -24,6 +24,7 @@ import com.baoyz.swipemenulistview.SwipeMenu;
 import com.baoyz.swipemenulistview.SwipeMenuCreator;
 import com.baoyz.swipemenulistview.SwipeMenuItem;
 import com.baoyz.swipemenulistview.SwipeMenuListView;
+import com.kstechnologies.nanoscan.R;
 
 
 import java.io.File;
@@ -40,7 +41,7 @@ import java.util.ArrayList;
  *
  * @author collinmast
  */
-public class ScanListActivity extends Activity {
+public class ScanListActivity extends BaseActivity {
 
     private ArrayList<String> csvFiles = new ArrayList<>();
     private ArrayAdapter<String> mAdapter;

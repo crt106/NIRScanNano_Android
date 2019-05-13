@@ -1,4 +1,4 @@
-package com.kstechnologies.NanoScan;
+package com.kstechnologies.nanoscan.activity;
 
 import android.app.ActionBar;
 import android.app.Activity;
@@ -16,6 +16,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.kstechnologies.nanoscan.R;
+
 import java.util.ArrayList;
 
 /**
@@ -24,7 +26,7 @@ import java.util.ArrayList;
  *
  * @author collinmast
  */
-public class InfoActivity extends Activity {
+public class InfoActivity extends BaseActivity {
 
     private ListView infoList;
 
@@ -130,7 +132,7 @@ public class InfoActivity extends Activity {
     }
 
     /**
-     * Custom adapter to hold {@link com.kstechnologies.NanoScan.InfoActivity.InfoManager} objects
+     * Custom adapter to hold {@link InfoActivity.InfoManager} objects
      * and add them to the listview
      */
     public class InformationAdapter extends ArrayAdapter<InfoManager> {
@@ -164,7 +166,7 @@ public class InfoActivity extends Activity {
         }
 
         /**
-         * View holder for {@link com.kstechnologies.NanoScan.InfoActivity.InfoManager} objects
+         * View holder for {@link InfoActivity.InfoManager} objects
          */
         private class ViewHolder {
             private TextView infoTitle;

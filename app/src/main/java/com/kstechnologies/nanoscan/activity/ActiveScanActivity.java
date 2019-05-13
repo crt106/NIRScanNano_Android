@@ -1,4 +1,4 @@
-package com.kstechnologies.NanoScan;
+package com.kstechnologies.nanoscan.activity;
 
 import android.app.ActionBar;
 import android.app.Activity;
@@ -21,12 +21,12 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.kstechnologies.nanoscan.R;
 import com.kstechnologies.nirscannanolibrary.KSTNanoSDK;
-import com.kstechnologies.nirscannanolibrary.SettingsManager;
 
 import java.util.ArrayList;
 
-public class ActiveScanActivity extends Activity {
+public class ActiveScanActivity extends BaseActivity {
 
 
 
@@ -96,7 +96,7 @@ public class ActiveScanActivity extends Activity {
         LocalBroadcastManager.getInstance(mContext).registerReceiver(disconnReceiver, disconnFilter);
     }
 
-    /*
+    /**
      * On resume, make a call to the super class.
      * Nothing else is needed here besides calling
      * the super method.
@@ -106,7 +106,7 @@ public class ActiveScanActivity extends Activity {
         super.onResume();
     }
 
-    /*
+    /**
      * When the activity is destroyed, unregister the BroadcastReceivers
      * handling receiving scan configurations, disconnect events, the # of configurations,
      * and the active configuration
@@ -117,7 +117,7 @@ public class ActiveScanActivity extends Activity {
         LocalBroadcastManager.getInstance(mContext).unregisterReceiver(disconnReceiver);
     }
 
-    /*
+    /**
      * Inflate the options menu
      * In this case, there is no menu and only an up indicator,
      * so the function should always return true.
@@ -127,7 +127,7 @@ public class ActiveScanActivity extends Activity {
         return true;
     }
 
-    /*
+    /**
      * Handle the selection of a menu item.
      * In this case, there is only the up indicator. If selected, this activity should finish.
      */

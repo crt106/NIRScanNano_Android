@@ -1,4 +1,4 @@
-package com.kstechnologies.NanoScan;
+package com.kstechnologies.nanoscan;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

@@ -1,4 +1,4 @@
-package com.kstechnologies.NanoScan;
+package com.kstechnologies.nanoscan.activity;
 
 import android.app.ActionBar;
 import android.app.Activity;
@@ -25,6 +25,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import com.kstechnologies.nanoscan.R;
 import com.kstechnologies.nirscannanolibrary.KSTNanoSDK;
 import com.kstechnologies.nirscannanolibrary.SettingsManager;
 
@@ -37,7 +38,7 @@ import com.kstechnologies.nirscannanolibrary.SettingsManager;
  *
  * @author collinmast
  */
-public class ScanConfActivity extends Activity {
+public class ScanConfActivity extends BaseActivity {
 
     private static Context mContext;
 

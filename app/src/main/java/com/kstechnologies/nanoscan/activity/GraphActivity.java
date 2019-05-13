@@ -1,12 +1,10 @@
-package com.kstechnologies.NanoScan;
+package com.kstechnologies.nanoscan.activity;
 
 import android.app.ActionBar;
-import android.app.Activity;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -23,17 +21,10 @@ import android.widget.Toast;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
-import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.components.Description;
-import com.github.mikephil.charting.components.Legend;
-import com.github.mikephil.charting.components.LimitLine;
-import com.github.mikephil.charting.components.XAxis;
-import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.data.LineData;
-import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
+import com.kstechnologies.nanoscan.R;
+import com.kstechnologies.nanoscan.utils.MPAndroidChartUtil;
 import com.kstechnologies.nirscannanolibrary.KSTNanoSDK;
 import com.kstechnologies.nirscannanolibrary.ScanListDictionary;
 import com.kstechnologies.nirscannanolibrary.SettingsManager;
@@ -56,7 +47,7 @@ import java.util.ArrayList;
  *
  * @author collinmast
  */
-public class GraphActivity extends Activity {
+public class GraphActivity extends BaseActivity {
 
     private static Context mContext;
 
@@ -165,9 +156,12 @@ public class GraphActivity extends Activity {
         BufferedReader dictReader = null;
         InputStream is = null;
 
-        /*Try to open the file. First from the raw resources, then from the external directory
+        /**
+         * 尝试打开csv文件 不得不说这个打开方式和文件的存储方式是真的很蠢
+         Try to open the file. First from the raw resources, then from the external directory
          * if that fails
          */
+        //TODO 修改文件读取内容到工具
         try {
             is = getResources().openRawResource(getResources().getIdentifier(fileName, "raw", getPackageName()));
             reader = new BufferedReader(new InputStreamReader(is));
@@ -182,6 +176,9 @@ public class GraphActivity extends Activity {
             }
         }
 
+        /**
+         * 下面内容还在手动解析字符串获得数据 你们是原始人类吗
+         */
         //Read lines in from the file
         try {
             String line;
@@ -255,22 +252,27 @@ public class GraphActivity extends Activity {
         //Generate data points and calculate mins and maxes
         for (int i = 0; i < mXValues.size(); i++) {
             try {
-            Float fIntensity = Float.parseFloat(mIntensityString.get(i));
-            Float fAbsorbance = Float.parseFloat(mAbsorbanceString.get(i));
-            Float fReflectance = Float.parseFloat(mReflectanceString.get(i));
-            Float fWavelength = Float.parseFloat(mXValues.get(i));
+                Float fIntensity = Float.parseFloat(mIntensityString.get(i));
+                Float fAbsorbance = Float.parseFloat(mAbsorbanceString.get(i));
+                Float fReflectance = Float.parseFloat(mReflectanceString.get(i));
+                Float fWavelength = Float.parseFloat(mXValues.get(i));
 
-            mIntensityFloat.add(new Entry(fIntensity, i));
-            mAbsorbanceFloat.add(new Entry(fAbsorbance, i));
-            mReflectanceFloat.add(new Entry(fReflectance, i));
-            mWavelengthFloat.add(fWavelength);
+//                mIntensityFloat.add(new Entry(fIntensity, i));
+//                mAbsorbanceFloat.add(new Entry(fAbsorbance, i));
+//                mReflectanceFloat.add(new Entry(fReflectance, i));
 
-            }catch (NumberFormatException e){
+                mIntensityFloat.add(new Entry(fWavelength, fIntensity));
+                mAbsorbanceFloat.add(new Entry(fWavelength, fAbsorbance));
+                mReflectanceFloat.add(new Entry(fWavelength, fReflectance));
+                mWavelengthFloat.add(fWavelength);
+
+            } catch (NumberFormatException e) {
                 Toast.makeText(GraphActivity.this, "Error parsing float value", Toast.LENGTH_SHORT).show();
                 finish();
             }
         }
 
+        //TODO 归纳大量重复代码
         float minWavelength = mWavelengthFloat.get(0);
         float maxWavelength = mWavelengthFloat.get(0);
 
@@ -316,7 +318,7 @@ public class GraphActivity extends Activity {
 
     }
 
-    /*
+    /**
      * When the activity is destroyed, nothing is needed except a call to the super class
      */
     @Override
@@ -324,7 +326,7 @@ public class GraphActivity extends Activity {
         super.onDestroy();
     }
 
-    /*
+    /**
      * Inflate the options menu so that user actions are present
      */
     @Override
@@ -334,7 +336,7 @@ public class GraphActivity extends Activity {
         return true;
     }
 
-    /*
+    /**
      * Handle the selection of a menu item.
      * In this case, the user has the ability to email a file as well as navigate backwards.
      * When the email icon is clicked, the file is attached and an email template is created
@@ -377,7 +379,8 @@ public class GraphActivity extends Activity {
                     OutputStream output = new FileOutputStream(file);
                     try {
                         try {
-                            byte[] buffer = new byte[4 * 1024]; // or other buffer size
+                            // or other buffer size
+                            byte[] buffer = new byte[4 * 1024];
                             int read;
 
                             while ((read = inputStream.read(buffer)) != -1) {
@@ -410,7 +413,6 @@ public class GraphActivity extends Activity {
 
         return super.onOptionsItemSelected(item);
     }
-
 
 
     /**
@@ -478,8 +480,7 @@ public class GraphActivity extends Activity {
     /**
      * Custom pager adapter to handle changing chart data when pager tabs are changed
      */
-    public class CustomPagerAdapter extends PagerAdapter
-    {
+    public class CustomPagerAdapter extends PagerAdapter {
 
         private Context mContext;
 
@@ -496,165 +497,16 @@ public class GraphActivity extends Activity {
 
             if (customPagerEnum.getLayoutResId() == R.layout.page_graph_intensity) {
                 LineChart mChart = (LineChart) layout.findViewById(R.id.lineChartInt);
-                mChart.setDrawGridBackground(false);
-
-                // no description text
-                mChart.setDescription(new Description());
-                //mChart.setNoDataTextDescription("You need to provide data for the chart.");
-
-                // enable touch gestures
-                mChart.setTouchEnabled(true);
-
-                // enable scaling and dragging
-                mChart.setDragEnabled(true);
-                mChart.setScaleEnabled(true);
-
-                // if disabled, scaling can be done on x- and y-axis separately
-                mChart.setPinchZoom(true);
-
-                // x-axis limit line
-                LimitLine llXAxis = new LimitLine(10f, "Index 10");
-                llXAxis.setLineWidth(4f);
-                llXAxis.enableDashedLine(10f, 10f, 0f);
-                llXAxis.setLabelPosition(LimitLine.LimitLabelPosition.RIGHT_BOTTOM);
-                llXAxis.setTextSize(10f);
-
-                XAxis xAxis = mChart.getXAxis();
-                xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-
-                YAxis leftAxis = mChart.getAxisLeft();
-                leftAxis.removeAllLimitLines(); // reset all limit lines to avoid overlapping lines
-
-
-                mChart.setAutoScaleMinMaxEnabled(true);
-
-                leftAxis.setStartAtZero(true);
-                leftAxis.enableGridDashedLine(10f, 10f, 0f);
-
-                // limit lines are drawn behind data (and not on top)
-                leftAxis.setDrawLimitLinesBehindData(true);
-
-                mChart.getAxisRight().setEnabled(false);
-
-
-                // add data
-                setData(mChart, mXValues, mIntensityFloat, ChartType.INTENSITY);
-
-                mChart.animateX(2500, Easing.EaseInOutQuart);
-
-                // get the legend (only possible after setting data)
-                Legend l = mChart.getLegend();
-
-                // modify the legend ...
-                l.setForm(Legend.LegendForm.LINE);
+                MPAndroidChartUtil.setLineChart(mChart, "test", mIntensityFloat, MPAndroidChartUtil.ChartType.INTENSITY);
                 return layout;
             } else if (customPagerEnum.getLayoutResId() == R.layout.page_graph_absorbance) {
 
                 LineChart mChart = (LineChart) layout.findViewById(R.id.lineChartAbs);
-                mChart.setDrawGridBackground(false);
-
-                // no description text
-                mChart.setDescription(new Description());
-                //mChart.setNoDataTextDescription("You need to provide data for the chart.");
-
-                // enable touch gestures
-                mChart.setTouchEnabled(true);
-
-                // enable scaling and dragging
-                mChart.setDragEnabled(true);
-                mChart.setScaleEnabled(true);
-
-                // if disabled, scaling can be done on x- and y-axis separately
-                mChart.setPinchZoom(true);
-
-                // x-axis limit line
-                LimitLine llXAxis = new LimitLine(10f, "Index 10");
-                llXAxis.setLineWidth(4f);
-                llXAxis.enableDashedLine(10f, 10f, 0f);
-                llXAxis.setLabelPosition(LimitLine.LimitLabelPosition.RIGHT_BOTTOM);
-                llXAxis.setTextSize(10f);
-
-                XAxis xAxis = mChart.getXAxis();
-                xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-
-                YAxis leftAxis = mChart.getAxisLeft();
-                leftAxis.removeAllLimitLines(); // reset all limit lines to avoid overlapping lines
-
-                mChart.setAutoScaleMinMaxEnabled(true);
-
-                leftAxis.setStartAtZero(false);
-                leftAxis.enableGridDashedLine(10f, 10f, 0f);
-
-                // limit lines are drawn behind data (and not on top)
-                leftAxis.setDrawLimitLinesBehindData(true);
-
-                mChart.getAxisRight().setEnabled(false);
-
-
-                // add data
-                setData(mChart, mXValues, mAbsorbanceFloat, ChartType.ABSORBANCE);
-
-                mChart.animateX(2500, Easing.EaseInOutQuart);
-
-                // get the legend (only possible after setting data)
-                Legend l = mChart.getLegend();
-
-                // modify the legend ...
-                l.setForm(Legend.LegendForm.LINE);
+                MPAndroidChartUtil.setLineChart(mChart, "test", mAbsorbanceFloat, MPAndroidChartUtil.ChartType.ABSORBANCE);
                 return layout;
             } else if (customPagerEnum.getLayoutResId() == R.layout.page_graph_reflectance) {
-
                 LineChart mChart = (LineChart) layout.findViewById(R.id.lineChartRef);
-                mChart.setDrawGridBackground(false);
-
-                // no description text
-                mChart.setDescription(new Description());
-                //mChart.setNoDataTextDescription("You need to provide data for the chart.");
-
-                // enable touch gestures
-                mChart.setTouchEnabled(true);
-
-                // enable scaling and dragging
-                mChart.setDragEnabled(true);
-                mChart.setScaleEnabled(true);
-
-                // if disabled, scaling can be done on x- and y-axis separately
-                mChart.setPinchZoom(true);
-
-                // x-axis limit line
-                LimitLine llXAxis = new LimitLine(10f, "Index 10");
-                llXAxis.setLineWidth(4f);
-                llXAxis.enableDashedLine(10f, 10f, 0f);
-                llXAxis.setLabelPosition(LimitLine.LimitLabelPosition.RIGHT_BOTTOM);
-                llXAxis.setTextSize(10f);
-
-                XAxis xAxis = mChart.getXAxis();
-                xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-
-                YAxis leftAxis = mChart.getAxisLeft();
-                leftAxis.removeAllLimitLines(); // reset all limit lines to avoid overlapping lines
-
-                mChart.setAutoScaleMinMaxEnabled(true);
-
-                leftAxis.setStartAtZero(false);
-                leftAxis.enableGridDashedLine(10f, 10f, 0f);
-
-                // limit lines are drawn behind data (and not on top)
-                leftAxis.setDrawLimitLinesBehindData(true);
-
-                mChart.getAxisRight().setEnabled(false);
-
-
-                // add data
-                setData(mChart, mXValues, mReflectanceFloat, ChartType.REFLECTANCE);
-
-                mChart.animateX(2500, Easing.EaseInOutQuart);
-
-                // get the legend (only possible after setting data)
-                Legend l = mChart.getLegend();
-
-                // modify the legend ...
-                l.setForm(Legend.LegendForm.LINE);
+                MPAndroidChartUtil.setLineChart(mChart, "test", mReflectanceFloat, MPAndroidChartUtil.ChartType.REFLECTANCE);
                 return layout;
             } else {
                 return layout;
@@ -690,137 +542,9 @@ public class GraphActivity extends Activity {
         }
     }
 
-    /**
-     * Set the X-axis and Y-axis data for a specified chart
-     * @param mChart the chart to update the data for
-     * @param xValues the X -axis values to be plotted
-     * @param yValues the Y-axis values to be plotted
-     * @param type the type of chart to be displayed {@link com.kstechnologies.NanoScan.GraphActivity.ChartType}
-     */
-    private void setData(LineChart mChart, ArrayList<String> xValues, ArrayList<Entry> yValues, ChartType type) {
-
-        if (type == ChartType.REFLECTANCE) {
-            // create a dataset and give it a type
-            LineDataSet set1 = new LineDataSet(yValues, fileName);
-
-            // set the line to be drawn like this "- - - - - -"
-            set1.enableDashedLine(10f, 5f, 0f);
-            set1.enableDashedHighlightLine(10f, 5f, 0f);
-            set1.setColor(Color.BLACK);
-            set1.setCircleColor(Color.RED);
-            set1.setLineWidth(1f);
-            set1.setCircleSize(3f);
-            set1.setDrawCircleHole(true);
-            set1.setValueTextSize(9f);
-            set1.setFillAlpha(65);
-            set1.setFillColor(Color.RED);
-            set1.setDrawFilled(true);
-
-            ArrayList<LineDataSet> dataSets = new ArrayList<>();
-            dataSets.add(set1); // add the datasets
-
-            // create a data object with the datasets
-            LineData data = new LineData(set1);
-
-            // set data
-            mChart.setData(data);
-
-            mChart.setMaxVisibleValueCount(20);
-        } else if (type == ChartType.ABSORBANCE) {
-            // create a dataset and give it a type
-            LineDataSet set1 = new LineDataSet(yValues, fileName);
-
-            // set the line to be drawn like this "- - - - - -"
-            set1.enableDashedLine(10f, 5f, 0f);
-            set1.enableDashedHighlightLine(10f, 5f, 0f);
-            set1.setColor(Color.BLACK);
-            set1.setCircleColor(Color.GREEN);
-            set1.setLineWidth(1f);
-            set1.setCircleSize(3f);
-            set1.setDrawCircleHole(true);
-            set1.setValueTextSize(9f);
-            set1.setFillAlpha(65);
-            set1.setFillColor(Color.GREEN);
-            set1.setDrawFilled(true);
-
-            ArrayList<LineDataSet> dataSets = new ArrayList<>();
-            dataSets.add(set1); // add the datasets
-
-            // create a data object with the datasets
-
-            LineData data = new LineData(set1);
-
-            // set data
-            mChart.setData(data);
-
-            mChart.setMaxVisibleValueCount(20);
-        } else if (type == ChartType.INTENSITY) {
-            // create a dataset and give it a type
-            LineDataSet set1 = new LineDataSet(yValues, fileName);
-
-            // set the line to be drawn like this "- - - - - -"
-            set1.enableDashedLine(10f, 5f, 0f);
-            set1.enableDashedHighlightLine(10f, 5f, 0f);
-            set1.setColor(Color.BLACK);
-            set1.setCircleColor(Color.BLUE);
-            set1.setLineWidth(1f);
-            set1.setCircleSize(3f);
-            set1.setDrawCircleHole(true);
-            set1.setValueTextSize(9f);
-            set1.setFillAlpha(65);
-            set1.setFillColor(Color.BLUE);
-            set1.setDrawFilled(true);
-
-            ArrayList<LineDataSet> dataSets = new ArrayList<>();
-            dataSets.add(set1); // add the datasets
-
-            // create a data object with the datasets
-            LineData data = new LineData(set1);
-
-            // set data
-            mChart.setData(data);
-
-            mChart.setMaxVisibleValueCount(20);
-        } else {
-            // create a dataset and give it a type
-            LineDataSet set1 = new LineDataSet(yValues, fileName);
-
-            // set the line to be drawn like this "- - - - - -"
-            set1.enableDashedLine(10f, 5f, 0f);
-            set1.enableDashedHighlightLine(10f, 5f, 0f);
-            set1.setColor(Color.BLACK);
-            set1.setCircleColor(Color.BLACK);
-            set1.setLineWidth(1f);
-            set1.setCircleSize(3f);
-            set1.setDrawCircleHole(true);
-            set1.setValueTextSize(9f);
-            set1.setFillAlpha(65);
-            set1.setFillColor(Color.BLACK);
-            set1.setDrawFilled(true);
-
-            ArrayList<LineDataSet> dataSets = new ArrayList<>();
-            dataSets.add(set1); // add the datasets
-
-            // create a data object with the datasets
-            LineData data = new LineData(set1);
-
-            // set data
-            mChart.setData(data);
-
-            mChart.setMaxVisibleValueCount(10);
-        }
-    }
 
     /**
-     * Enumeration of chart types
-     */
-    public enum ChartType {
-        REFLECTANCE,
-        ABSORBANCE,
-        INTENSITY
-    }
-
-    /** Function to find a file in the external storage directory with the specified name
+     * Function to find a file in the external storage directory with the specified name
      *
      * @param name the name of the file to search for
      * @return File with the specified name
@@ -840,7 +564,8 @@ public class GraphActivity extends Activity {
         return null;
     }
 
-    /** Function return the specified frequency in units of frequency or wavenumber
+    /**
+     * Function return the specified frequency in units of frequency or wavenumber
      *
      * @param freq The frequency to convert
      * @return string representing either frequency or wavenumber

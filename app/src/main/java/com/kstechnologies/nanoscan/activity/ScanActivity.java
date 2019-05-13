@@ -1,4 +1,4 @@
-package com.kstechnologies.NanoScan;
+package com.kstechnologies.nanoscan.activity;
 
 import android.app.ActionBar;
 import android.app.Activity;
@@ -24,6 +24,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+
+import com.kstechnologies.nanoscan.R;
+import com.kstechnologies.nanoscan.service.NanoBLEService;
 import com.kstechnologies.nirscannanolibrary.KSTNanoSDK;
 import com.kstechnologies.nirscannanolibrary.SettingsManager;
 
@@ -32,7 +35,7 @@ import com.kstechnologies.nirscannanolibrary.SettingsManager;
  * This allows the user to specify a preferred Nano to use in the future.
  * The preferred Nano will be connected to first in environments with more than one Nano
  */
-public class ScanActivity extends Activity {
+public class ScanActivity extends BaseActivity {
 
     private Handler mHandler;
     private BluetoothAdapter mBluetoothAdapter;
@@ -168,7 +171,7 @@ public class ScanActivity extends Activity {
      * This function uses the handler {@link ScanActivity#mHandler} to delay call to stop
      * scanning until after the interval has expired. The start and stop functions take an
      * LeScanCallback parameter that specifies the callback function when a Bluetooth device
-     * has been found {@link NewScanActivity#mLeScanCallback}
+     * has been found {@link NewScanActivity#}
      *
      * @param enable Tells the Bluetooth adapter {@link ScanActivity#mBluetoothAdapter} if
      *               it should start or stop scanning
