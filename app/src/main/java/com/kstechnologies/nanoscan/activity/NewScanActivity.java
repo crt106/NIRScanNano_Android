@@ -63,7 +63,6 @@ import java.util.Locale;
 
 import com.kstechnologies.nanoscan.R;
 import com.kstechnologies.nanoscan.service.NanoBLEService;
-import com.opencsv.CSVWriter;
 import com.kstechnologies.nirscannanolibrary.KSTNanoSDK;
 import com.kstechnologies.nirscannanolibrary.SettingsManager;
 
@@ -857,35 +856,35 @@ public class NewScanActivity extends BaseActivity {
      * @param saveOS boolean indicating if the CSV file should be saved to the OS
      */
     private void writeCSV(String currentTime, KSTNanoSDK.ScanResults scanResults, boolean saveOS) {
-
-        String prefix = filePrefix.getText().toString();
-        if (prefix.equals("")) {
-            prefix = "Nano";
-        }
-
-        if (saveOS) {
-            String csvOS = android.os.Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + prefix + currentTime + ".csv";
-
-            CSVWriter writer;
-            try {
-                writer = new CSVWriter(new FileWriter(csvOS), ',', CSVWriter.NO_QUOTE_CHARACTER);
-                List<String[]> data = new ArrayList<String[]>();
-                data.add(new String[]{"Wavelength,Intensity,Absorbance,Reflectance"});
-
-                int csvIndex;
-                for (csvIndex = 0; csvIndex < scanResults.getLength(); csvIndex++) {
-                    double waves = scanResults.getWavelength()[csvIndex];
-                    int intens = scanResults.getUncalibratedIntensity()[csvIndex];
-                    float absorb = (-1) * (float) Math.log10((double) scanResults.getUncalibratedIntensity()[csvIndex] / (double) scanResults.getIntensity()[csvIndex]);
-                    float reflect = (float) results.getUncalibratedIntensity()[csvIndex] / results.getIntensity()[csvIndex];
-                    data.add(new String[]{String.valueOf(waves), String.valueOf(intens), String.valueOf(absorb), String.valueOf(reflect)});
-                }
-                writer.writeAll(data);
-                writer.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
+//
+//        String prefix = filePrefix.getText().toString();
+//        if (prefix.equals("")) {
+//            prefix = "Nano";
+//        }
+//
+//        if (saveOS) {
+//            String csvOS = android.os.Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + prefix + currentTime + ".csv";
+//
+//            CSVWriter writer;
+//            try {
+//                writer = new CSVWriter(new FileWriter(csvOS), ',', CSVWriter.NO_QUOTE_CHARACTER);
+//                List<String[]> data = new ArrayList<String[]>();
+//                data.add(new String[]{"Wavelength,Intensity,Absorbance,Reflectance"});
+//
+//                int csvIndex;
+//                for (csvIndex = 0; csvIndex < scanResults.getLength(); csvIndex++) {
+//                    double waves = scanResults.getWavelength()[csvIndex];
+//                    int intens = scanResults.getUncalibratedIntensity()[csvIndex];
+//                    float absorb = (-1) * (float) Math.log10((double) scanResults.getUncalibratedIntensity()[csvIndex] / (double) scanResults.getIntensity()[csvIndex]);
+//                    float reflect = (float) results.getUncalibratedIntensity()[csvIndex] / results.getIntensity()[csvIndex];
+//                    data.add(new String[]{String.valueOf(waves), String.valueOf(intens), String.valueOf(absorb), String.valueOf(reflect)});
+//                }
+//                writer.writeAll(data);
+//                writer.close();
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        }
     }
 
     /**
@@ -903,35 +902,35 @@ public class NewScanActivity extends BaseActivity {
      * @param saveOS boolean indicating if this file should be saved to the OS
      */
     private void writeCSVDict(String currentTime, String scanType, String timeStamp, String spectStart, String spectEnd, String numPoints, String resolution, String numAverages, String measTime, boolean saveOS) {
-
-        String prefix = filePrefix.getText().toString();
-        if (prefix.equals("")) {
-            prefix = "Nano";
-        }
-
-        if (saveOS) {
-            String csv = android.os.Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + prefix + currentTime + ".dict";
-
-            CSVWriter writer;
-            try {
-                writer = new CSVWriter(new FileWriter(csv));
-                List<String[]> data = new ArrayList<String[]>();
-                data.add(new String[]{"Method", scanType});
-                data.add(new String[]{"Timestamp", timeStamp});
-                data.add(new String[]{"Spectral Range Start (nm)", spectStart});
-                data.add(new String[]{"Spectral Range End (nm)", spectEnd});
-                data.add(new String[]{"Number of Wavelength Points", numPoints});
-                data.add(new String[]{"Digital Resolution", resolution});
-                data.add(new String[]{"Number of Scans to Average", numAverages});
-                data.add(new String[]{"Total Measurement Time (s)", measTime});
-
-                writer.writeAll(data);
-
-                writer.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
+//
+//        String prefix = filePrefix.getText().toString();
+//        if (prefix.equals("")) {
+//            prefix = "Nano";
+//        }
+//
+//        if (saveOS) {
+//            String csv = android.os.Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + prefix + currentTime + ".dict";
+//
+//            CSVWriter writer;
+//            try {
+//                writer = new CSVWriter(new FileWriter(csv));
+//                List<String[]> data = new ArrayList<String[]>();
+//                data.add(new String[]{"Method", scanType});
+//                data.add(new String[]{"Timestamp", timeStamp});
+//                data.add(new String[]{"Spectral Range Start (nm)", spectStart});
+//                data.add(new String[]{"Spectral Range End (nm)", spectEnd});
+//                data.add(new String[]{"Number of Wavelength Points", numPoints});
+//                data.add(new String[]{"Digital Resolution", resolution});
+//                data.add(new String[]{"Number of Scans to Average", numAverages});
+//                data.add(new String[]{"Total Measurement Time (s)", measTime});
+//
+//                writer.writeAll(data);
+//
+//                writer.close();
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        }
     }
 
     /**

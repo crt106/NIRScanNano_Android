@@ -1,0 +1,11 @@
+{
+  "Name": "eucerin_lotion",
+  "Method": "standard_scan",
+  "Timestamp": "4/3/2015 @ 21:32:00",
+  "Spectral Range Start (nm)": "853.104553",
+  "Spectral Range End (nm)": "1794.033813",
+  "Number of Wavelength Points": "106",
+  "Digital Resolution": "106",
+  "Number of Scans to Average": "1",
+  "Total Measurement Time (s)": "2.00"
+}

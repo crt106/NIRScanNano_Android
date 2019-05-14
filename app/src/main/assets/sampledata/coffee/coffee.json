@@ -1,0 +1,11 @@
+{
+  "Name": "coffee",
+  "Method": "standard_scan",
+  "Timestamp": "2/3/2015 @ 14:43:06",
+  "Spectral Range Start (nm)": "850.804993",
+  "Spectral Range End (nm)": "1779.879761",
+  "Number of Wavelength Points": "85",
+  "Digital Resolution": "85",
+  "Number of Scans to Average": "1",
+  "Total Measurement Time (s)": "2.00"
+}

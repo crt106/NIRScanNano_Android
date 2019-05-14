@@ -50,14 +50,14 @@
         <item>Intensity</item>
     </string-array>
 
-    <string name="aspirin">aspirin</string>
-    <string name="bc">bc</string>
-    <string name="bellpepper">bellpepper</string>
+    <string name="aspirin" translatable="false">aspirin</string>
+    <string name="bc" translatable="false">bc</string>
+    <string name="bellpepper" translatable="false">bellpepper</string>
     <string name="coconutoil">coconutoil</string>
     <string name="coffee">coffee</string>
-    <string name="corn_starch">corn_starch</string>
+    <string name="corn_starch" translatable="false">corn_starch</string>
     <string name="eucerin_lotion">eucerin_lotion</string>
-    <string name="flour">flour</string>
+    <string name="flour" translatable="false">flour</string>
     <string name="glucose">glucose</string>
     <string name="out_of_spec_aspirin">out_of_spec_aspirin</string>
 
@@ -71,8 +71,8 @@
     <string name="device_status">Device Status</string>
     <string name="error_status">Error Status</string>
     <string name="temp_threshold">Temperature Threshold</string>
-    <string name="deg_c">deg C</string>
-    <string name="deg_f">deg F</string>
+    <string name="deg_c" translatable="false">deg C</string>
+    <string name="deg_f" translatable="false">deg F</string>
     <string name="humid_threshold">Humidity Threshold</string>
     <string name="relative_humid">% RH</string>
     <string name="not_supported">Not Supported</string>
@@ -92,6 +92,15 @@
     <string name="patterns_value">%1$d</string>
     <string name="repeats_value">%1$d</string>
 
+    <string name="scan_method">Method</string>
+    <string name="timeStamp">TimeStamp</string>
+    <string name="spectralRangeStart">Spectral Range Start (nm)</string>
+    <string name="spectralRangeEnd">Spectral Range End (nm)</string>
+    <string name="number_of_WavelengthPoints">Number of Wavelength Points</string>
+    <string name="digitalResolution">Digital Resolution</string>
+    <string name="number_of_ScanstoAverage">Number of Scans to Average</string>
+    <string name="totalMeasurementTime">Total Measurement Time (s)</string>
+
     <string name="manufacturer">Manufacturer</string>
     <string name="range_start">Spectral Range Start</string>
     <string name="range_end">Spectral Range End</string>
@@ -108,7 +117,7 @@
     <string name="save_to_android">Save to Android Device?</string>
     <string name="cont_scan">Continuous Scan?</string>
     <string name="scan_conf">Scan Configuration</string>
-    <string name="col_1">Column 1</string>
+    <string name="col_1" translatable="false">Column 1</string>
     <string name="hadamard">Hadamard</string>
 
     <string name="model">Model Number</string>

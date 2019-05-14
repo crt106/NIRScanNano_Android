@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">NIRScan Nano</string>
+    <string name="absorbance">吸收率</string>
+    <string name="action_scan">扫描</string>
+    <string name="action_info">信息</string>
+    <string name="action_settings">设置</string>
+    <string name="battery">电量</string>
+    <string name="cancel">取消</string>
+    <string name="configure">确认</string>
+    <string name="cont_scan">继续扫描?</string>
+    <string name="data">数据</string>
+    <string name="delete">删除</string>
+    <string name="device_status">设备状态</string>
+    <string name="dl_cal_matrix">下载</string>
+    <string name="emailing">发送邮件中</string>
+    <string name="error_status">错误状态</string>
+    <string name="file_not_found">无法找到对应文件!</string>
+    <string name="forget">忘记</string>
+    <string name="nano_confirmation_title">你确定吗?</string>
+    <string name="nano_disconnected">与Nano断开连接</string>
+    <string name="nano_forget_msg">你确定清除默认设备设置吗?(%1$s)</string>
+    <string name="newScan">新扫描</string>
+    <string name="new_scan">新扫描</string>
+</resources>

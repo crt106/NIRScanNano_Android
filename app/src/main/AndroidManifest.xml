@@ -42,7 +42,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
-            android:name="com.kstechnologies.nanoscan.activity.GraphActivity"
+            android:name="com.kstechnologies.nanoscan.activity.graphactivity.GraphActivity"
             android:label="@string/title_activity_graph"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />

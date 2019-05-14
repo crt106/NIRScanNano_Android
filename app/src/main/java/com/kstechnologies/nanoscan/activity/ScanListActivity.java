@@ -1,11 +1,8 @@
 package com.kstechnologies.nanoscan.activity;
 
 import android.app.ActionBar;
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.core.content.ContextCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.TypedValue;
@@ -20,22 +17,27 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 
+import androidx.core.content.ContextCompat;
+
 import com.baoyz.swipemenulistview.SwipeMenu;
 import com.baoyz.swipemenulistview.SwipeMenuCreator;
 import com.baoyz.swipemenulistview.SwipeMenuItem;
 import com.baoyz.swipemenulistview.SwipeMenuListView;
 import com.kstechnologies.nanoscan.R;
-
+import com.kstechnologies.nanoscan.activity.graphactivity.GraphActivity;
+import com.kstechnologies.nanoscan.model.DataFile;
+import com.kstechnologies.nanoscan.utils.FileUtil;
 
 import java.io.File;
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 
 /**
+ * 改造后是查看数据列表的Fragment/Activity
+ * 原注释：
  * This activity controls the main launcher view
  * This activity is responsible for generating the splash screen and the main
  * file list view
- *
+ * <p>
  * From this activity, the user can begin the scan process {@link NewScanActivity},
  * Go to the info view {@link InfoActivity}, or view old scan data {@link GraphActivity}
  *
@@ -43,17 +45,28 @@ import java.util.ArrayList;
  */
 public class ScanListActivity extends BaseActivity {
 
-    private ArrayList<String> csvFiles = new ArrayList<>();
+    /**
+     * 可用数据文件集列表
+     */
+    public ArrayList<DataFile> dataFiles = new ArrayList<>();
+
+    /**
+     * 数据文件Adapter 只显示dataFile文件名
+     */
     private ArrayAdapter<String> mAdapter;
-    private static Context mContext;
+
+    /**
+     * 单个选项的菜单
+     */
+    //TODO 更换为RecyclerView
+
     private SwipeMenuListView lv_csv_files;
+
     private SwipeMenuCreator unknownCreator = createMenu();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        mContext = this;
 
         // Setup ActionBar for Splash Animation by hiding it
         getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
@@ -99,7 +112,7 @@ public class ScanListActivity extends BaseActivity {
         animSplash.start();
     }
 
-    /*
+    /**
      * When the activity is destroyed, make a call to the super class
      */
     @Override
@@ -107,25 +120,24 @@ public class ScanListActivity extends BaseActivity {
         super.onDestroy();
     }
 
-    /* On resume, check for crashes and updates with HockeyApp,
+    /**
+     * On resume, check for crashes and updates with HockeyApp,
      * and set up the file list,swipe menu, and event listeners
      */
     @Override
     public void onResume() {
         super.onResume();
-        //checkForCrashes();
-        //checkForUpdates();
 
-        csvFiles.clear();
+        dataFiles.clear();
 
         lv_csv_files = (SwipeMenuListView) findViewById(R.id.lv_csv_files);
         populateListView();
 
-        mAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, csvFiles);
         lv_csv_files.setAdapter(mAdapter);
         lv_csv_files.setMenuCreator(unknownCreator);
 
-        /* set the on menu item click for the SwipeMenuListView.
+        /**
+         * set the on menu item click for the SwipeMenuListView.
          * In this case, delete the selected file
          */
         lv_csv_files.setOnMenuItemClickListener(new SwipeMenuListView.OnMenuItemClickListener() {
@@ -134,16 +146,20 @@ public class ScanListActivity extends BaseActivity {
 
                 switch (index) {
                     case 0:
-                        removeFile(mAdapter.getItem(position));
-                        mAdapter.remove(csvFiles.get(position));
+                        //删除按钮点击时
+                        //TODO 修改文件增删逻辑
+                        removeFile(dataFiles.get(position));
+                        mAdapter.remove(dataFiles.get(position).getFileName());
                         lv_csv_files.setAdapter(mAdapter);
                         break;
+                    default:
                 }
                 return false;
             }
         });
 
-        /* Add item click listener to file listview. This will close an item if it's
+        /**
+         * Add item click listener to file listview. This will close an item if it's
          * swipe menu is open
          */
         lv_csv_files.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -155,14 +171,15 @@ public class ScanListActivity extends BaseActivity {
 
         mAdapter.notifyDataSetChanged();
 
-        /* Add item click listener to file listview. Clicking an item will start the graph
+        /**
+         * Add item click listener to file listview. Clicking an item will start the graph
          * activity for that file
          */
         lv_csv_files.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent graphIntent = new Intent(mContext, GraphActivity.class);
-                graphIntent.putExtra("file_name", mAdapter.getItem(i));
+                Intent graphIntent = new Intent(getBaseContext(), GraphActivity.class);
+                graphIntent.putExtra("dataFile", dataFiles.get(i));
                 startActivity(graphIntent);
             }
         });
@@ -187,7 +204,7 @@ public class ScanListActivity extends BaseActivity {
         });
     }
 
-    /*
+    /**
      * Inflate the options menu so that the info, settings, and connect icons are visible
      */
     @Override
@@ -197,7 +214,7 @@ public class ScanListActivity extends BaseActivity {
         return true;
     }
 
-    /*
+    /**
      * Handle the selection of a menu item.
      * In this case, there are three options. The user can go to the info activity,
      * the settings activity, or connect to a Nano
@@ -211,16 +228,12 @@ public class ScanListActivity extends BaseActivity {
             Intent settingsIntent = new Intent(this, SettingsActivity.class);
             startActivity(settingsIntent);
             return true;
-        }
-
-        else if (id == R.id.action_info) {
+        } else if (id == R.id.action_info) {
             Intent infoIntent = new Intent(this, InfoActivity.class);
             startActivity(infoIntent);
             return true;
-        }
-
-        else if (id == R.id.action_scan) {
-            Intent graphIntent = new Intent(mContext, NewScanActivity.class);
+        } else if (id == R.id.action_scan) {
+            Intent graphIntent = new Intent(getBaseContext(), NewScanActivity.class);
             graphIntent.putExtra("file_name", getString(R.string.newScan));
             startActivity(graphIntent);
         }
@@ -228,52 +241,24 @@ public class ScanListActivity extends BaseActivity {
     }
 
     /**
+     * 初始化可用的csv文件列表
      * Populate the stored scan listview with included files in the raw directory as well as
      * stored CSV files
      */
     public void populateListView() {
-        Field[] files = R.raw.class.getFields();
-
-        // loop for every file in raw folder
-        for (Field file : files) {
-            String filename = file.getName();
-
-            csvFiles.add(filename);
+        dataFiles = (ArrayList<DataFile>) FileUtil.getAvalibleData();
+        ArrayList<String> dataFileNames = new ArrayList<>();
+        for (DataFile d : dataFiles) {
+            dataFileNames.add(d.getFileName());
         }
-
-        String nanoExtPath = android.os.Environment.getExternalStorageDirectory().getAbsolutePath();
-        File yourDir = new File(nanoExtPath, "/");
-        File[] listFiles=yourDir.listFiles();
-        if(listFiles==null||listFiles.length==0)
-        {
-            return;
-        }
-        for (File f : yourDir.listFiles()) {
-            if (f.isFile()) {
-                String fileName = f.getName();
-                if (fileName.contains(".csv")) {
-                    //Log.d(TAG, "found:" + fileName);
-                    csvFiles.add(fileName);
-                }
-            }
-        }
+        mAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, dataFileNames);
     }
 
     /**
      * Removes a specified file from the external storage directory
-     * @param name name of the file to delete
      */
-    public void removeFile(String name) {
-        String nanoExtPath = android.os.Environment.getExternalStorageDirectory().getAbsolutePath();
-        File yourDir = new File(nanoExtPath, "/");
-        for (File f : yourDir.listFiles()) {
-            if (f.isFile()) {
-                String fileName = f.getName();
-                if (fileName.equals(name)) {
-                    f.delete();
-                }
-            }
-        }
+    public void removeFile(DataFile dataFile) {
+        FileUtil.deleteFile(new File(dataFile.getFilePath()));
     }
 
     private SwipeMenuCreator createMenu() {
@@ -288,8 +273,8 @@ public class ScanListActivity extends BaseActivity {
                 // set item width
                 settingsItem.setWidth(dp2px(90));
                 // set a icon
-                //settingsItem.setIcon(android.R.drawable.ic_menu_delete);
-                settingsItem.setTitleColor(ContextCompat.getColor(mContext, R.color.white));
+
+                settingsItem.setTitleColor(ContextCompat.getColor(getBaseContext(), R.color.white));
                 settingsItem.setTitleSize(18);
                 settingsItem.setTitle(getResources().getString(R.string.delete));
 

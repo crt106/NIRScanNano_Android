@@ -84,7 +84,7 @@ public class MPAndroidChartUtil {
 
         mChart.setAutoScaleMinMaxEnabled(true);
 
-        leftAxis.setStartAtZero(true);
+        leftAxis.setSpaceBottom(10f);
         leftAxis.enableGridDashedLine(10f, 10f, 0f);
 
         // limit lines are drawn behind data (and not on top)
