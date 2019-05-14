@@ -1,13 +1,13 @@
 apply plugin: 'com.android.application'
 
 
-
 android {
     compileSdkVersion 28
     buildToolsVersion '28.0.3'
 
     defaultConfig {
         applicationId "com.kstechnologies.NanoScan"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         minSdkVersion 21
         targetSdkVersion 28
         versionCode 13
@@ -23,19 +23,49 @@ android {
         sourceCompatibility = '1.8'
         targetCompatibility = '1.8'
     }
+    dataBinding {
+        enabled = true
+    }
 }
 
 repositories {
     flatDir {
         dirs 'libs'
     }
+    jcenter()
+    mavenCentral()
+    google()
     maven { url 'https://jitpack.io' }
+    maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
 }
 
+
 dependencies {
+
+
     api fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'androidx.recyclerview:recyclerview:1.1.0-alpha05'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    //MPAndroidCHart
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
-    api 'com.opencsv:opencsv:4.6'
+    //GSON
+    implementation 'com.google.code.gson:gson:2.8.5'
+    //PermissionsDispatcher
+    implementation "com.github.hotchemi:permissionsdispatcher:3.3.2"
+    //common csv
+    implementation "org.apache.commons:commons-csv:1.6"
+    //最最弟弟的NIRSDK
     api(name: 'nirscannanolibrary', ext: 'aar')
+
+    // Required -- JUnit 4 framework
+    androidTestImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
+    androidTestImplementation 'androidx.test:runner:1.1.1'
+    androidTestImplementation 'androidx.test:rules:1.1.1'
+    // Optional -- Robolectric environment
+    testImplementation 'androidx.test:core:1.1.0'
+    // Optional -- Mockito framework
+    testImplementation 'org.mockito:mockito-core:1.10.19'
+
+
 }

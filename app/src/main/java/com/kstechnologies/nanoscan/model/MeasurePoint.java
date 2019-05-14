@@ -1,6 +1,6 @@
 package com.kstechnologies.nanoscan.model;
 
-import com.opencsv.bean.CsvBindByName;
+import java.io.Serializable;
 
 /**
  * 单个测量点数据 每个单独的测量点包含
@@ -8,40 +8,38 @@ import com.opencsv.bean.CsvBindByName;
  * 强度(Intensity)
  * 吸收率(Absorbance)
  * 反射率(Reflectance)
+ *
  * @author crt106 on 2019/5/12.
  */
-public class MeasurePoint {
+public class MeasurePoint implements Serializable {
 
     /**
      * 波长
      */
-    @CsvBindByName(column = "WaveLength")
     private float waveLength;
 
     /**
      * 强度
      */
-    @CsvBindByName(column = "Intensity")
     private float intensity;
 
     /**
      * 吸收率
      */
-    @CsvBindByName(column = "Absorbance")
     private float absorbance;
 
     /**
      * 反射率
      */
-    @CsvBindByName(column = "Reflectance")
     private float reflectance;
 
-    public MeasurePoint(){
+    public MeasurePoint() {
 
     }
 
     /**
      * 全参数构造方法
+     *
      * @param waveLength
      * @param intensity
      * @param absorbance
@@ -88,4 +86,13 @@ public class MeasurePoint {
         this.reflectance = reflectance;
     }
 
+    @Override
+    public String toString() {
+        return "MeasurePoint{" +
+                "waveLength=" + waveLength +
+                ", intensity=" + intensity +
+                ", absorbance=" + absorbance +
+                ", reflectance=" + reflectance +
+                '}';
+    }
 }

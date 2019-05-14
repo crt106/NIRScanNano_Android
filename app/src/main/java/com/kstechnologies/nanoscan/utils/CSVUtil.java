@@ -1,40 +1,59 @@
 package com.kstechnologies.nanoscan.utils;
 
 import com.kstechnologies.nanoscan.model.MeasurePoint;
-import com.opencsv.CSVReader;
-import com.opencsv.bean.CsvToBean;
-import com.opencsv.bean.CsvToBeanBuilder;
-import com.opencsv.bean.StatefulBeanToCsv;
-import com.opencsv.bean.StatefulBeanToCsvBuilder;
-import com.opencsv.exceptions.CsvDataTypeMismatchException;
-import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
 
-import java.io.File;
-import java.io.FileNotFoundException;
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVPrinter;
+import org.apache.commons.csv.CSVRecord;
+
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Reader;
 import java.io.Writer;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
- * CSV 工具类
+ * CSV 工具类 负责csv文件的读写
  *
  * @author crt106 on 2019/5/12.
  */
-public class CSVUtil
-{
+public class CSVUtil {
+
+    public enum CsvHeaders {
+        WaveLength,
+        Intensity,
+        Absorbance,
+        Reflectance
+    }
 
     /**
      * 从csv文件中读取所有的测量点数据
      *
      * @return 返回的测量点列表
      */
-    public static List<MeasurePoint> ReadMeasurePoints(String filename) throws FileNotFoundException
+    public static List<MeasurePoint> ReadMeasurePoints(String filename) throws IOException
     {
-        File csvFile = new File(filename);
-        List<MeasurePoint> measurePoints = new CsvToBeanBuilder(new FileReader(csvFile))
-                .withType(MeasurePoint.class).build().parse();
+        List<MeasurePoint> measurePoints = new ArrayList<>();
+        Reader reader = new FileReader(filename);
+        Iterable<CSVRecord> records = CSVFormat.DEFAULT.withFirstRecordAsHeader().parse(reader);
+        for (CSVRecord r : records) {
+            float waveLength = 0;
+            float intensity = 0;
+            float absorbance = 0;
+            float reflectance = 0;
+            try {
+                waveLength = Float.parseFloat(r.get("Wavelength"));
+                absorbance = Float.parseFloat(r.get("Absorbance"));
+                reflectance = Float.parseFloat(r.get("Reflectance"));
+                //这里示例数据里Intensity可能为空 放到最后
+                intensity = Float.parseFloat(r.get("Intensity"));
+            } catch (NumberFormatException e) {
+
+            }
+            measurePoints.add(new MeasurePoint(waveLength, intensity, absorbance, reflectance));
+        }
         return measurePoints;
     }
 
@@ -45,13 +64,15 @@ public class CSVUtil
      * @param filename
      * @return
      */
-    public static boolean WriteMeasurePoints(String filename, List<MeasurePoint> beans) throws IOException, CsvDataTypeMismatchException, CsvRequiredFieldEmptyException
+    public static boolean WriteMeasurePoints(String filename, List<MeasurePoint> beans) throws IOException
     {
-
+        CSVFormat format = CSVFormat.DEFAULT.withRecordSeparator(',').withHeader(CsvHeaders.class);
         Writer writer = new FileWriter(filename);
-        StatefulBeanToCsv beanToCsv = new StatefulBeanToCsvBuilder(writer).build();
-        beanToCsv.write(beans);
+        CSVPrinter csvPrinter = new CSVPrinter(writer, format);
+        csvPrinter.printRecords(beans);
         writer.close();
         return true;
     }
+
+
 }
