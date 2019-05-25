@@ -2,7 +2,8 @@ package com.kstechnologies.nanoscan.constant;
 
 /**
  * 存储SharedPreferrence中键数据的地方哦
- *
+ * 之前的作者将一部分keys和数据放在SDK中{@link com.kstechnologies.nirscannanolibrary.SettingsManager}
+ * 所以这里是一些更多不涉及到扫描时配置的数据
  * @author crt106 on 2019/5/13.
  */
 public class SharedPreferenceKeys {

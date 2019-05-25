@@ -18,7 +18,7 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:visibility="gone" />
 
-    <com.baoyz.swipemenulistview.SwipeMenuListView
+    <com.kstechnologies.nanoscan.widget.swipemenulistview.SwipeMenuListView
         android:id="@+id/lv_stored_scans"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

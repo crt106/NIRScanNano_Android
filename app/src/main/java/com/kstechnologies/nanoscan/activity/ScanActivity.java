@@ -1,7 +1,6 @@
 package com.kstechnologies.nanoscan.activity;
 
 import android.app.ActionBar;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -26,6 +25,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 import com.kstechnologies.nanoscan.R;
+import com.kstechnologies.nanoscan.activity.newscanactivity.NewScanActivity;
 import com.kstechnologies.nanoscan.service.NanoBLEService;
 import com.kstechnologies.nirscannanolibrary.KSTNanoSDK;
 import com.kstechnologies.nirscannanolibrary.SettingsManager;

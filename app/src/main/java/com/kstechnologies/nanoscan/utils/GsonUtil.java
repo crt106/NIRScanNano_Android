@@ -6,8 +6,10 @@ import com.kstechnologies.nanoscan.model.MeasureDictionary;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.Writer;
 
 /**
  * Gson处理工具类
@@ -21,13 +23,9 @@ public class GsonUtil {
      *
      * @return
      */
-    public static MeasureDictionary ReadDictFromFile(String file) throws IOException {
-        // 从sd卡中读取json文件并Gson解析
-        File read = new File(file);
+    public static MeasureDictionary readDictFromFile(String file) throws IOException {
         // 读取文件
-
-        BufferedReader bufferedReader = new BufferedReader(
-                new InputStreamReader(new FileInputStream(file)));
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
 
         // 创建StringBuffer
         StringBuffer stringBuffer = new StringBuffer();
@@ -43,6 +41,28 @@ public class GsonUtil {
         Gson gson = new Gson();
         MeasureDictionary md = gson.fromJson(presonsString, MeasureDictionary.class);
         return md;
+    }
+
+    /**
+     * 将字典对象写入json文件
+     * @param file
+     * @param dict
+     * @return
+     * @throws IOException
+     */
+    public static boolean writeDictToFile(String file, MeasureDictionary dict) throws IOException {
+        File outfile = new File(file);
+
+        if (!outfile.exists()) {
+            outfile.createNewFile();
+        }
+
+        Gson gson = new Gson();
+        String dictJson = gson.toJson(dict);
+        Writer writer = new FileWriter(outfile);
+        writer.write(dictJson);
+        writer.close();
+        return true;
     }
 }
 

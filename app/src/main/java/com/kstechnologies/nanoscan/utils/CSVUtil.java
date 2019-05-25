@@ -6,6 +6,7 @@ import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
 import org.apache.commons.csv.CSVRecord;
 
+import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -33,7 +34,7 @@ public class CSVUtil {
      *
      * @return 返回的测量点列表
      */
-    public static List<MeasurePoint> ReadMeasurePoints(String filename) throws IOException
+    public static List<MeasurePoint> readMeasurePoints(String filename) throws IOException
     {
         List<MeasurePoint> measurePoints = new ArrayList<>();
         Reader reader = new FileReader(filename);
@@ -64,10 +65,19 @@ public class CSVUtil {
      * @param filename
      * @return
      */
-    public static boolean WriteMeasurePoints(String filename, List<MeasurePoint> beans) throws IOException
+    public static boolean writeMeasurePoints(String filename, List<MeasurePoint> beans) throws IOException
     {
+        File file = new File(filename);
+        if (!file.exists()) {
+            try {
+                file.mkdirs();
+                file.createNewFile();
+            } catch (IOException e) {
+                //此处出现IOException
+            }
+        }
         CSVFormat format = CSVFormat.DEFAULT.withRecordSeparator(',').withHeader(CsvHeaders.class);
-        Writer writer = new FileWriter(filename);
+        Writer writer = new FileWriter(file);
         CSVPrinter csvPrinter = new CSVPrinter(writer, format);
         csvPrinter.printRecords(beans);
         writer.close();

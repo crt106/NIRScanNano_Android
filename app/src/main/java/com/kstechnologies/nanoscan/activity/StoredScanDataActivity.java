@@ -1,7 +1,6 @@
 package com.kstechnologies.nanoscan.activity;
 
 import android.app.ActionBar;
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -23,10 +22,10 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.baoyz.swipemenulistview.SwipeMenu;
-import com.baoyz.swipemenulistview.SwipeMenuCreator;
-import com.baoyz.swipemenulistview.SwipeMenuItem;
-import com.baoyz.swipemenulistview.SwipeMenuListView;
+import com.kstechnologies.nanoscan.widget.swipemenulistview.SwipeMenu;
+import com.kstechnologies.nanoscan.widget.swipemenulistview.SwipeMenuCreator;
+import com.kstechnologies.nanoscan.widget.swipemenulistview.SwipeMenuItem;
+import com.kstechnologies.nanoscan.widget.swipemenulistview.SwipeMenuListView;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -35,6 +34,7 @@ import java.util.Date;
 import java.util.Locale;
 
 import com.kstechnologies.nanoscan.R;
+import com.kstechnologies.nanoscan.fragment.ScanListFragment;
 import com.kstechnologies.nanoscan.service.NanoBLEService;
 import com.kstechnologies.nirscannanolibrary.KSTNanoSDK;
 
@@ -370,7 +370,7 @@ public class StoredScanDataActivity extends BaseActivity {
 
     /**
      * Broadcast Receiver handling the disconnect event. If the Nano disconnects,
-     * this activity should finish so that the user is taken back to the {@link ScanListActivity}.
+     * this activity should finish so that the user is taken back to the {@link ScanListFragment}.
      * A toast message should appear so that the user knows why the activity is finishing.
      */
     public class DisconnReceiver extends BroadcastReceiver {

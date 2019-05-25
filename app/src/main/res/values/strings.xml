@@ -53,8 +53,8 @@
     <string name="aspirin" translatable="false">aspirin</string>
     <string name="bc" translatable="false">bc</string>
     <string name="bellpepper" translatable="false">bellpepper</string>
-    <string name="coconutoil">coconutoil</string>
-    <string name="coffee">coffee</string>
+    <string name="coconutoil" translatable="false">coconutoil</string>
+    <string name="coffee" translatable="false">coffee</string>
     <string name="corn_starch" translatable="false">corn_starch</string>
     <string name="eucerin_lotion">eucerin_lotion</string>
     <string name="flour" translatable="false">flour</string>
@@ -62,7 +62,8 @@
     <string name="out_of_spec_aspirin">out_of_spec_aspirin</string>
 
     <string name="delete">Delete</string>
-    <string name="ok">OK</string>
+    <string name="ok" translatable="false">OK</string>
+    <string name="connected_title">Connected</string>
     <string name="not_connected_title">Not Connected</string>
     <string name="not_connected_message">Ensure Bluetooth is powered on your Android device and your Nano, then tap the Scan button on the main view.</string>
 
@@ -102,8 +103,8 @@
     <string name="totalMeasurementTime">Total Measurement Time (s)</string>
 
     <string name="manufacturer">Manufacturer</string>
-    <string name="range_start">Spectral Range Start</string>
-    <string name="range_end">Spectral Range End</string>
+    <string name="range_start" translatable="false">Spectral Range Start</string>
+    <string name="range_end" translatable="false">Spectral Range End</string>
     <string name="width">Width</string>
     <string name="number_patterns">Number of Patterns</string>
     <string name="number_repeats">Number of Repeats</string>
@@ -112,7 +113,7 @@
     <string name="scan">Scan</string>
     <string name="prefix">Filename Prefix</string>
     <string name="data">Data</string>
-    <string name="nano">Nano</string>
+    <string name="nano" translatable="false">Nano</string>
     <string name="save_to_sd">Save to SD Card?</string>
     <string name="save_to_android">Save to Android Device?</string>
     <string name="cont_scan">Continuous Scan?</string>
@@ -127,8 +128,8 @@
     <string name="spectrum_rev">Spectrum Rev</string>
 
     <string name="batt_level_value">%1$d%%</string>
-    <string name="temp_value_c">%1$s&#x2103;</string>
-    <string name="temp_value_f">%1$s&#x2109;</string>
+    <string name="temp_value_c" translatable="false">%1$s&#x2103;</string>
+    <string name="temp_value_f" translatable="false">%1$s&#x2109;</string>
     <string name="humid_value">%1$s%%RH</string>
 
     <string name="stored_configurations">Stored Configurations</string>
@@ -145,7 +146,7 @@
     <string name="file_not_found">Could not find the file!</string>
 
     <string name="emailing">"Emailing "</string>
-    <string name="send_mail">"Send mail…"</string>
+    <string name="send_mail" translatable="false">"Send mail…"</string>
     <string name="no_email_clients">There are no email clients installed.</string>
     <string name="update_thresholds">Update Thresholds</string>
     <string name="scanning">Scanning…</string>
@@ -159,8 +160,23 @@
     <string name="cancel">Cancel</string>
     <string name="no_sd_scans">No Stored Scans on SD Card!</string>
 
-    <string name="desc_icon">App icon</string>
-    <string name="desc_splash">TI, DLP, and KST logo</string>
-    <string name="desc_info">Info icon</string>
+    <string name="desc_icon" translatable="false">App icon</string>
+    <string name="desc_splash" translatable="false">TI, DLP, and KST logo</string>
+    <string name="desc_info" translatable="false">Info icon</string>
+
+    <string name="analyse_calcTime">处理耗时(ms)</string>
+    <string name="action_analyse">Analyse</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="connect_to_nano">Connect</string>
+    <string name="disconnect">disconnect</string>
+    <string name="temp_label_c" translatable="false">℃</string>
+    <string name="temp_label_f" translatable="false">℉</string>
+    <string name="title_about">about</string>
+    <string name="language">Choose Language</string>
+    <string name="file_save_error">Can\'t save scan data!</string>
+    <string name="toast_ensure_ble">Please ensure Bluetooth is enabled and try again</string>
+    <string name="data_savephone_succeed">Save to Android Device Successfully</string>
 
 </resources>

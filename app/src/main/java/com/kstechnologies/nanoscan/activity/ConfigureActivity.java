@@ -1,7 +1,6 @@
 package com.kstechnologies.nanoscan.activity;
 
 import android.app.ActionBar;
-import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -17,6 +16,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.kstechnologies.nanoscan.R;
+import com.kstechnologies.nanoscan.fragment.ScanListFragment;
 import com.kstechnologies.nirscannanolibrary.KSTNanoSDK;
 
 /**
@@ -126,7 +126,7 @@ public class ConfigureActivity extends BaseActivity {
 
     /**
      * Broadcast Receiver handling the disconnect event. If the Nano disconnects,
-     * this activity should finish so that the user is taken back to the {@link ScanListActivity}
+     * this activity should finish so that the user is taken back to the {@link ScanListFragment}
      */
     public class DisconnReceiver extends BroadcastReceiver {
 

@@ -1,7 +1,5 @@
 package com.kstechnologies.nanoscan.activity.graphactivity;
 
-import android.app.ActionBar;
-import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,17 +11,18 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.PagerAdapter;
-import androidx.viewpager.widget.ViewPager;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.Entry;
 import com.kstechnologies.nanoscan.R;
 import com.kstechnologies.nanoscan.activity.BaseActivity;
+import com.kstechnologies.nanoscan.activity.analyseactivity.AnalyseActivity;
 import com.kstechnologies.nanoscan.databinding.ActivityGraphBinding;
 import com.kstechnologies.nanoscan.databinding.RowGraphListItemBinding;
 import com.kstechnologies.nanoscan.model.DataFile;
@@ -32,6 +31,7 @@ import com.kstechnologies.nanoscan.model.MeasurePoint;
 import com.kstechnologies.nanoscan.utils.CSVUtil;
 import com.kstechnologies.nanoscan.utils.GsonUtil;
 import com.kstechnologies.nanoscan.utils.MPAndroidChartUtil;
+import com.kstechnologies.nanoscan.viewmodel.InfoListItem;
 import com.kstechnologies.nirscannanolibrary.SettingsManager;
 
 import java.io.FileNotFoundException;
@@ -66,7 +66,7 @@ public class GraphActivity extends BaseActivity {
     /**
      * 当前文件的信息字典
      */
-    ArrayList<GraphListItem> graphDict = new ArrayList<>();
+    ArrayList<InfoListItem> graphDict = new ArrayList<>();
 
     /**
      * 当前文件提取的波长-强度键值对
@@ -93,41 +93,13 @@ public class GraphActivity extends BaseActivity {
         dataFile = (DataFile) intent.getSerializableExtra("dataFile");
 
         //Set up action bar title, back button, and navigation tabs
-        ActionBar ab = getActionBar();
+        setSupportActionBar(binding.includeToolbar.toolbar);
+        ActionBar ab = getSupportActionBar();
         if (ab != null) {
             ab.setDisplayHomeAsUpEnabled(true);
             ab.setTitle(dataFile.getFileName());
-            ab.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-
-
-            binding.viewpager.setOffscreenPageLimit(2);
-
-            // Create a tab listener that is called when the user changes tabs.
-            ActionBar.TabListener tl = new ActionBar.TabListener() {
-                @Override
-                public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
-                    binding.viewpager.setCurrentItem(tab.getPosition());
-                }
-
-                @Override
-                public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
-
-                }
-
-                @Override
-                public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
-
-                }
-            };
-
-            // Add 3 tabs, specifying the tab's text and TabListener
-            for (int i = 0; i < 3; i++) {
-                ab.addTab(
-                        ab.newTab()
-                                .setText(getResources().getStringArray(R.array.graph_tab_index)[i])
-                                .setTabListener(tl));
-            }
         }
+        binding.viewpager.setOffscreenPageLimit(2);
     }
 
     @Override
@@ -138,28 +110,16 @@ public class GraphActivity extends BaseActivity {
         CustomPagerAdapter pagerAdapter = new CustomPagerAdapter(this);
         binding.viewpager.setAdapter(pagerAdapter);
         binding.viewpager.invalidate();
-
-        //Set page change listener for pager to show proper tab when selected
-        binding.viewpager.setOnPageChangeListener(
-                new ViewPager.SimpleOnPageChangeListener() {
-                    @Override
-                    public void onPageSelected(int position) {
-                        // When swiping between pages, select the
-                        // corresponding tab.
-                        ActionBar ab = getActionBar();
-                        if (ab != null) {
-                            ab.setSelectedNavigationItem(position);
-                        }
-                    }
-                });
+        //将Tablayout与viewPager绑定
+        binding.tbGraphCharts.setupWithViewPager(binding.viewpager);
 
 
         /**
          * 尝试打开csv文件和json文件 不得不说之前的这个打开方式和文件的存储方式以及处理方式是真的很蠢
          */
         try {
-            measurePoints = (ArrayList<MeasurePoint>) CSVUtil.ReadMeasurePoints(dataFile.getCsvPath());
-            MeasureDictionary jsonDict = GsonUtil.ReadDictFromFile(dataFile.getJsonPath());
+            measurePoints = (ArrayList<MeasurePoint>) CSVUtil.readMeasurePoints(dataFile.getCsvPath());
+            MeasureDictionary jsonDict = GsonUtil.readDictFromFile(dataFile.getJsonPath());
             graphDict = jsonDict.getDict(this);
         } catch (FileNotFoundException e) {
             //如果指定文件没有找到
@@ -230,65 +190,11 @@ public class GraphActivity extends BaseActivity {
             this.finish();
         }
 
-        if (id == R.id.action_email) {
-            //实在是用不到这个email功能嗷 不符合中国用户习惯
-//            if (findFile(fileName) != null) {
-//                Intent i = new Intent(Intent.ACTION_SEND);
-//                i.setType("message/rfc822");
-//                i.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.emailing) + fileName);
-//                i.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(findFile(fileName)));
-//                try {
-//                    startActivity(Intent.createChooser(i, getString(R.string.send_mail)));
-//                } catch (android.content.ActivityNotFoundException ex) {
-//                    Toast.makeText(GraphActivity.this, getString(R.string.no_email_clients), Toast.LENGTH_SHORT)
-//                    .show();
-//                }
-//            } else {
-//
-//                Intent i = new Intent(Intent.ACTION_SEND);
-//                i.setType("message/rfc822");
-//                //i.putExtra(Intent.EXTRA_EMAIL, new String[]{"recipient@example.com"});
-//                i.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.emailing) + fileName);
-//                //i.putExtra(Intent.EXTRA_TEXT, "body of email");
-//                InputStream inputStream = getResources().openRawResource(getResources().getIdentifier(fileName,
-//                "raw", getPackageName()));
-//                File file = new File(getExternalCacheDir(), "sample.csv");
-//                try {
-//
-//                    OutputStream output = new FileOutputStream(file);
-//                    try {
-//                        try {
-//                            // or other buffer size
-//                            byte[] buffer = new byte[4 * 1024];
-//                            int read;
-//
-//                            while ((read = inputStream.read(buffer)) != -1) {
-//                                output.write(buffer, 0, read);
-//                            }
-//                            output.flush();
-//                        } finally {
-//                            output.close();
-//                        }
-//                    } catch (Exception e) {
-//                        e.printStackTrace(); // handle exception, define IOException and others
-//                    }
-//                } catch (FileNotFoundException e) {
-//                    e.printStackTrace();
-//                } finally {
-//                    try {
-//                        inputStream.close();
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                    }
-//                }
-//                i.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(file));
-//                try {
-//                    startActivity(Intent.createChooser(i, getString(R.string.send_mail)));
-//                } catch (android.content.ActivityNotFoundException ex) {
-//                    Toast.makeText(GraphActivity.this, getString(R.string.no_email_clients), Toast.LENGTH_SHORT)
-//                    .show();
-//                }
-//            }
+        if (id == R.id.action_analyse) {
+            //跳转到AnalyseActivity
+            Intent intent = new Intent(this, AnalyseActivity.class);
+            intent.putExtra("dataFile", dataFile);
+            startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);
@@ -301,9 +207,9 @@ public class GraphActivity extends BaseActivity {
      */
     public class ScanListAdapter extends RecyclerView.Adapter<ScanListAdapter.ViewHolder> {
 
-        private List<GraphListItem> mList;
+        private List<InfoListItem> mList;
 
-        public ScanListAdapter(List<GraphListItem> mList) {
+        public ScanListAdapter(List<InfoListItem> mList) {
             this.mList = mList;
         }
 
@@ -317,7 +223,7 @@ public class GraphActivity extends BaseActivity {
 
         @Override
         public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-            GraphListItem item = mList.get(position);
+            InfoListItem item = mList.get(position);
             holder.binding.setItem(item);
         }
 
@@ -368,7 +274,7 @@ public class GraphActivity extends BaseActivity {
     }
 
     /**
-     * 当图标ViewPager滑动时的处理
+     * 当图表ViewPager滑动时的处理
      * Custom pager adapter to handle changing chart data when pager tabs are changed
      */
     public class CustomPagerAdapter extends PagerAdapter {

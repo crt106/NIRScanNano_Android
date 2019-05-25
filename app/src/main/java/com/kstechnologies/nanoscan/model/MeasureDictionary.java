@@ -4,7 +4,7 @@ import android.content.Context;
 
 import com.google.gson.annotations.SerializedName;
 import com.kstechnologies.nanoscan.R;
-import com.kstechnologies.nanoscan.activity.graphactivity.GraphListItem;
+import com.kstechnologies.nanoscan.viewmodel.InfoListItem;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -164,16 +164,16 @@ public class MeasureDictionary implements Serializable {
      *
      * @return
      */
-    public ArrayList<GraphListItem> getDict(Context context) {
-        ArrayList<GraphListItem> arrayList = new ArrayList<>();
-        arrayList.add(new GraphListItem(context.getString(R.string.scan_method), method));
-        arrayList.add(new GraphListItem(context.getString(R.string.timeStamp), timeStamp));
-        arrayList.add(new GraphListItem(context.getString(R.string.spectralRangeStart), spectralRangeStart));
-        arrayList.add(new GraphListItem(context.getString(R.string.spectralRangeEnd), spectralRangeEnd));
-        arrayList.add(new GraphListItem(context.getString(R.string.number_of_WavelengthPoints), numberofWavelengthPoints));
-        arrayList.add(new GraphListItem(context.getString(R.string.digitalResolution), digitalResolution));
-        arrayList.add(new GraphListItem(context.getString(R.string.number_of_ScanstoAverage), numberofScanstoAverage));
-        arrayList.add(new GraphListItem(context.getString(R.string.totalMeasurementTime), totalMeasurementTime));
+    public ArrayList<InfoListItem> getDict(Context context) {
+        ArrayList<InfoListItem> arrayList = new ArrayList<>();
+        arrayList.add(new InfoListItem(context.getString(R.string.scan_method), method));
+        arrayList.add(new InfoListItem(context.getString(R.string.timeStamp), timeStamp));
+        arrayList.add(new InfoListItem(context.getString(R.string.spectralRangeStart), spectralRangeStart));
+        arrayList.add(new InfoListItem(context.getString(R.string.spectralRangeEnd), spectralRangeEnd));
+        arrayList.add(new InfoListItem(context.getString(R.string.number_of_WavelengthPoints), numberofWavelengthPoints));
+        arrayList.add(new InfoListItem(context.getString(R.string.digitalResolution), digitalResolution));
+        arrayList.add(new InfoListItem(context.getString(R.string.number_of_ScanstoAverage), numberofScanstoAverage));
+        arrayList.add(new InfoListItem(context.getString(R.string.totalMeasurementTime), totalMeasurementTime));
         return arrayList;
     }
 

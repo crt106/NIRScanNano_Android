@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
+
     <data>
+
         <variable
             name="item"
-            type="com.kstechnologies.nanoscan.activity.graphactivity.GraphListItem" />
+            type="com.kstechnologies.nanoscan.viewmodel.InfoListItem" />
     </data>
+
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
@@ -17,8 +20,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:textStyle="bold"
             android:text="@{item.title}"
+            android:textColor="?android:attr/textColorPrimary"
+            android:textStyle="bold"
             tools:text="Method" />
 
         <TextView
@@ -28,6 +32,7 @@
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:text="@{item.content}"
+            android:textColor="?android:attr/textColorSecondary"
             tools:text="col8" />
 
     </RelativeLayout>

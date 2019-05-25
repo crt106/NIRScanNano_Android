@@ -1,7 +1,5 @@
 package com.kstechnologies.nanoscan.activity;
 
-import android.app.ActionBar;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -11,16 +9,19 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ListView;
 import android.widget.TextView;
 
+import androidx.appcompat.app.ActionBar;
+import androidx.databinding.DataBindingUtil;
+
 import com.kstechnologies.nanoscan.R;
+import com.kstechnologies.nanoscan.databinding.ActivityInfoBinding;
 
 import java.util.ArrayList;
 
 /**
+ * 展示应用信息Activity
  * This activity controls the information links. Each info item will have a title, message body,
  * and an associated URL. When an item is clicked, the web browser should open the URL
  *
@@ -28,20 +29,20 @@ import java.util.ArrayList;
  */
 public class InfoActivity extends BaseActivity {
 
-    private ListView infoList;
+    ActivityInfoBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_info);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_info);
 
-        //Set up action bar back arrow
-        ActionBar ab = getActionBar();
+        setSupportActionBar(binding.includeToolbar.toolbar);
+
+        ActionBar ab = getSupportActionBar();
         if (ab != null) {
             ab.setDisplayHomeAsUpEnabled(true);
         }
 
-        infoList = (ListView) findViewById(R.id.lv_info);
     }
 
     @Override
@@ -58,20 +59,17 @@ public class InfoActivity extends BaseActivity {
         }
 
         final InformationAdapter adapter = new InformationAdapter(this, R.layout.row_info_item, infoManagerArrayList);
-        infoList.setAdapter(adapter);
+        binding.lvInfo.setAdapter(adapter);
 
         //When an info item is clicked, launch the URL using rhe ACTION_VIEW intent
-        infoList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent webIntent = new Intent(Intent.ACTION_VIEW);
-                webIntent.setData(Uri.parse(adapter.getItem(i).getInfoURL()));
-                startActivity(webIntent);
-            }
+        binding.lvInfo.setOnItemClickListener((adapterView, view, i, l) -> {
+            Intent webIntent = new Intent(Intent.ACTION_VIEW);
+            webIntent.setData(Uri.parse(adapter.getItem(i).getInfoURL()));
+            startActivity(webIntent);
         });
     }
 
-    /*
+    /**
      * Inflate the options menu
      * In this case, inflate the menu resource
      */
@@ -82,7 +80,7 @@ public class InfoActivity extends BaseActivity {
         return true;
     }
 
-    /*
+    /**
      * Handle the selection of a menu item.
      * In this case, there is only the up indicator. If selected, this activity should finish.
      */
@@ -93,9 +91,7 @@ public class InfoActivity extends BaseActivity {
 
         if (id == android.R.id.home) {
             this.finish();
-        }
-
-        else if (id == R.id.action_settings) {
+        } else if (id == R.id.action_settings) {
             return true;
         }
 

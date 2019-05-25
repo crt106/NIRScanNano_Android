@@ -1,9 +1,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.kstechnologies.nanoscan.activity.graphactivity.GraphActivity">
-    <!-- <item android:id="@+id/action_settings" android:title="@string/action_settings"
-        android:orderInCategory="100" android:showAsAction="never" /> -->
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item android:id="@+id/action_email" android:title="@string/action_scan"
-        android:icon="@drawable/ic_mail" android:showAsAction="always" />
+    <item
+        android:id="@+id/action_analyse"
+        android:icon="@drawable/ic_timeline_24dp"
+        android:title="@string/action_analyse"
+        app:showAsAction="always"
+        android:showAsAction="always" />
 </menu>

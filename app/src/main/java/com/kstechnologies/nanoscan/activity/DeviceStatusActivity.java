@@ -1,7 +1,5 @@
 package com.kstechnologies.nanoscan.activity;
 
-import android.app.ActionBar;
-import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -16,13 +14,18 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.ActionBar;
+import androidx.databinding.DataBindingUtil;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.kstechnologies.nanoscan.R;
+import com.kstechnologies.nanoscan.databinding.ActivityDeviceStatusBinding;
+import com.kstechnologies.nanoscan.fragment.ScanListFragment;
 import com.kstechnologies.nirscannanolibrary.KSTNanoSDK;
 import com.kstechnologies.nirscannanolibrary.SettingsManager;
 
 /**
+ * *基本保留原功能*
  * This activity controls the view for the Nano device status
  * This includes information such as Nano temp/humidity, and battery percentage
  *
@@ -30,6 +33,7 @@ import com.kstechnologies.nirscannanolibrary.SettingsManager;
  */
 public class DeviceStatusActivity extends BaseActivity {
 
+    ActivityDeviceStatusBinding binding;
     private static Context mContext;
 
     private TextView tv_batt;
@@ -45,23 +49,24 @@ public class DeviceStatusActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_device_status);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_device_status);
 
         mContext = this;
 
+        setSupportActionBar(binding.includeToolbar.toolbar);
         //Set up the action bar title and enable the back arrow
-        ActionBar ab = getActionBar();
-        if(ab != null) {
+        ActionBar ab = getSupportActionBar();
+        if (ab != null) {
             ab.setDisplayHomeAsUpEnabled(true);
             ab.setTitle(getString(R.string.device_status));
         }
 
         //Get UI element references
-        tv_batt = (TextView)findViewById(R.id.tv_batt);
-        tv_temp = (TextView)findViewById(R.id.tv_temp);
-        tv_humid = (TextView)findViewById(R.id.tv_humid);
-        et_tempThresh = (EditText)findViewById(R.id.et_tempThresh);
-        et_humidThresh = (EditText)findViewById(R.id.et_humidThresh);
+        tv_batt = binding.tvBatt;
+        tv_temp = binding.tvTemp;
+        tv_humid = binding.tvHumid;
+        et_tempThresh = binding.etTempThresh;
+        et_humidThresh = binding.etHumidThresh;
         Button btn_update_thresholds = (Button) findViewById(R.id.btn_update_thresholds);
 
         //Set up threshold update button
@@ -92,9 +97,9 @@ public class DeviceStatusActivity extends BaseActivity {
         });
 
         //The the hint of the temp threshold based on preferred temperature units
-        if(!SettingsManager.getBooleanPref(this, SettingsManager.SharedPreferencesKeys.tempUnits,false)){
+        if (!SettingsManager.getBooleanPref(this, SettingsManager.SharedPreferencesKeys.tempUnits, false)) {
             et_tempThresh.setHint(R.string.deg_c);
-        }else{
+        } else {
             et_tempThresh.setHint(R.string.deg_f);
         }
 
@@ -111,47 +116,48 @@ public class DeviceStatusActivity extends BaseActivity {
                 int batt = intent.getIntExtra(KSTNanoSDK.EXTRA_BATT, 0);
                 float temp = intent.getFloatExtra(KSTNanoSDK.EXTRA_TEMP, 0);
                 tv_batt.setText(getString(R.string.batt_level_value, batt));
-                if(!SettingsManager.getBooleanPref(mContext, SettingsManager.SharedPreferencesKeys.tempUnits, false)){
+                if (!SettingsManager.getBooleanPref(mContext, SettingsManager.SharedPreferencesKeys.tempUnits, false)) {
                     tv_temp.setText(getString(R.string.temp_value_c, Float.toString(temp)));
-                }else{
-                    temp = (float)(temp * 1.8)+32;
+                } else {
+                    temp = (float) (temp * 1.8) + 32;
                     tv_temp.setText(getString(R.string.temp_value_f, Float.toString(temp)));
                 }
 
-                tv_humid.setText(getString(R.string.humid_value, intent.getFloatExtra(KSTNanoSDK.EXTRA_HUMID, 0)));
+                tv_humid.setText(getString(R.string.humid_value, intent.getFloatExtra(KSTNanoSDK.EXTRA_HUMID, 0f)));
 
-                ProgressBar pb = (ProgressBar)findViewById(R.id.pb_status);
+                ProgressBar pb = (ProgressBar) findViewById(R.id.pb_status);
                 pb.setVisibility(View.INVISIBLE);
             }
         };
 
         //Register receivers for disconnection events and device status information
-        LocalBroadcastManager.getInstance(mContext).registerReceiver(mStatusReceiver, new IntentFilter(KSTNanoSDK.ACTION_STATUS));
+        LocalBroadcastManager.getInstance(mContext).registerReceiver(mStatusReceiver,
+                new IntentFilter(KSTNanoSDK.ACTION_STATUS));
         LocalBroadcastManager.getInstance(mContext).registerReceiver(disconnReceiver, disconnFilter);
     }
 
-    /*
+    /**
      * On resume, make a call to the super class.
      * Nothing else is needed here besides calling
      * the super method.
      */
     @Override
-    public void onResume(){
+    public void onResume() {
         super.onResume();
     }
 
-    /*
+    /**
      * When the activity is destroyed, unregister the BroadcastReceivers
      * handling disconnection and status events
      */
     @Override
-    public void onDestroy(){
+    public void onDestroy() {
         super.onDestroy();
         LocalBroadcastManager.getInstance(mContext).unregisterReceiver(mStatusReceiver);
         LocalBroadcastManager.getInstance(mContext).unregisterReceiver(disconnReceiver);
     }
 
-    /*
+    /**
      * Inflate the options menu
      * In this case, there is no menu and only an up indicator,
      * so the function should always return true.
@@ -161,7 +167,7 @@ public class DeviceStatusActivity extends BaseActivity {
         return true;
     }
 
-    /*
+    /**
      * Handle the selection of a menu item.
      * In this case, there is only the up indicator. If selected, this activity should finish.
      */
@@ -170,7 +176,7 @@ public class DeviceStatusActivity extends BaseActivity {
 
         int id = item.getItemId();
 
-        if(id == android.R.id.home){
+        if (id == android.R.id.home) {
             this.finish();
         }
         return super.onOptionsItemSelected(item);
@@ -178,7 +184,7 @@ public class DeviceStatusActivity extends BaseActivity {
 
     /**
      * Broadcast Receiver handling the disconnect event. If the Nano disconnects,
-     * this activity should finish so that the user is taken back to the {@link ScanListActivity}
+     * this activity should finish so that the user is taken back to the {@link ScanListFragment}
      */
     public class DisconnReceiver extends BroadcastReceiver {
 

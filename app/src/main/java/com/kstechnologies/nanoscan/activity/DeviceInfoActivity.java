@@ -1,7 +1,5 @@
 package com.kstechnologies.nanoscan.activity;
 
-import android.app.ActionBar;
-import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -14,13 +12,19 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.ActionBar;
+import androidx.databinding.DataBindingUtil;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.kstechnologies.nanoscan.R;
+import com.kstechnologies.nanoscan.databinding.ActivityDeviceInfoBinding;
+import com.kstechnologies.nanoscan.databinding.ActivityDeviceStatusBinding;
+import com.kstechnologies.nanoscan.fragment.ScanListFragment;
 import com.kstechnologies.nanoscan.service.NanoBLEService;
 import com.kstechnologies.nirscannanolibrary.KSTNanoSDK;
 
 /**
+ * *基本保持原功能*
  * This activity controls the view for the device information after the Nano is connected
  * When the activity is created, it will send a broadcast to the {@link NanoBLEService} to start
  * retrieving device information
@@ -30,6 +34,7 @@ import com.kstechnologies.nirscannanolibrary.KSTNanoSDK;
 
 public class DeviceInfoActivity extends BaseActivity {
 
+    private ActivityDeviceInfoBinding binding;
     private static Context mContext;
 
     private TextView tv_manuf;
@@ -47,12 +52,14 @@ public class DeviceInfoActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_device_info);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_device_info);
 
         mContext = this;
 
+        setSupportActionBar(binding.includeToolbar.toolbar);
+
         //Set up the action bar title and enable the back indicator
-        ActionBar ab = getActionBar();
+        ActionBar ab = getSupportActionBar();
         if (ab != null) {
             ab.setDisplayHomeAsUpEnabled(true);
             ab.setTitle(getString(R.string.device_information));
@@ -90,11 +97,12 @@ public class DeviceInfoActivity extends BaseActivity {
         };
 
         //register the broadcast receivers
-        LocalBroadcastManager.getInstance(mContext).registerReceiver(mInfoReceiver, new IntentFilter(KSTNanoSDK.ACTION_INFO));
+        LocalBroadcastManager.getInstance(mContext).registerReceiver(mInfoReceiver,
+                new IntentFilter(KSTNanoSDK.ACTION_INFO));
         LocalBroadcastManager.getInstance(mContext).registerReceiver(disconnReceiver, disconnFilter);
     }
 
-    /*
+    /**
      * On resume, make a call to the superclass.
      * Nothing else is needed here besides calling
      * the super method.
@@ -104,7 +112,7 @@ public class DeviceInfoActivity extends BaseActivity {
         super.onResume();
     }
 
-    /*
+    /**
      * When the activity is destroyed, unregister the BroadcastReceiver
      * handling disconnection events, and the receiver handling the device information
      */
@@ -115,7 +123,7 @@ public class DeviceInfoActivity extends BaseActivity {
         LocalBroadcastManager.getInstance(mContext).unregisterReceiver(disconnReceiver);
     }
 
-    /*
+    /**
      * Inflate the options menu
      * In this case, there is no menu and only an up indicator,
      * so the function should always return true.
@@ -125,7 +133,7 @@ public class DeviceInfoActivity extends BaseActivity {
         return true;
     }
 
-    /*
+    /**
      * Handle the selection of a menu item.
      * In this case, there is only the up indicator. If selected, this activity should finish.
      */
@@ -141,7 +149,7 @@ public class DeviceInfoActivity extends BaseActivity {
 
     /**
      * Broadcast Receiver handling the disconnect event. If the Nano disconnects,
-     * this activity should finish so that the user is taken back to the {@link ScanListActivity}.
+     * this activity should finish so that the user is taken back to the {@link ScanListFragment}.
      * A toast message should appear so that the user knows why the activity is finishing.
      */
     public class DisconnReceiver extends BroadcastReceiver {

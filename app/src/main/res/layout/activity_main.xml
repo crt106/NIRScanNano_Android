@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
+        android:orientation="vertical"
+        tools:context="com.kstechnologies.nanoscan.activity.mainactivity.MainActivity">
+
+        <include
+            android:id="@+id/include_toolbar"
+            layout="@layout/toolbar" />
+
+        <com.kstechnologies.nanoscan.widget.NoScrollViewPager
+            android:id="@+id/viewpager_main"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tb_main"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:background="@drawable/backgroud_radis"
+            android:outlineProvider="bounds"
+            android:elevation="10dp">
+
+            <!--注意 下面三个只是好看的 具体设置要见代码
+            因为这里存在一个Tablayout和ViewPager的冲突问题-->
+
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:icon="@drawable/ic_home_24dp" />
+
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:icon="@drawable/ic_view_list_24dp" />
+
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:icon="@drawable/ic_settings_24dp" />
+        </com.google.android.material.tabs.TabLayout>
+    </LinearLayout>
+</layout>

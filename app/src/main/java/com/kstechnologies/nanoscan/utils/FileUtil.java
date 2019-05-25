@@ -5,6 +5,8 @@ import android.util.Log;
 
 import com.kstechnologies.nanoscan.CApplication;
 import com.kstechnologies.nanoscan.model.DataFile;
+import com.kstechnologies.nanoscan.model.MeasureDictionary;
+import com.kstechnologies.nanoscan.model.MeasurePoint;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -13,9 +15,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.logging.Logger;
 
 /**
  * 文件处理工具类
@@ -121,7 +121,6 @@ public class FileUtil {
 
     /**
      * 获取所有可用的扫描数据文件信息
-     *
      * @return
      */
     public static List<DataFile> getAvalibleData(){
@@ -145,6 +144,13 @@ public class FileUtil {
             }
         }
         return dataFiles;
+    }
+
+    /**
+     * 输出Data文件到外部存储
+     */
+    public static void WriteData(DataFile dataFile, List<MeasurePoint> measurePoints, MeasureDictionary measureDictionary){
+
     }
 
 }

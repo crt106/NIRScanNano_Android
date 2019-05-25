@@ -1,7 +1,6 @@
 package com.kstechnologies.nanoscan.activity;
 
 import android.app.ActionBar;
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -26,10 +25,13 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 import com.kstechnologies.nanoscan.R;
+import com.kstechnologies.nanoscan.fragment.ScanListFragment;
 import com.kstechnologies.nirscannanolibrary.KSTNanoSDK;
 import com.kstechnologies.nirscannanolibrary.SettingsManager;
 
 /**
+ * 选取扫描配置项的Activity 这些配置是读取后通过事件/广播传递过来的
+ * 暂时不做大改动
  * This activity controls the view for the Nano stored scan configurations.
  * These configurations have to be individually read from the Nano
  *
@@ -133,7 +135,7 @@ public class ScanConfActivity extends BaseActivity {
         LocalBroadcastManager.getInstance(mContext).registerReceiver(getActiveScanConfReceiver, new IntentFilter(KSTNanoSDK.SEND_ACTIVE_CONF));
     }
 
-    /*
+    /**
      * On resume, make a call to the super class.
      * Nothing else is needed here besides calling
      * the super method.
@@ -143,7 +145,7 @@ public class ScanConfActivity extends BaseActivity {
         super.onResume();
     }
 
-    /*
+    /**
      * When the activity is destroyed, unregister the BroadcastReceivers
      * handling receiving scan configurations, disconnect events, the # of configurations,
      * and the active configuration
@@ -157,7 +159,7 @@ public class ScanConfActivity extends BaseActivity {
         LocalBroadcastManager.getInstance(mContext).unregisterReceiver(getActiveScanConfReceiver);
     }
 
-    /*
+    /**
      * Inflate the options menu
      * In this case, there is no menu and only an up indicator,
      * so the function should always return true.
@@ -167,7 +169,7 @@ public class ScanConfActivity extends BaseActivity {
         return true;
     }
 
-    /*
+    /**
      * Handle the selection of a menu item.
      * In this case, there is only the up indicator. If selected, this activity should finish.
      */
@@ -181,7 +183,7 @@ public class ScanConfActivity extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    /*
+    /**
      * Broadcast receiver for scan configurations. When the expected number of configurations are
       * received, the dialog will be closed, and the list of configurations will be displayed.
      */
@@ -285,7 +287,7 @@ public class ScanConfActivity extends BaseActivity {
 
     /**
      * Broadcast Receiver handling the disconnect event. If the Nano disconnects,
-     * this activity should finish so that the user is taken back to the {@link ScanListActivity}
+     * this activity should finish so that the user is taken back to the {@link ScanListFragment}
      */
     public class DisconnReceiver extends BroadcastReceiver {
 

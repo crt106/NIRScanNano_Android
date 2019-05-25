@@ -1,0 +1,45 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingTop="@dimen/activity_vertical_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:paddingBottom="@dimen/activity_vertical_margin"
+            tools:context=".fragment.ScanListFragment">
+
+
+            <RelativeLayout
+                android:id="@+id/rl_mainLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:descendantFocusability="beforeDescendants"
+                android:focusableInTouchMode="true">
+
+                <EditText
+                    android:id="@+id/et_search"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dip48"
+                    android:layout_alignParentTop="true"
+                    android:drawableStart="@drawable/ic_search"
+                    android:hint="@string/search_hint"
+                    android:singleLine="true" />
+
+                <com.kstechnologies.nanoscan.widget.swipemenulistview.SwipeMenuListView
+                    android:id="@+id/lv_csv_files"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/et_search" />
+
+            </RelativeLayout>
+        </RelativeLayout>
+    </LinearLayout>
+</layout>
+

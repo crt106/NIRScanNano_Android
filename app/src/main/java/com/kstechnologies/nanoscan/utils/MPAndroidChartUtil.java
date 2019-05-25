@@ -15,6 +15,7 @@ import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 操作MPAndroid图标的工具类
@@ -41,7 +42,17 @@ public class MPAndroidChartUtil {
         /**
          * 强度
          */
-        INTENSITY
+        INTENSITY,
+
+        /**
+         * 吸收率一阶导数
+         */
+        ABSORBANCE_FIRST_DERIVATIVE,
+
+        /**
+         * 吸收率二阶导数
+         */
+        ABSORBANCE_SECOND_DERIVATIVE,
     }
 
     /**
@@ -50,7 +61,8 @@ public class MPAndroidChartUtil {
      * @param mChart
      * @return
      */
-    public static LineChart setLineChart(LineChart mChart, String dataLabel, ArrayList<Entry> yValues, ChartType chartType)
+    public static LineChart setLineChart(LineChart mChart, String dataLabel, List<Entry> yValues,
+                                         ChartType chartType)
     {
         mChart.setDrawGridBackground(false);
 
@@ -114,21 +126,25 @@ public class MPAndroidChartUtil {
      * @param yValues the Y-axis values to be plotted
      * @param type    the type of chart to be displayed {@link ChartType}
      */
-    private static void setData(LineChart mChart, String dataLabel, ArrayList<Entry> yValues, ChartType type) {
+    private static void setData(LineChart mChart, String dataLabel, List<Entry> yValues, ChartType type) {
 
         ArrayList<ILineDataSet> dataSets = new ArrayList<>();
         LineDataSet set1 = new LineDataSet(yValues, dataLabel);
+        set1.setMode(LineDataSet.Mode.LINEAR);
         set1.setLineWidth(1f);
-        set1.setCircleRadius(3f);
-        set1.setDrawCircleHole(true);
+//        set1.setCircleRadius(3f);
+//        set1.setDrawCircleHole(true);
+        set1.setDrawCircles(false);
+        set1.setCubicIntensity(0.2f);
         set1.setValueTextSize(9f);
         set1.setFillAlpha(65);
 
         // set the line to be drawn like this "- - - - - -"
-        set1.enableDashedLine(10f, 5f, 0f);
-        set1.enableDashedHighlightLine(10f, 5f, 0f);
+//        set1.enableDashedLine(10f, 5f, 0f);
+//        set1.enableDashedHighlightLine(10f, 5f, 0f);
         set1.setColor(Color.BLACK);
         set1.setDrawFilled(true);
+
         if (type == ChartType.REFLECTANCE) {
             set1.setCircleColor(Color.RED);
             set1.setFillColor(Color.RED);
@@ -140,7 +156,9 @@ public class MPAndroidChartUtil {
         } else if (type == ChartType.INTENSITY) {
             set1.setCircleColor(Color.BLUE);
             set1.setFillColor(Color.BLUE);
-
+        } else {
+            set1.setCircleColor(Color.BLACK);
+            set1.setFillColor(Color.BLACK);
         }
         // 添加LineDataSet到数据集
         dataSets.add(set1);

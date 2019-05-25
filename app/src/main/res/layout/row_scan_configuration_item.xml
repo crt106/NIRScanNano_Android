@@ -120,7 +120,6 @@
 
 
 
-
     <LinearLayout
         android:id="@+id/ll_repeats"
         android:layout_width="match_parent"
