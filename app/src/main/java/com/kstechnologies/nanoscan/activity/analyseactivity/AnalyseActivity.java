@@ -2,6 +2,7 @@ package com.kstechnologies.nanoscan.activity.analyseactivity;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -14,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.Entry;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.kstechnologies.nanoscan.R;
 import com.kstechnologies.nanoscan.activity.BaseActivity;
 import com.kstechnologies.nanoscan.databinding.ActivityAnalyseBinding;
@@ -33,6 +35,9 @@ import org.apache.commons.math3.fitting.WeightedObservedPoint;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 import static java.lang.Math.log;
 import static java.lang.Math.pow;
@@ -46,6 +51,7 @@ public class AnalyseActivity extends BaseActivity {
 
     private static final String TAG = "AnalyseActivity";
     private ActivityAnalyseBinding binding;
+    private Handler mhandler;
 
     /**
      * 计算Brix值的四个波长定值
@@ -64,6 +70,11 @@ public class AnalyseActivity extends BaseActivity {
      * 生成的预测点的个数
      */
     private static final int NUMBER_OF_PREDICT_POINTS = 100;
+
+    /**
+     * 最大处理时间 超过时间显示错误(ms)
+     */
+    private static final int TIME_OUT = 3000;
 
     /**
      * 本实例进行处理的DataFile
@@ -96,20 +107,29 @@ public class AnalyseActivity extends BaseActivity {
             showShortToast("获取处理数据失败");
             finish();
         }
+        mhandler = new Handler();
         setSupportActionBar(binding.includeToolbar.toolbar);
         getSupportActionBar().setTitle(dataFile.getFileName());
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
 
-        //执行计算任务
-        new CalculateDataTask().execute();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-
+        //执行计算任务
+        try {
+            new CalculateDataTask().execute().get(TIME_OUT, TimeUnit.MILLISECONDS);
+        } catch (ExecutionException e) {
+            Log.e(TAG, "onCreate: ", e);
+        } catch (InterruptedException e) {
+            Log.e(TAG, "onCreate: ", e);
+        } catch (TimeoutException e) {
+            Log.e(TAG, "onCreate: 分析超时", e);
+            showErrorDialog();
+        }
     }
 
     @Override
@@ -123,7 +143,7 @@ public class AnalyseActivity extends BaseActivity {
     /**
      * 异步任务 计算数据嗷
      */
-    private class CalculateDataTask extends AsyncTask<Void, Void, Void> {
+    private class CalculateDataTask extends AsyncTask<Void, Void, Boolean> {
 
         public CalculateDataTask() {
             super();
@@ -131,19 +151,21 @@ public class AnalyseActivity extends BaseActivity {
 
         @Override
         protected void onPreExecute() {
-            showLoadingView();
             super.onPreExecute();
+            showLoadingView();
         }
 
         @Override
-        protected Void doInBackground(Void... voids) {
-            dataCalc();
-            return null;
+        protected Boolean doInBackground(Void... voids) {
+            return dataCalc();
         }
 
         @Override
-        protected void onPostExecute(Void voids) {
-            super.onPostExecute(voids);
+        protected void onPostExecute(Boolean b) {
+            super.onPostExecute(b);
+            if (!b) {
+                showErrorDialog();
+            }
             initLineCharts();
             hideLoadingView();
         }
@@ -153,7 +175,7 @@ public class AnalyseActivity extends BaseActivity {
     /**
      * 计算页面使用数据
      */
-    private void dataCalc() {
+    private boolean dataCalc() {
         try {
             long startTime = System.currentTimeMillis();
             List<MeasurePoint> measurePoints = CSVUtil.readMeasurePoints(dataFile.getCsvPath());
@@ -176,7 +198,10 @@ public class AnalyseActivity extends BaseActivity {
             for (MeasurePoint m : measurePoints) {
                 wps.add(new WeightedObservedPoint(1, m.getWaveLength(), m.getAbsorbance()));
             }
-            double[] polynomialParas = MathUtil.polynomialFit(wps, 20);
+            double[] polynomialParas = MathUtil.polynomialFit(wps, 15);
+            if (polynomialParas.length == 1) {
+                return false;
+            }
             double[] polynomialParas_first = MathUtil.polynomialDerivate(polynomialParas, 1);
             double[] polynomialParas_second = MathUtil.polynomialDerivate(polynomialParas, 2);
 
@@ -219,8 +244,10 @@ public class AnalyseActivity extends BaseActivity {
             long endTime = System.currentTimeMillis();
             binding.setCalcTime(String.valueOf(endTime - startTime));
             infoListItems.add(new InfoListItem("Brix", String.valueOf(brix)));
+            return true;
         } catch (IOException e) {
             Log.e(TAG, "dataCalc:", e);
+            return false;
         }
     }
 
@@ -334,5 +361,22 @@ public class AnalyseActivity extends BaseActivity {
         }
     }
 
+    /**
+     * 当分析无法进行时，展示错误对话框
+     */
+    private void showErrorDialog() {
+        hideLoadingView();
+        new MaterialAlertDialogBuilder(this, R.style.CommonDialog)
+                .setTitle(getString(R.string.error_status))
+                .setCancelable(false)
+                .setMessage(getResources().getString(R.string.analyse_error_msg))
+                .setPositiveButton(getResources().getString(R.string.ok), (dialog, which) -> {
+                    dialog.dismiss();
+                    this.finish();
+                })
+                .setCancelable(false)
+                .create()
+                .show();
+    }
 
 }

@@ -1,5 +1,8 @@
 package com.kstechnologies.nanoscan.utils;
 
+import android.util.Log;
+
+import org.apache.commons.math3.exception.TooManyIterationsException;
 import org.apache.commons.math3.fitting.PolynomialCurveFitter;
 import org.apache.commons.math3.fitting.WeightedObservedPoint;
 
@@ -13,6 +16,8 @@ import java.util.List;
  */
 public class MathUtil {
 
+    private static final String TAG = "MathUtil";
+
     /**
      * 多项式拟合方式
      *
@@ -21,8 +26,13 @@ public class MathUtil {
      * @return 返回的多项式函数的系数[从0次到n次]
      */
     public static double[] polynomialFit(List<WeightedObservedPoint> points, int degree) {
-        final PolynomialCurveFitter fitter = PolynomialCurveFitter.create(degree);
-        return fitter.fit(points);
+        try {
+            PolynomialCurveFitter fitter = PolynomialCurveFitter.create(degree).withMaxIterations(50);
+            return fitter.fit(points);
+        } catch (TooManyIterationsException e) {
+            Log.e(TAG, "polynomialFit: 超出最大迭代次数", e);
+            return new double[1];
+        }
     }
 
     /**

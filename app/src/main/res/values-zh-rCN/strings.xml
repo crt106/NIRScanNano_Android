@@ -64,4 +64,5 @@
     <string name="title_activity_settings">设置</string>
     <string name="toast_ensure_ble">请确认蓝牙已经启用了然后重试</string>
     <string name="data_savephone_succeed">扫描数据成功保存到本地</string>
+    <string name="analyse_error_msg">该组数据可能不适合进行生化组分分析！</string>
 </resources>
