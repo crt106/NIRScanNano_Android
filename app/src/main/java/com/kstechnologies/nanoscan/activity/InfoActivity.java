@@ -21,11 +21,11 @@ import com.kstechnologies.nanoscan.databinding.ActivityInfoBinding;
 import java.util.ArrayList;
 
 /**
- * 展示应用信息Activity
+ * 展示应用信息Activity 基本不改动
  * This activity controls the information links. Each info item will have a title, message body,
  * and an associated URL. When an item is clicked, the web browser should open the URL
  *
- * @author collinmast
+ * @author collinmast,crt106
  */
 public class InfoActivity extends BaseActivity {
 

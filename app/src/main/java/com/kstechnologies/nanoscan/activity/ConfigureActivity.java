@@ -1,86 +1,75 @@
 package com.kstechnologies.nanoscan.activity;
 
-import android.app.ActionBar;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
-
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
 
-import android.widget.ListView;
+import androidx.appcompat.app.ActionBar;
+import androidx.databinding.DataBindingUtil;
 
 import com.kstechnologies.nanoscan.R;
-import com.kstechnologies.nanoscan.fragment.ScanListFragment;
-import com.kstechnologies.nirscannanolibrary.KSTNanoSDK;
+import com.kstechnologies.nanoscan.databinding.ActivityConfigureBinding;
+import com.kstechnologies.nanoscan.event.ActionGattDisconnectedEvent;
+
+import org.greenrobot.eventbus.EventBus;
 
 /**
+ * 当设备连接完毕时的管理界面 不做大的修改
  * This activity controls the view for settings once the Nano is connected
  * Four options are presented, each one launching a new activity.
  * Since each option requires the Nano to be connected to perform GATT operations,
  *
- * @author collinmast
+ * @author collinmast,crt106
  */
 public class ConfigureActivity extends BaseActivity {
 
     private static Context mContext;
-
-    private final BroadcastReceiver disconnReceiver = new DisconnReceiver();
-    private final IntentFilter disconnFilter = new IntentFilter(KSTNanoSDK.ACTION_GATT_DISCONNECTED);
+    ActivityConfigureBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_configure);
+        binding= DataBindingUtil.setContentView(this, R.layout.activity_configure);
+        EventBus.getDefault().register(this);
+        setSupportActionBar(binding.includeToolbar.toolbar);
 
         mContext = this;
 
         //Set the action bar title and enable the back button
-        ActionBar ab = getActionBar();
+        ActionBar ab = getSupportActionBar();
         if (ab != null) {
             ab.setDisplayHomeAsUpEnabled(true);
             ab.setTitle(getString(R.string.configure));
         }
 
-        //Get reference to listview and add the click listener
-        ListView lv_configure = (ListView) findViewById(R.id.lv_configure);
-        lv_configure.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
-                switch (i) {
-                    case 0:
-                        Intent infoIntent = new Intent(mContext, DeviceInfoActivity.class);
-                        startActivity(infoIntent);
-                        break;
-                    case 1:
-                        Intent statusIntent = new Intent(mContext, DeviceStatusActivity.class);
-                        startActivity(statusIntent);
-                        break;
-                    case 2:
-                        Intent confIntent = new Intent(mContext, ScanConfActivity.class);
-                        startActivity(confIntent);
-                        break;
-                    case 3:
-                        Intent scanDataIntent = new Intent(mContext, StoredScanDataActivity.class);
-                        startActivity(scanDataIntent);
-                        break;
-                    default:
-                        break;
-                }
+        binding.lvConfigure.setOnItemClickListener((adapterView, view, i, l) ->
+        {
+            switch (i) {
+                case 0:
+                    Intent infoIntent = new Intent(mContext, DeviceInfoActivity.class);
+                    startActivity(infoIntent);
+                    break;
+                case 1:
+                    Intent statusIntent = new Intent(mContext, DeviceStatusActivity.class);
+                    startActivity(statusIntent);
+                    break;
+                case 2:
+                    Intent confIntent = new Intent(mContext, ScanConfActivity.class);
+                    startActivity(confIntent);
+                    break;
+                case 3:
+                    Intent scanDataIntent = new Intent(mContext, StoredScanDataActivity.class);
+                    startActivity(scanDataIntent);
+                    break;
+                default:
+                    break;
             }
         });
-
-        //Register the disconnect broadcast receiver
-        LocalBroadcastManager.getInstance(mContext).registerReceiver(disconnReceiver, disconnFilter);
     }
 
-    /*
+    /**
      * On resume, make a call to the super class.
      * Nothing else is needed here besides calling
      * the super method.
@@ -90,17 +79,17 @@ public class ConfigureActivity extends BaseActivity {
         super.onResume();
     }
 
-    /*
+    /**
      * When the activity is destroyed, unregister the BroadcastReceiver
      * handling disconnection events.
      */
     @Override
     public void onDestroy() {
         super.onDestroy();
-        LocalBroadcastManager.getInstance(mContext).unregisterReceiver(disconnReceiver);
+        EventBus.getDefault().unregister(this);
     }
 
-    /*
+    /**
      * Inflate the options menu
      * In this case, there is no menu and only an up indicator,
      * so the function should always return true.
@@ -110,7 +99,7 @@ public class ConfigureActivity extends BaseActivity {
         return true;
     }
 
-    /*
+    /**
      * Handle the selection of a menu item.
      * In this case, there is only the up indicator. If selected, this activity should finish.
      */
@@ -125,14 +114,10 @@ public class ConfigureActivity extends BaseActivity {
     }
 
     /**
-     * Broadcast Receiver handling the disconnect event. If the Nano disconnects,
-     * this activity should finish so that the user is taken back to the {@link ScanListFragment}
+     * EventBus 接收断开连接信息
+     * @param event
      */
-    public class DisconnReceiver extends BroadcastReceiver {
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            finish();
-        }
+    public void onEventReceive(ActionGattDisconnectedEvent event){
+        finish();
     }
 }
