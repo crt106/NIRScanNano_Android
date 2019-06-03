@@ -35,7 +35,7 @@ public class SettingFragment extends BaseFragment {
 
     private MainActivity activityConnect;
     private FragmentSettingBinding binding;
-    private SettingFragViewModel viewModel=new SettingFragViewModel();
+    private SettingFragViewModel viewModel = new SettingFragViewModel();
 
 
     public SettingFragment() {
@@ -116,6 +116,19 @@ public class SettingFragment extends BaseFragment {
         EventBus.getDefault().unregister(this);
         super.onDestroy();
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        viewModel.connected.set(CApplication.connected);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        viewModel.connected.set(CApplication.connected);
+    }
+
 
     //region EventBus控制
 

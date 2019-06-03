@@ -1,0 +1,10 @@
+{
+	"Method": "Column 1",
+	"Timestamp": "13/5/19 @ 23:38:21",
+	"Spectral Range Start (nm)": "900.9161",
+	"Spectral Range End (nm)": "1701.0306",
+	"Number of Wavelength Points": "228",
+	"Digital Resolution": "228",
+	"Number of Scans to Average": "6",
+	"Total Measurement Time (s)": "2.00"
+}
