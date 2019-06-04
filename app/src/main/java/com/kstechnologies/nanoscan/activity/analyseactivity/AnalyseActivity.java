@@ -1,9 +1,11 @@
 package com.kstechnologies.nanoscan.activity.analyseactivity;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.widget.SeekBar;
@@ -103,6 +105,19 @@ public class AnalyseActivity extends BaseActivity {
      */
     private ArrayList<InfoListItem> infoListItems = new ArrayList<>();
 
+    /**
+     * 最后一次运算得到的拟合多项式的系数
+     */
+    private double[] lastPolynomialParas = new double[1];
+    /**
+     * 最后一次运算得到的拟合多项式的一阶导数系数
+     */
+    private double[] lastpolynomialParasFirst = new double[1];
+    /**
+     * 最后一次运算得到的拟合多项式的二阶导数系数
+     */
+    private double[] lastpolynomialParasSceond = new double[1];
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -150,10 +165,20 @@ public class AnalyseActivity extends BaseActivity {
         }
     }
 
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_analyse, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
             finish();
+        }
+        if (item.getItemId() == R.id.action_share) {
+            shareResult();
         }
         return super.onOptionsItemSelected(item);
     }
@@ -170,7 +195,6 @@ public class AnalyseActivity extends BaseActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-//            showLoadingView();
         }
 
         @Override
@@ -225,8 +249,11 @@ public class AnalyseActivity extends BaseActivity {
             if (polynomialParas.length == 1) {
                 return false;
             }
+            lastPolynomialParas = polynomialParas;
             double[] polynomialParas_first = MathUtil.polynomialDerivate(polynomialParas, 1);
             double[] polynomialParas_second = MathUtil.polynomialDerivate(polynomialParas, 2);
+            lastpolynomialParasFirst = polynomialParas_first;
+            lastpolynomialParasSceond = polynomialParas_second;
 
             //求拟合后的波长预测值
             List<Double> predicYValues = MathUtil.polynomialPredict(polynomialParas, predicXValues);
@@ -417,6 +444,59 @@ public class AnalyseActivity extends BaseActivity {
             }
         }
     };
+
+    /**
+     * 分享分析结果 构成字符串内容直接发送
+     */
+    private void shareResult() {
+        StringBuilder resultBuilder = null;
+        try {
+            resultBuilder = new StringBuilder();
+            Object[] Paras = new Object[]{lastPolynomialParas, lastpolynomialParasFirst, lastpolynomialParasSceond};
+            for (int j = 0; j < Paras.length; j++) {
+                double[] thisa = (double[]) Paras[j];
+                switch (j) {
+                    case 0: {
+                        resultBuilder.append(String.format("吸收率拟合曲线(level:%s)系数\n", viewModel.level.get()));
+                        break;
+                    }
+                    case 1: {
+                        resultBuilder.append("吸收率一阶导数系数\n");
+                        break;
+                    }
+                    case 2: {
+                        resultBuilder.append("吸收率二阶导数系数\n");
+                        break;
+                    }
+                    default:
+                }
+                for (int i = 0; i < thisa.length; i++) {
+                    if (i == 0) {
+                        resultBuilder.append("[" + thisa[i] + ",\n");
+                    } else if (i == thisa.length - 1) {
+                        resultBuilder.append(thisa[i] + "]\n");
+                    } else {
+                        resultBuilder.append(thisa[i] + ",\n");
+                    }
+                }
+                resultBuilder.append("\n");
+            }
+            resultBuilder.append("\n");
+            for (InfoListItem i : infoListItems) {
+                resultBuilder.append(i.getTitle() + ": " + i.getContent());
+                resultBuilder.append("\n");
+            }
+        } catch (Exception e) {
+            Log.e(TAG, "shareResult: ", e);
+            showShortToast("分享时遇到错误，请检查数据");
+        }
+
+        Intent sendIntent = new Intent();
+        sendIntent.setAction(Intent.ACTION_SEND);
+        sendIntent.putExtra(Intent.EXTRA_TEXT, resultBuilder.toString());
+        sendIntent.setType("text/plain");
+        startActivity(Intent.createChooser(sendIntent, "选择发送对象"));
+    }
 
     /**
      * 当分析无法进行时，展示错误对话框
