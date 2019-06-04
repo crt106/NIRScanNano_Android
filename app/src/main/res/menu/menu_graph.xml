@@ -3,8 +3,14 @@
 
     <item
         android:id="@+id/action_analyse"
-        android:icon="@drawable/ic_timeline_24dp"
+        android:icon="@drawable/ic_whatshot"
+        android:showAsAction="always"
         android:title="@string/action_analyse"
-        app:showAsAction="always"
-        android:showAsAction="always" />
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/action_share"
+        android:icon="@drawable/ic_share_24dp"
+        android:showAsAction="always"
+        android:title="@string/share_data"
+        app:showAsAction="always" />
 </menu>

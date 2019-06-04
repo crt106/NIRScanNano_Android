@@ -2,6 +2,8 @@ package com.kstechnologies.nanoscan.activity.graphactivity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -12,6 +14,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
+import androidx.core.content.FileProvider;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -23,6 +26,7 @@ import com.github.mikephil.charting.data.Entry;
 import com.kstechnologies.nanoscan.R;
 import com.kstechnologies.nanoscan.activity.BaseActivity;
 import com.kstechnologies.nanoscan.activity.analyseactivity.AnalyseActivity;
+import com.kstechnologies.nanoscan.constant.Constant;
 import com.kstechnologies.nanoscan.databinding.ActivityGraphBinding;
 import com.kstechnologies.nanoscan.databinding.RowGraphListItemBinding;
 import com.kstechnologies.nanoscan.model.DataFile;
@@ -34,6 +38,7 @@ import com.kstechnologies.nanoscan.utils.MPAndroidChartUtil;
 import com.kstechnologies.nanoscan.viewmodel.InfoListItem;
 import com.kstechnologies.nirscannanolibrary.SettingsManager;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -136,9 +141,9 @@ public class GraphActivity extends BaseActivity {
         //生成绘图数据
         for (MeasurePoint m : measurePoints) {
             try {
-                mIntensityFloat.add(new Entry(m.getWaveLength(), m.getIntensity()));
-                mAbsorbanceFloat.add(new Entry(m.getWaveLength(), m.getAbsorbance()));
-                mReflectanceFloat.add(new Entry(m.getWaveLength(), m.getReflectance()));
+                mIntensityFloat.add(new Entry(m.getWavelength(), m.getIntensity()));
+                mAbsorbanceFloat.add(new Entry(m.getWavelength(), m.getAbsorbance()));
+                mReflectanceFloat.add(new Entry(m.getWavelength(), m.getReflectance()));
             } catch (NumberFormatException e) {
                 Toast.makeText(GraphActivity.this, "Error parsing float value", Toast.LENGTH_SHORT).show();
                 finish();
@@ -195,6 +200,10 @@ public class GraphActivity extends BaseActivity {
             Intent intent = new Intent(this, AnalyseActivity.class);
             intent.putExtra("dataFile", dataFile);
             startActivity(intent);
+        }
+
+        if (id == R.id.action_share) {
+            shareDataFile();
         }
 
         return super.onOptionsItemSelected(item);
@@ -356,6 +365,38 @@ public class GraphActivity extends BaseActivity {
             return String.format("%.02f", floatFreq);
         } else {
             return String.format("%.02f", (10000000 / floatFreq));
+        }
+    }
+
+    /**
+     * 分享数据文件到其他地方
+     */
+    public void shareDataFile() {
+
+        File csvFile = new File(dataFile.getCsvPath());
+        if (!csvFile.exists()) {
+            showShortToast("分享文件时遇到错误,请检查");
+            return;
+        }
+        Uri fileuri = Uri.EMPTY;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            fileuri = FileProvider.getUriForFile(this, Constant.PROVIDER_NAME, csvFile);
+        } else {
+            fileuri = Uri.fromFile(csvFile);
+        }
+        Intent sendIntent = new Intent();
+        sendIntent.setAction(Intent.ACTION_SEND);
+        sendIntent.putExtra(Intent.EXTRA_STREAM, fileuri);
+        sendIntent.setType("application/octet-stream");
+        sendIntent.setDataAndType(fileuri, "application/octet-stream");
+        sendIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        sendIntent.addCategory("android.intent.category.DEFAULT");
+        sendIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION
+                | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+        try {
+            startActivity(Intent.createChooser(sendIntent, "选择分享对象"));
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }

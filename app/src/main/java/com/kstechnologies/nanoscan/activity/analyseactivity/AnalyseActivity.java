@@ -2,11 +2,11 @@ package com.kstechnologies.nanoscan.activity.analyseactivity;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.ViewGroup;
+import android.widget.SeekBar;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
@@ -50,8 +50,10 @@ import static java.lang.Math.pow;
 public class AnalyseActivity extends BaseActivity {
 
     private static final String TAG = "AnalyseActivity";
+
     private ActivityAnalyseBinding binding;
-    private Handler mhandler;
+
+    private AnalyseActivityViewModel viewModel;
 
     /**
      * 计算Brix值的四个波长定值
@@ -65,6 +67,13 @@ public class AnalyseActivity extends BaseActivity {
      * 计算的Brix值
      */
     private double brix = 0;
+
+    /**
+     * 默认的曲线阶数
+     * TODO 实现默认值的存储
+     */
+    private static final int DEFAULT_CURVE_LEVEL = 15;
+    private int curveLevel = DEFAULT_CURVE_LEVEL;
 
     /**
      * 生成的预测点的个数
@@ -107,12 +116,21 @@ public class AnalyseActivity extends BaseActivity {
             showShortToast("获取处理数据失败");
             finish();
         }
-        mhandler = new Handler();
+
+        //初始化ViewModel
+        viewModel = new AnalyseActivityViewModel();
+
+        viewModel.calcTime.set(String.valueOf(0));
+        viewModel.level.set(String.valueOf(curveLevel));
+        binding.setVm(viewModel);
+
+        binding.sbCurveLevel.setOnSeekBarChangeListener(seekBarChangeListener);
+        binding.sbCurveLevel.setProgress(curveLevel);
+
         setSupportActionBar(binding.includeToolbar.toolbar);
         getSupportActionBar().setTitle(dataFile.getFileName());
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
-
 
     }
 
@@ -152,7 +170,7 @@ public class AnalyseActivity extends BaseActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            showLoadingView();
+//            showLoadingView();
         }
 
         @Override
@@ -183,6 +201,11 @@ public class AnalyseActivity extends BaseActivity {
             double maxWaveLength = Double.parseDouble(measureDictionary.getSpectralRangeEnd());
             double minWaveLength = Double.parseDouble(measureDictionary.getSpectralRangeStart());
 
+            lineChartsPara.clear();
+            Absorbance.clear();
+            Absorbance_first.clear();
+            Absorbance_second.clear();
+
             //构建预测值列表
             ArrayList<Double> predicXValues = new ArrayList<>();
             double step = (maxWaveLength - minWaveLength) / NUMBER_OF_PREDICT_POINTS;
@@ -196,9 +219,9 @@ public class AnalyseActivity extends BaseActivity {
 
             List<WeightedObservedPoint> wps = new ArrayList<>();
             for (MeasurePoint m : measurePoints) {
-                wps.add(new WeightedObservedPoint(1, m.getWaveLength(), m.getAbsorbance()));
+                wps.add(new WeightedObservedPoint(1, m.getWavelength(), m.getAbsorbance()));
             }
-            double[] polynomialParas = MathUtil.polynomialFit(wps, 15);
+            double[] polynomialParas = MathUtil.polynomialFit(wps, curveLevel);
             if (polynomialParas.length == 1) {
                 return false;
             }
@@ -242,8 +265,9 @@ public class AnalyseActivity extends BaseActivity {
             }
             brix = MathUtil.getBrix(p1, p2, p3, p4);
             long endTime = System.currentTimeMillis();
-            binding.setCalcTime(String.valueOf(endTime - startTime));
-            infoListItems.add(new InfoListItem("Brix", String.valueOf(brix)));
+            viewModel.calcTime.set(String.valueOf(endTime - startTime));
+            infoListItems.add(new InfoListItem(String.format("Brix(level:%s)", viewModel.level.get()),
+                    String.valueOf(brix)));
             return true;
         } catch (IOException e) {
             Log.e(TAG, "dataCalc:", e);
@@ -255,7 +279,8 @@ public class AnalyseActivity extends BaseActivity {
      * 初始化图表们 这里创建图表信息就行了嗷 因为实际的图表处理是在Adapter中完成的
      */
     private void initLineCharts() {
-        LineChartPara AbsorbanceChart = new LineChartPara("吸收率拟合曲线", Absorbance,
+        LineChartPara AbsorbanceChart = new LineChartPara(String.format("吸收率拟合曲线(level:%s)", viewModel.level.get()),
+                Absorbance,
                 MPAndroidChartUtil.ChartType.ABSORBANCE);
         LineChartPara AbsorbanceChart_first = new LineChartPara("吸收率一阶导数", Absorbance_first,
                 MPAndroidChartUtil.ChartType.ABSORBANCE_FIRST_DERIVATIVE);
@@ -360,6 +385,38 @@ public class AnalyseActivity extends BaseActivity {
             }
         }
     }
+
+    /**
+     * 本页面SeekBar改变值事件
+     */
+    SeekBar.OnSeekBarChangeListener seekBarChangeListener = new SeekBar.OnSeekBarChangeListener() {
+        @Override
+        public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+            Log.d(TAG, "onProgressChanged: seekBar值变化");
+            viewModel.level.set(String.valueOf(progress));
+        }
+
+        @Override
+        public void onStartTrackingTouch(SeekBar seekBar) {
+            Log.d(TAG, "onStartTrackingTouch: 开始滑动");
+        }
+
+        @Override
+        public void onStopTrackingTouch(SeekBar seekBar) {
+            Log.d(TAG, "onStopTrackingTouch: 结束滑动");
+            try {
+                curveLevel = Integer.parseInt(viewModel.level.get());
+                new CalculateDataTask().execute().get(TIME_OUT, TimeUnit.MILLISECONDS);
+            } catch (ExecutionException e) {
+                Log.e(TAG, "onCreate: ", e);
+            } catch (InterruptedException e) {
+                Log.e(TAG, "onCreate: ", e);
+            } catch (TimeoutException e) {
+                Log.e(TAG, "onCreate: 分析超时", e);
+                showErrorDialog();
+            }
+        }
+    };
 
     /**
      * 当分析无法进行时，展示错误对话框

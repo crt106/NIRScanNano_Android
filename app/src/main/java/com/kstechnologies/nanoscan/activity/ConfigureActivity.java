@@ -14,6 +14,8 @@ import com.kstechnologies.nanoscan.databinding.ActivityConfigureBinding;
 import com.kstechnologies.nanoscan.event.ActionGattDisconnectedEvent;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 /**
  * 当设备连接完毕时的管理界面 不做大的修改
@@ -117,6 +119,7 @@ public class ConfigureActivity extends BaseActivity {
      * EventBus 接收断开连接信息
      * @param event
      */
+    @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEventReceive(ActionGattDisconnectedEvent event){
         finish();
     }

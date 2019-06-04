@@ -179,5 +179,7 @@
     <string name="toast_ensure_ble">Please ensure Bluetooth is enabled and try again</string>
     <string name="data_savephone_succeed">Save to Android Device Successfully</string>
     <string name="analyse_error_msg">Can\'t Analyse this data file...</string>
+    <string name="share_data">Share Data</string>
+    <string name="order_of_curve">Order of fitting curve</string>
 
 </resources>

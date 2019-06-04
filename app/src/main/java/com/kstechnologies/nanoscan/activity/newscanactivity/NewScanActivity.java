@@ -31,8 +31,7 @@ import com.kstechnologies.nanoscan.model.DataFile;
 import com.kstechnologies.nanoscan.model.MeasureDictionary;
 import com.kstechnologies.nanoscan.model.MeasurePoint;
 import com.kstechnologies.nanoscan.service.NanoBLEService;
-import com.kstechnologies.nanoscan.utils.CSVUtil;
-import com.kstechnologies.nanoscan.utils.GsonUtil;
+import com.kstechnologies.nanoscan.utils.FileUtil;
 import com.kstechnologies.nanoscan.utils.MPAndroidChartUtil;
 import com.kstechnologies.nirscannanolibrary.KSTNanoSDK;
 import com.kstechnologies.nirscannanolibrary.SettingsManager;
@@ -66,7 +65,7 @@ import static com.kstechnologies.nanoscan.CApplication.connected;
  * is important that the name and file structure of this activity remain unchanged, or the functions
  * will NOT work
  *
- * @author collinmast,crt106
+ * @author collinmast, crt106
  */
 public class NewScanActivity extends BaseActivity {
 
@@ -140,17 +139,16 @@ public class NewScanActivity extends BaseActivity {
             }
         });
 
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-
         measurePoints = new ArrayList<>();
         mIntensityFloat = new ArrayList<>();
         mAbsorbanceFloat = new ArrayList<>();
         mReflectanceFloat = new ArrayList<>();
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
         //Initialize view pager
         CustomPagerAdapter pagerAdapter = new CustomPagerAdapter(this);
         binding.viewpager.setAdapter(pagerAdapter);
@@ -344,6 +342,7 @@ public class NewScanActivity extends BaseActivity {
 
     }
 
+     //region EventBus事件处理
 
     /**
      * 接收到事件传递的扫描数据的处理方法
@@ -393,9 +392,9 @@ public class NewScanActivity extends BaseActivity {
 
             MeasurePoint m = new MeasurePoint(waveLength, intensity, absorbance, reflectance);
             measurePoints.add(m);
-            mIntensityFloat.add(new Entry(m.getWaveLength(), m.getIntensity()));
-            mAbsorbanceFloat.add(new Entry(m.getWaveLength(), m.getAbsorbance()));
-            mReflectanceFloat.add(new Entry(m.getWaveLength(), m.getReflectance()));
+            mIntensityFloat.add(new Entry(m.getWavelength(), m.getIntensity()));
+            mAbsorbanceFloat.add(new Entry(m.getWavelength(), m.getAbsorbance()));
+            mReflectanceFloat.add(new Entry(m.getWavelength(), m.getReflectance()));
         }
 
         //计算最大最小波长 便于构建字典
@@ -403,11 +402,11 @@ public class NewScanActivity extends BaseActivity {
         float maxWavelength = 0f;
 
         for (MeasurePoint m : measurePoints) {
-            if (m.getWaveLength() < minWavelength) {
-                minWavelength = m.getWaveLength();
+            if (m.getWavelength() < minWavelength) {
+                minWavelength = m.getWavelength();
             }
-            if (m.getWaveLength() > maxWavelength) {
-                maxWavelength = m.getWaveLength();
+            if (m.getWavelength() > maxWavelength) {
+                maxWavelength = m.getWavelength();
             }
         }
         binding.viewpager.setAdapter(binding.viewpager.getAdapter());
@@ -420,7 +419,7 @@ public class NewScanActivity extends BaseActivity {
         }
 
         String fileName;
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("ddMMyyhhmmss", Locale.getDefault());
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd_hhmmss", Locale.getDefault());
         String ts = simpleDateFormat.format(new Date());
         if (viewModel.fileNamePrefix.get() == null || viewModel.fileNamePrefix.get().equals("")) {
             fileName = "Nano" + ts;
@@ -447,10 +446,11 @@ public class NewScanActivity extends BaseActivity {
             measureDictionary.setSpectralRangeStart(String.valueOf(minWavelength));
             measureDictionary.setSpectralRangeEnd(String.valueOf(maxWavelength));
             measureDictionary.setNumberofWavelengthPoints(String.valueOf(measurePoints.size()));
+            measureDictionary.setNumberofScanstoAverage("1");
             measureDictionary.setDigitalResolution(String.valueOf(measurePoints.size()));
 
             /**
-             * 我无力吐槽了 这个总测量时间竟然是直接写上去的
+             * 我无力吐槽了 这个总测量时间和平均测量时间竟然是直接写上去的
              * 原代码:
              * writeCSVDict(ts, scanType, scanDate, String.valueOf(minWavelength), String.valueOf(maxWavelength),
              *                     String.valueOf(results.getLength()), String.valueOf(results.getLength()), "1",
@@ -458,8 +458,7 @@ public class NewScanActivity extends BaseActivity {
              */
             measureDictionary.setTotalMeasurementTime("2.00");
             try {
-                CSVUtil.writeMeasurePoints(dataFile.getCsvPath(), measurePoints);
-                GsonUtil.writeDictToFile(dataFile.getJsonPath(), measureDictionary);
+                FileUtil.writeData(dataFile, measurePoints, measureDictionary);
                 showShortToast(getString(R.string.data_savephone_succeed));
             } catch (IOException e) {
                 Log.e(TAG, "onReceive: ", e);
@@ -476,7 +475,7 @@ public class NewScanActivity extends BaseActivity {
         }
     }
 
-    //region EventBus事件处理
+
 
     /**
      * 接收到扫描已经开始后的处理方法

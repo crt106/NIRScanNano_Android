@@ -1,6 +1,7 @@
 package com.kstechnologies.nanoscan.activity.mainactivity;
 
 
+import android.Manifest;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothManager;
@@ -18,6 +19,7 @@ import android.util.Log;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 
+import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -47,6 +49,9 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 
+import permissions.dispatcher.NeedsPermission;
+import permissions.dispatcher.RuntimePermissions;
+
 import static com.kstechnologies.nanoscan.constant.Constant.DEVICE_NAME;
 
 /**
@@ -54,6 +59,7 @@ import static com.kstechnologies.nanoscan.constant.Constant.DEVICE_NAME;
  *
  * @author crt106 on 2019/5/15
  */
+@RuntimePermissions
 public class MainActivity extends BaseActivity {
 
     ActivityMainBinding binding;
@@ -126,6 +132,15 @@ public class MainActivity extends BaseActivity {
     }
 
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults)
+    {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        MainActivityPermissionsDispatcher.onRequestPermissionsResult(this, requestCode, grantResults);
+    }
+
+
     /**
      * 主页面ViewPagerAdapter
      */
@@ -174,9 +189,19 @@ public class MainActivity extends BaseActivity {
     };
 
     /**
-     * 触发开始扫描设备
+     * 虚假的开始扫描233 为了间接调用PermissionsDispatcher的方法
      */
     public void startScan() {
+        MainActivityPermissionsDispatcher.dostartScanWithPermissionCheck(this);
+
+    }
+
+    /**
+     * 真正的 触发开始扫描设备
+     */
+    @NeedsPermission({Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION,
+                      Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE})
+    public void dostartScan() {
 
         showLoadingView();
         //初始化相关蓝牙组件
@@ -334,7 +359,6 @@ public class MainActivity extends BaseActivity {
     //region 动态权限处理
 
 
-
     //endregion
 
     //region EventBus事件处理
@@ -380,6 +404,7 @@ public class MainActivity extends BaseActivity {
     /**
      * 接收所有Characteristic监听通知设置完毕时的事件处理
      * 触发此事件代表所有的连接和准备都完成了
+     *
      * @param event
      */
     @Subscribe(threadMode = ThreadMode.MAIN)
