@@ -342,6 +342,13 @@ public class MainActivity extends BaseActivity {
     }
 
     /**
+     * 主动与Nano断开连接
+     */
+    public void disconnect() {
+        mNanoBLEService.disconnect();
+    }
+
+    /**
      * Dialog that tells the user that a Nano is not connected. The activity will finish when the
      * user selects ok
      * 展示未连接对话框

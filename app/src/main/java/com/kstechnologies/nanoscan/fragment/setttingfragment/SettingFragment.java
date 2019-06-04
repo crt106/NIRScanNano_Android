@@ -65,6 +65,8 @@ public class SettingFragment extends BaseFragment {
     private View.OnClickListener btnConnectClick = (v) -> {
         if (!viewModel.getConnected().get()) {
             activityConnect.startScan();
+        } else {
+            activityConnect.disconnect();
         }
     };
 

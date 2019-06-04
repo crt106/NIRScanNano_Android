@@ -91,7 +91,7 @@ public class CApplication extends Application {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onReceiveGattDisConnected(ActionGattDisconnectedEvent event) {
-        connected = true;
+        connected = false;
         Toast.makeText(this, "Test:状态变为未连接", Toast.LENGTH_SHORT).show();
     }
 

@@ -11,7 +11,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 
@@ -20,20 +19,18 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
-import androidx.fragment.app.Fragment;
 
-import com.kstechnologies.nanoscan.widget.swipemenulistview.SwipeMenu;
-import com.kstechnologies.nanoscan.widget.swipemenulistview.SwipeMenuCreator;
-import com.kstechnologies.nanoscan.widget.swipemenulistview.SwipeMenuItem;
-import com.kstechnologies.nanoscan.widget.swipemenulistview.SwipeMenuListView;
 import com.kstechnologies.nanoscan.R;
 import com.kstechnologies.nanoscan.activity.InfoActivity;
-import com.kstechnologies.nanoscan.activity.newscanactivity.NewScanActivity;
 import com.kstechnologies.nanoscan.activity.SettingsActivity;
 import com.kstechnologies.nanoscan.activity.graphactivity.GraphActivity;
+import com.kstechnologies.nanoscan.activity.newscanactivity.NewScanActivity;
 import com.kstechnologies.nanoscan.databinding.FragmentScanListBinding;
 import com.kstechnologies.nanoscan.model.DataFile;
 import com.kstechnologies.nanoscan.utils.FileUtil;
+import com.kstechnologies.nanoscan.widget.swipemenulistview.SwipeMenuCreator;
+import com.kstechnologies.nanoscan.widget.swipemenulistview.SwipeMenuItem;
+import com.kstechnologies.nanoscan.widget.swipemenulistview.SwipeMenuListView;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -127,33 +124,26 @@ public class ScanListFragment extends BaseFragment {
          * set the on menu item click for the SwipeMenuListView.
          * In this case, delete the selected file
          */
-        lv_csv_files.setOnMenuItemClickListener(new SwipeMenuListView.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(final int position, SwipeMenu menu, int index) {
+        lv_csv_files.setOnMenuItemClickListener((position, menu, index) -> {
 
-                switch (index) {
-                    case 0:
-                        //删除按钮点击时
-                        removeFile(dataFiles.get(position));
-                        mAdapter.remove(dataFiles.get(position).getFileName());
-                        lv_csv_files.setAdapter(mAdapter);
-                        break;
-                    default:
-                }
-                return false;
+            switch (index) {
+                case 0:
+                    //删除按钮点击时
+                    removeFile(dataFiles.get(position));
+                    mAdapter.remove(dataFiles.get(position).getFileName());
+                    lv_csv_files.setAdapter(mAdapter);
+                    populateListView();
+                    break;
+                default:
             }
+            return false;
         });
 
         /**
          * Add item click listener to file listview. This will close an item if it's
          * swipe menu is open
          */
-        lv_csv_files.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                lv_csv_files.smoothOpenMenu(position);
-            }
-        });
+        lv_csv_files.setOnItemClickListener((parent, view, position, id) -> lv_csv_files.smoothOpenMenu(position));
 
         mAdapter.notifyDataSetChanged();
 
@@ -161,13 +151,10 @@ public class ScanListFragment extends BaseFragment {
          * Add item click listener to file listview. Clicking an item will start the graph
          * activity for that file
          */
-        lv_csv_files.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent graphIntent = new Intent(getContext(), GraphActivity.class);
-                graphIntent.putExtra("dataFile", dataFiles.get(i));
-                startActivity(graphIntent);
-            }
+        lv_csv_files.setOnItemClickListener((adapterView, view, i, l) -> {
+            Intent graphIntent = new Intent(getContext(), GraphActivity.class);
+            graphIntent.putExtra("dataFile", dataFiles.get(i));
+            startActivity(graphIntent);
         });
 
         //Get UI reference to Edit text bar for searching through scan names
@@ -248,25 +235,22 @@ public class ScanListFragment extends BaseFragment {
     }
 
     private SwipeMenuCreator createMenu() {
-        return new SwipeMenuCreator() {
-            @Override
-            public void create(SwipeMenu menu) {
+        return menu -> {
 
-                SwipeMenuItem settingsItem = new SwipeMenuItem(
-                        ActivityConnect.getApplicationContext());
-                // set item background
-                settingsItem.setBackground(R.color.kst_red);
-                // set item width
-                settingsItem.setWidth(dp2px(90));
-                // set a icon
+            SwipeMenuItem settingsItem = new SwipeMenuItem(
+                    ActivityConnect.getApplicationContext());
+            // set item background
+            settingsItem.setBackground(R.color.kst_red);
+            // set item width
+            settingsItem.setWidth(dp2px(90));
+            // set a icon
 
-                settingsItem.setTitleColor(ContextCompat.getColor(ActivityConnect.getBaseContext(), R.color.white));
-                settingsItem.setTitleSize(18);
-                settingsItem.setTitle(getResources().getString(R.string.delete));
+            settingsItem.setTitleColor(ContextCompat.getColor(ActivityConnect.getBaseContext(), R.color.white));
+            settingsItem.setTitleSize(18);
+            settingsItem.setTitle(getResources().getString(R.string.delete));
 
-                // add to menu
-                menu.addMenuItem(settingsItem);
-            }
+            // add to menu
+            menu.addMenuItem(settingsItem);
         };
     }
 
