@@ -16,7 +16,7 @@ public class MeasurePoint implements Serializable {
     /**
      * 波长
      */
-    private float waveLength;
+    private float wavelength;
 
     /**
      * 强度
@@ -40,26 +40,26 @@ public class MeasurePoint implements Serializable {
     /**
      * 全参数构造方法
      *
-     * @param waveLength
+     * @param wavelength
      * @param intensity
      * @param absorbance
      * @param reflectance
      */
-    public MeasurePoint(float waveLength, float intensity, float absorbance, float reflectance)
+    public MeasurePoint(float wavelength, float intensity, float absorbance, float reflectance)
     {
-        this.waveLength = waveLength;
+        this.wavelength = wavelength;
         this.intensity = intensity;
         this.absorbance = absorbance;
         this.reflectance = reflectance;
     }
 
 
-    public float getWaveLength() {
-        return waveLength;
+    public float getWavelength() {
+        return wavelength;
     }
 
-    public void setWaveLength(float waveLength) {
-        this.waveLength = waveLength;
+    public void setWavelength(float wavelength) {
+        this.wavelength = wavelength;
     }
 
     public float getIntensity() {
@@ -89,10 +89,24 @@ public class MeasurePoint implements Serializable {
     @Override
     public String toString() {
         return "MeasurePoint{" +
-                "waveLength=" + waveLength +
+                "wavelength=" + wavelength +
                 ", intensity=" + intensity +
                 ", absorbance=" + absorbance +
                 ", reflectance=" + reflectance +
                 '}';
+    }
+
+    /**
+     * 转换为CSV输出形式的数组 这个方法有点笨的
+     *
+     * @return
+     */
+    public String[] toCSV() {
+        String[] out = new String[4];
+        out[0] = String.valueOf(getWavelength());
+        out[1] = String.valueOf(getIntensity());
+        out[2] = String.valueOf(getAbsorbance());
+        out[3] = String.valueOf(getReflectance());
+        return out;
     }
 }

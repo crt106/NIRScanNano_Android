@@ -1,6 +1,7 @@
 package com.kstechnologies.nanoscan.utils;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.kstechnologies.nanoscan.model.MeasureDictionary;
 
 import java.io.BufferedReader;
@@ -45,6 +46,7 @@ public class GsonUtil {
 
     /**
      * 将字典对象写入json文件
+     *
      * @param file
      * @param dict
      * @return
@@ -52,12 +54,12 @@ public class GsonUtil {
      */
     public static boolean writeDictToFile(String file, MeasureDictionary dict) throws IOException {
         File outfile = new File(file);
-
         if (!outfile.exists()) {
             outfile.createNewFile();
         }
-
-        Gson gson = new Gson();
+        Gson gson = new GsonBuilder()
+                .setPrettyPrinting()
+                .create();
         String dictJson = gson.toJson(dict);
         Writer writer = new FileWriter(outfile);
         writer.write(dictJson);

@@ -23,7 +23,7 @@ import java.util.List;
 public class CSVUtil {
 
     public enum CsvHeaders {
-        WaveLength,
+        Wavelength,
         Intensity,
         Absorbance,
         Reflectance
@@ -70,16 +70,19 @@ public class CSVUtil {
         File file = new File(filename);
         if (!file.exists()) {
             try {
-                file.mkdirs();
                 file.createNewFile();
             } catch (IOException e) {
                 //此处出现IOException
             }
         }
-        CSVFormat format = CSVFormat.DEFAULT.withRecordSeparator(',').withHeader(CsvHeaders.class);
+        CSVFormat format = CSVFormat.DEFAULT.withRecordSeparator(',').withHeader(CsvHeaders.class).withRecordSeparator("\r\n");
         Writer writer = new FileWriter(file);
         CSVPrinter csvPrinter = new CSVPrinter(writer, format);
-        csvPrinter.printRecords(beans);
+        ArrayList<String[]> records = new ArrayList<>();
+        for (MeasurePoint m : beans) {
+            records.add(m.toCSV());
+        }
+        csvPrinter.printRecords(records);
         writer.close();
         return true;
     }

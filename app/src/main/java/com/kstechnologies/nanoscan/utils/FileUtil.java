@@ -121,9 +121,10 @@ public class FileUtil {
 
     /**
      * 获取所有可用的扫描数据文件信息
+     *
      * @return
      */
-    public static List<DataFile> getAvalibleData(){
+    public static List<DataFile> getAvalibleData() {
 
         List<DataFile> dataFiles = new ArrayList<>();
         //获取所有的数据文件夹
@@ -133,13 +134,13 @@ public class FileUtil {
                 File[] data = dir.listFiles();
                 //判断数据是否符合格式要求
                 boolean ok = data.length == 2 && data[0].isFile() && data[1].isFile();
-                if (ok){
-                    String dirName=dir.getName();
-                    DataFile d=new DataFile(dirName,dir.getAbsolutePath());
+                if (ok) {
+                    String dirName = dir.getName();
+                    DataFile d = new DataFile(dirName, dir.getAbsolutePath());
                     dataFiles.add(d);
                 }
             } catch (Exception e) {
-                Log.w(TAG, "读取目录时出现异常"+e.toString());
+                Log.w(TAG, "读取目录时出现异常" + e.toString());
                 continue;
             }
         }
@@ -149,8 +150,15 @@ public class FileUtil {
     /**
      * 输出Data文件到外部存储
      */
-    public static void WriteData(DataFile dataFile, List<MeasurePoint> measurePoints, MeasureDictionary measureDictionary){
+    public static void writeData(DataFile dataFile, List<MeasurePoint> measurePoints,
+                                 MeasureDictionary measureDictionary) throws IOException
+    {
 
+        File dir = new File(dataFile.getFilePath());
+        if (!dir.exists()) {
+            dir.mkdirs();
+        }
+        CSVUtil.writeMeasurePoints(dataFile.getCsvPath(), measurePoints);
+        GsonUtil.writeDictToFile(dataFile.getJsonPath(), measureDictionary);
     }
-
 }

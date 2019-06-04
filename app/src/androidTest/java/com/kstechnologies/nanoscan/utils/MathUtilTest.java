@@ -26,7 +26,7 @@ public class MathUtilTest {
             //构建所需的数据类型
             List<WeightedObservedPoint> weightedObservedPoints = new ArrayList<>();
             for (MeasurePoint mp : measurePoints) {
-                WeightedObservedPoint wp = new WeightedObservedPoint(1, (double) mp.getWaveLength(),
+                WeightedObservedPoint wp = new WeightedObservedPoint(1, (double) mp.getWavelength(),
                         (double) mp.getAbsorbance());
                 weightedObservedPoints.add(wp);
             }

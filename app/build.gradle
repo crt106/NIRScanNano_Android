@@ -53,7 +53,8 @@ dependencies {
     //GSON
     implementation 'com.google.code.gson:gson:2.8.5'
     //PermissionsDispatcher
-    implementation "com.github.hotchemi:permissionsdispatcher:3.3.2"
+    implementation "org.permissionsdispatcher:permissionsdispatcher:4.3.1"
+    annotationProcessor "org.permissionsdispatcher:permissionsdispatcher-processor:4.3.1"
     //commons csv
     implementation "org.apache.commons:commons-csv:1.6"
     //commons math
