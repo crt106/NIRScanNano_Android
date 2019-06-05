@@ -209,7 +209,7 @@ public class AnalyseActivity extends BaseActivity {
                 showErrorDialog();
             }
             initLineCharts();
-            hideLoadingView();
+
         }
     }
 
@@ -502,7 +502,6 @@ public class AnalyseActivity extends BaseActivity {
      * 当分析无法进行时，展示错误对话框
      */
     private void showErrorDialog() {
-        hideLoadingView();
         new MaterialAlertDialogBuilder(this, R.style.CommonDialog)
                 .setTitle(getString(R.string.error_status))
                 .setCancelable(false)

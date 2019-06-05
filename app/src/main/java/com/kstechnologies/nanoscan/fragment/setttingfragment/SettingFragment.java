@@ -19,6 +19,7 @@ import com.kstechnologies.nanoscan.activity.mainactivity.MainActivity;
 import com.kstechnologies.nanoscan.databinding.FragmentSettingBinding;
 import com.kstechnologies.nanoscan.event.ActionGattDisconnectedEvent;
 import com.kstechnologies.nanoscan.event.ActionNotifyDoneEvent;
+import com.kstechnologies.nanoscan.event.ActionTryConnectFailedEvent;
 import com.kstechnologies.nanoscan.fragment.BaseFragment;
 
 import org.greenrobot.eventbus.EventBus;
@@ -64,6 +65,7 @@ public class SettingFragment extends BaseFragment {
      */
     private View.OnClickListener btnConnectClick = (v) -> {
         if (!viewModel.getConnected().get()) {
+            binding.loading.show();
             activityConnect.startScan();
         } else {
             activityConnect.disconnect();
@@ -143,6 +145,7 @@ public class SettingFragment extends BaseFragment {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onReceiveEvent(ActionNotifyDoneEvent event) {
         viewModel.connected.set(CApplication.connected);
+        binding.loading.hide();
         Snackbar.make(binding.getRoot(), "Nano设备已准备就绪", Snackbar.LENGTH_SHORT).show();
     }
 
@@ -154,7 +157,18 @@ public class SettingFragment extends BaseFragment {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onReceiveEvent(ActionGattDisconnectedEvent event) {
         viewModel.connected.set(CApplication.connected);
+        binding.loading.hide();
         Snackbar.make(binding.getRoot(), "Nano已断开连接", Snackbar.LENGTH_SHORT).show();
+    }
+
+    /**
+     * 接收尝试连接失败事件
+     * @param event
+     */
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onReceiveEvent(ActionTryConnectFailedEvent event) {
+        viewModel.connected.set(CApplication.connected);
+        binding.loading.hide();
     }
     //endregion
 

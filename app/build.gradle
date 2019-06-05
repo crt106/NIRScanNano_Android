@@ -59,8 +59,8 @@ dependencies {
     implementation "org.apache.commons:commons-csv:1.6"
     //commons math
     implementation "org.apache.commons:commons-math3:3.6.1"
-    //一个gif过场对话框
-    api 'com.roger.gifloadinglibrary:gifloadinglibrary:1.0.0'
+    //绘制GIf
+    implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.16'
     //EventBus 8多bb
     implementation 'org.greenrobot:eventbus:3.1.1'
     //最最弟弟的NIRSDK

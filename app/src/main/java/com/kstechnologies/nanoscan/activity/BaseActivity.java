@@ -7,9 +7,6 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.kstechnologies.nanoscan.R;
-import com.roger.gifloadinglibrary.GifLoadingView;
-
 /**
  * Activity基类
  *
@@ -17,11 +14,9 @@ import com.roger.gifloadinglibrary.GifLoadingView;
  */
 public class BaseActivity extends AppCompatActivity {
     private static final String TAG = "BaseActivity";
-    GifLoadingView gifLoadingView = new GifLoadingView();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        gifLoadingView.setImageResource(R.drawable.loading);
         super.onCreate(savedInstanceState);
     }
 
@@ -48,20 +43,4 @@ public class BaseActivity extends AppCompatActivity {
         Toast.makeText(this, text, Toast.LENGTH_LONG).show();
     }
 
-
-    protected void showLoadingView() {
-        try {
-            gifLoadingView.show(getFragmentManager(), "");
-        } catch (Exception e) {
-            Log.e(TAG, "showLoadingView: ", e);
-        }
-    }
-
-    protected void hideLoadingView() {
-        try {
-            gifLoadingView.dismiss();
-        } catch (Exception e) {
-            Log.e(TAG, "hideLoadingView: ", e);
-        }
-    }
 }

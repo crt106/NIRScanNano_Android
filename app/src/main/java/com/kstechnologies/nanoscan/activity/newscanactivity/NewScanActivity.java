@@ -351,7 +351,6 @@ public class NewScanActivity extends BaseActivity {
      */
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onReceiveEvent(ScanDataEvent event) {
-        hideLoadingView();
         viewModel.scanBtnText.set(getString(R.string.scan));
 
         byte[] scanData = event.getScanData();
@@ -469,7 +468,6 @@ public class NewScanActivity extends BaseActivity {
         //如果要连续扫描
         boolean continuous = viewModel.continueScan.get();
         if (continuous) {
-            showLoadingView();
             viewModel.scanBtnText.set(getString(R.string.scanning));
             LocalBroadcastManager.getInstance(mContext).sendBroadcast(new Intent(KSTNanoSDK.SEND_DATA));
         }
@@ -484,7 +482,6 @@ public class NewScanActivity extends BaseActivity {
      */
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onReceiveEvent(ActionScanStartedEvent event) {
-        hideLoadingView();
         viewModel.scanBtnText.set(getString(R.string.scanning));
     }
 

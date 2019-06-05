@@ -34,6 +34,7 @@ import com.kstechnologies.nanoscan.activity.BaseActivity;
 import com.kstechnologies.nanoscan.databinding.ActivityMainBinding;
 import com.kstechnologies.nanoscan.databinding.MainTabItemBinding;
 import com.kstechnologies.nanoscan.event.ActionNotifyDoneEvent;
+import com.kstechnologies.nanoscan.event.ActionTryConnectFailedEvent;
 import com.kstechnologies.nanoscan.event.RefConfDataEvent;
 import com.kstechnologies.nanoscan.event.ScanConfDataEvent;
 import com.kstechnologies.nanoscan.fragment.HomeFragment;
@@ -193,7 +194,6 @@ public class MainActivity extends BaseActivity {
      */
     public void startScan() {
         MainActivityPermissionsDispatcher.dostartScanWithPermissionCheck(this);
-
     }
 
     /**
@@ -203,7 +203,6 @@ public class MainActivity extends BaseActivity {
                       Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE})
     public void dostartScan() {
 
-        showLoadingView();
         //初始化相关蓝牙组件
         final BluetoothManager bluetoothManager = (BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE);
         mBluetoothAdapter = bluetoothManager.getAdapter();
@@ -211,6 +210,7 @@ public class MainActivity extends BaseActivity {
 
         if (mBluetoothLeScanner == null) {
             showShortToast(getString(R.string.toast_ensure_ble));
+            EventBus.getDefault().post(new ActionTryConnectFailedEvent());
             return;
         }
         mHandler = new Handler();
@@ -301,6 +301,7 @@ public class MainActivity extends BaseActivity {
                     mBluetoothLeScanner.stopScan(mLeScanCallback);
                     if (!CApplication.connected) {
                         notConnectedDialog();
+                        EventBus.getDefault().post(new ActionTryConnectFailedEvent());
                     }
                 }
             }, NanoBLEService.SCAN_PERIOD);
@@ -354,7 +355,7 @@ public class MainActivity extends BaseActivity {
      * 展示未连接对话框
      */
     private void notConnectedDialog() {
-        hideLoadingView();
+
         new MaterialAlertDialogBuilder(this, R.style.CommonDialog)
                 .setTitle(getResources().getString(R.string.not_connected_title))
                 .setCancelable(false)
@@ -416,7 +417,6 @@ public class MainActivity extends BaseActivity {
      */
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onReceiveEvent(ActionNotifyDoneEvent event) {
-        hideLoadingView();
         LocalBroadcastManager.getInstance(getBaseContext()).sendBroadcast(new Intent(KSTNanoSDK.SET_TIME));
     }
 
