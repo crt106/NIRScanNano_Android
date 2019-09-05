@@ -41,9 +41,6 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
-import static java.lang.Math.log;
-import static java.lang.Math.pow;
-
 /**
  * 进行初步数据分析和图像绘制的Activity
  *
@@ -60,10 +57,11 @@ public class AnalyseActivity extends BaseActivity {
     /**
      * 计算Brix值的四个波长定值
      */
-    private static final double BRIX_P1 = 910d;
-    private static final double BRIX_P2 = 884d;
-    private static final double BRIX_P3 = 843d;
-    private static final double BRIX_P4 = 991d;
+    private static final double BRIX_P1 = 900.9161;
+    private static final double BRIX_P2 = 904.8474;
+    private static final double BRIX_P3 = 996.6378;
+    private static final double BRIX_P4 = 1062.341;
+    private static final double BRIX_P5 = 1100.897;
 
     /**
      * 计算的Brix值
@@ -74,7 +72,7 @@ public class AnalyseActivity extends BaseActivity {
      * 默认的曲线阶数
      * TODO 实现默认值的存储
      */
-    private static final int DEFAULT_CURVE_LEVEL = 15;
+    private static final int DEFAULT_CURVE_LEVEL = 1;
     private int curveLevel = DEFAULT_CURVE_LEVEL;
 
     /**
@@ -85,7 +83,7 @@ public class AnalyseActivity extends BaseActivity {
     /**
      * 最大处理时间 超过时间显示错误(ms)
      */
-    private static final int TIME_OUT = 3000;
+    private static final int TIME_OUT = 5000;
 
     /**
      * 本实例进行处理的DataFile
@@ -209,7 +207,6 @@ public class AnalyseActivity extends BaseActivity {
                 showErrorDialog();
             }
             initLineCharts();
-
         }
     }
 
@@ -240,10 +237,39 @@ public class AnalyseActivity extends BaseActivity {
             predicXValues.add(BRIX_P2);
             predicXValues.add(BRIX_P3);
             predicXValues.add(BRIX_P4);
+            predicXValues.add(BRIX_P5);
 
             List<WeightedObservedPoint> wps = new ArrayList<>();
+            double p1 = 0, p2 = 0, p3 = 0, p4 = 0, p5 = 0;
             for (MeasurePoint m : measurePoints) {
-                wps.add(new WeightedObservedPoint(1, m.getWavelength(), m.getAbsorbance()));
+                wps.add(new WeightedObservedPoint(1, m.getWavelength(), m.getIntensity()));
+                double x = m.getWavelength();
+
+                //TODO 优化这坨shi
+                if (Math.abs(x - BRIX_P1) < 0.01 ||
+                        Math.abs(x - BRIX_P2) < 0.01 ||
+                        Math.abs(x - BRIX_P3) < 0.01 ||
+                        Math.abs(x - BRIX_P4) < 0.01 ||
+                        Math.abs(x - BRIX_P5) < 0.01)
+                {
+//                    double p = -1 / log(10) * (y_second * y - pow(y_first, 2)) / (pow(y, 2));
+                    double p = m.getIntensity();
+                    if (Math.abs(x - BRIX_P1) < 0.01) {
+                        p1 = p;
+                    }
+                    if (Math.abs(x - BRIX_P2) < 0.01) {
+                        p2 = p;
+                    }
+                    if (Math.abs(x - BRIX_P3) < 0.01) {
+                        p3 = p;
+                    }
+                    if (Math.abs(x - BRIX_P4) < 0.01) {
+                        p4 = p;
+                    }
+                    if (Math.abs(x - BRIX_P5) < 0.01) {
+                        p5 = p;
+                    }
+                }
             }
             double[] polynomialParas = MathUtil.polynomialFit(wps, curveLevel);
             if (polynomialParas.length == 1) {
@@ -260,8 +286,6 @@ public class AnalyseActivity extends BaseActivity {
             List<Double> predicYValues_first = MathUtil.polynomialPredict(polynomialParas_first, predicXValues);
             List<Double> predicYValues_second = MathUtil.polynomialPredict(polynomialParas_second, predicXValues);
 
-            double p1 = 0, p2 = 0, p3 = 0, p4 = 0;
-
             //构建画图数据
             for (int i = 0; i < predicXValues.size(); i++) {
                 double x = predicXValues.get(i);
@@ -270,27 +294,32 @@ public class AnalyseActivity extends BaseActivity {
                 double y_second = predicYValues_second.get(i);
 
                 //构建Brix值计算系数
-                if (x == BRIX_P1 || x == BRIX_P2 || x == BRIX_P3 || x == BRIX_P4) {
-                    double p = -1 / log(10) * (y_second * y - pow(y_first, 2)) / (pow(y, 2));
-                    if (x == BRIX_P1) {
-                        p1 = p;
-                    }
-                    if (x == BRIX_P2) {
-                        p2 = p;
-                    }
-                    if (x == BRIX_P3) {
-                        p3 = p;
-                    }
-                    if (x == BRIX_P4) {
-                        p4 = p;
-                    }
-                } else {
+//                if (x == BRIX_P1 || x == BRIX_P2 || x == BRIX_P3 || x == BRIX_P4 || x == BRIX_P5) {
+////                    double p = -1 / log(10) * (y_second * y - pow(y_first, 2)) / (pow(y, 2));
+//                    double p = y;
+//                    if (x == BRIX_P1) {
+//                        p1 = p;
+//                    }
+//                    if (x == BRIX_P2) {
+//                        p2 = p;
+//                    }
+//                    if (x == BRIX_P3) {
+//                        p3 = p;
+//                    }
+//                    if (x == BRIX_P4) {
+//                        p4 = p;
+//                    }
+//                    if (x == BRIX_P5) {
+//                        p5 = p;
+//                    }
+//                } else
+                {
                     Absorbance.add(new Entry((float) x, (float) y));
                     Absorbance_first.add(new Entry((float) x, (float) y_first));
                     Absorbance_second.add(new Entry((float) x, (float) y_second));
                 }
             }
-            brix = MathUtil.getBrix(p1, p2, p3, p4);
+            brix = MathUtil.getBrix(p1, p2, p3, p4, p5);
             long endTime = System.currentTimeMillis();
             viewModel.calcTime.set(String.valueOf(endTime - startTime));
             infoListItems.add(new InfoListItem(String.format("Brix(level:%s)", viewModel.level.get()),
@@ -306,12 +335,12 @@ public class AnalyseActivity extends BaseActivity {
      * 初始化图表们 这里创建图表信息就行了嗷 因为实际的图表处理是在Adapter中完成的
      */
     private void initLineCharts() {
-        LineChartPara AbsorbanceChart = new LineChartPara(String.format("吸收率拟合曲线(level:%s)", viewModel.level.get()),
+        LineChartPara AbsorbanceChart = new LineChartPara(String.format("强度拟合曲线(level:%s)", viewModel.level.get()),
                 Absorbance,
                 MPAndroidChartUtil.ChartType.ABSORBANCE);
-        LineChartPara AbsorbanceChart_first = new LineChartPara("吸收率一阶导数", Absorbance_first,
+        LineChartPara AbsorbanceChart_first = new LineChartPara("强度一阶导数", Absorbance_first,
                 MPAndroidChartUtil.ChartType.ABSORBANCE_FIRST_DERIVATIVE);
-        LineChartPara AbsorbanceChart_second = new LineChartPara("吸收率二阶导数", Absorbance_second,
+        LineChartPara AbsorbanceChart_second = new LineChartPara("强度二阶导数", Absorbance_second,
                 MPAndroidChartUtil.ChartType.ABSORBANCE_SECOND_DERIVATIVE);
         lineChartsPara.add(AbsorbanceChart);
         lineChartsPara.add(AbsorbanceChart_first);
@@ -435,11 +464,11 @@ public class AnalyseActivity extends BaseActivity {
                 curveLevel = Integer.parseInt(viewModel.level.get());
                 new CalculateDataTask().execute().get(TIME_OUT, TimeUnit.MILLISECONDS);
             } catch (ExecutionException e) {
-                Log.e(TAG, "onCreate: ", e);
+                Log.e(TAG, "onStopTrackingTouch: ", e);
             } catch (InterruptedException e) {
-                Log.e(TAG, "onCreate: ", e);
+                Log.e(TAG, "onStopTrackingTouch: ", e);
             } catch (TimeoutException e) {
-                Log.e(TAG, "onCreate: 分析超时", e);
+                Log.e(TAG, "onStopTrackingTouch: 分析超时", e);
                 showErrorDialog();
             }
         }

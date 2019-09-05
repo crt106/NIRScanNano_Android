@@ -95,6 +95,10 @@ public class MathUtil {
         return 10.922 + 2230.823 * p1 + 3044.681 * p2 - 623.687 * p3 - 55.074 * p4;
     }
 
+    public static double getBrix(double p1, double p2, double p3, double p4,double p5){
+        return 10.23075601 + (-0.00055299) * p1 + (-0.00000872) * p2 + (-0.00023671) * p3 + (-0.00042958) * p4 + (0.00084484) * p5;
+    }
+
     /**
      * 颠倒数组 返回新数组
      *
